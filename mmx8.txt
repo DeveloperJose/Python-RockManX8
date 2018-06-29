@@ -1,0 +1,275 @@
+crabk
+129 bytes
+y=-11
+x between 105 and 114
+
+loading spots
+45a7c90
+45a6448
+45a6320
+
+player 2 structure
+45a60d0 x position
+(4) y pos 1
+(4) unknown (0)
+(4) unknown (1)
+(4) unknown (-2)
+(4) y pos 2
+
+45a6140 dash 1
+45a6150 dash 2
+45a60f8 direction 1
+45a6110 direction 2 (opp sign)
+
+troia base spawn
+(9,-5.96e)
+(41100000,B3800000)
+
+lsp.lpk
+offset 4276 was 10 41 (dec 9) changed to 20 41 (dec 10)
+offset 4712, 4ebe, 57d0
+
+Demo 1 (3), Demo 2 (1), Demo 3 (3), Demo 4 (1), Demo 5 (7), Demo 6 (8), Demo 7 (10), Demo 8 (8), Demo 9 (1), Demo 10 (5)
+    HB_DEMO01_01....
+    HB_DEMO01_02....
+    HB_DEMO01_03....
+Demo 2 (1)
+    HB_DEMO02_01....
+Demo 3 (3)
+    HB_DEMO03_01....
+    HB_DEMO03_02....
+    HB_DEMO03_03....
+Demo 4 (1)
+    HB_DEMO04_01....
+Demo 5 (7)
+    HB_DEMO05_01....
+    HB_DEMO05_02....
+    HB_DEMO05_03....
+    HB_DEMO05_04....
+    HB_DEMO05_05....
+    HB_DEMO05_06....
+    HB_DEMO05_07....
+Demo 6 (8)
+    HB_DEMO06_01....
+    HB_DEMO06_02....
+    HB_DEMO06_03....
+    HB_DEMO06_04....
+    HB_DEMO06_05....
+    HB_DEMO06_06....
+    HB_DEMO06_07....
+    HB_DEMO06_08....
+Demo 7 (10)
+    HB_DEMO07_01....
+    HB_DEMO07_02....
+    HB_DEMO07_03....
+    HB_DEMO07_04....
+    HB_DEMO07_05....
+    HB_DEMO07_06....
+    HB_DEMO07_07....
+    HB_DEMO07_08....
+    HB_DEMO07_09....
+    HB_DEMO07_10....
+Demo 8 (8)
+    HB_DEMO08_01....
+    HB_DEMO08_02....
+    HB_DEMO08_03....
+    HB_DEMO08_04....
+    HB_DEMO08_05....
+    HB_DEMO08_06....
+    HB_DEMO08_07
+    HB_DEMO08_08
+Demo 9 (1)
+    HB_DEMO09_01
+Demo 10 (5)
+    HB_DEMO10_01
+    HB_DEMO10_02
+    HB_DEMO10_03
+    HB_DEMO10_04
+    HB_DEMO10_05
+Demo 11 (3), Demo 12 (9), Demo 13 (11), Demo 14 (8), Demo 15 (7), Demo 16 (1), Demo 17 (11)
+    HB_DEMO11_01
+    HB_DEMO11_02
+    HB_DEMO11_03
+Demo 12 (9)
+    HB_DEMO12_01
+    HB_DEMO12_02
+    HB_DEMO12_03
+    HB_DEMO12_04
+    HB_DEMO12_05
+    HB_DEMO12_06
+    HB_DEMO12_07
+    HB_DEMO12_08
+    HB_DEMO12_09
+Demo 13 (11)
+    HB_DEMO13_01
+    HB_DEMO13_02
+    HB_DEMO13_03
+    HB_DEMO13_04
+    HB_DEMO13_05
+    HB_DEMO13_06
+    HB_DEMO13_07
+    HB_DEMO13_08
+    HB_DEMO13_09
+    HB_DEMO13_10
+    HB_DEMO13_11
+Demo 14
+    HB_DEMO14_01
+    HB_DEMO14_02
+    HB_DEMO14_03
+    HB_DEMO14_04
+    HB_DEMO14_05
+    HB_DEMO14_06
+    HB_DEMO14_07
+    HB_DEMO14_08
+Demo 15 (7)
+    HB_DEMO15_01
+    HB_DEMO15_02
+    HB_DEMO15_03
+    HB_DEMO15_04
+    HB_DEMO15_05
+    HB_DEMO15_06
+    HB_DEMO15_07
+Demo 16 (1)
+    HB_DEMO16_01
+Demo 17 (11)
+    HB_DEMO17_01
+    HB_DEMO17_02
+    HB_DEMO17_03
+    HB_DEMO17_04
+    HB_DEMO17_05
+    HB_DEMO17_06
+    HB_DEMO17_07
+    HB_DEMO17_08
+    HB_DEMO17_09
+    HB_DEMO17_10
+    HB_DEMO17_11
+Demo 18 (7)
+    HB_DEMO18_01
+    HB_DEMO18_02
+    HB_DEMO18_03
+    HB_DEMO18_04
+    HB_DEMO18_05
+    HB_DEMO18_06
+    HB_DEMO18_07
+Demo 19 (7)
+    HB_DEMO19_01
+    HB_DEMO19_02
+    HB_DEMO19_03
+    HB_DEMO19_04
+    HB_DEMO19_05
+    HB_DEMO19_06
+    HB_DEMO19_07
+Demo 20 (8)
+    HB_DEMO20_01
+    HB_DEMO20_02
+    HB_DEMO20_03
+    HB_DEMO20_04
+    HB_DEMO20_05
+    HB_DEMO20_06
+    HB_DEMO20_07
+    HB_DEMO20_08
+
+    
+Demo 1 (3), Demo 2 (1), Demo 3 (3), Demo 4 (1), Demo 5 (7), Demo 6 (8), Demo 7 (10), Demo 8 (8)
+Demo 9 (1), Demo 10 (5), Demo 11 (3), Demo 12 (9), Demo 13 (11), Demo 14 (8), Demo 15 (7), Demo 16 (1)
+Demo 17 (11), 18 (7), 19(7), 20(8)
+total demo = 22 (0x16)
+
+PROGRE.MCB
+    Read when opening Language Select in Title Screen
+    Works even if set to length of file is set to 1
+    Works even if all bytes after the length are erased
+    Crashes if length is 13 or less
+        Some lengths with a PS2 memory card message (contents are damaged)
+    SPA and ENG are the same.
+    
+LAB0_TIT.MCB
+    The labels of the lab menu titles
+    6 total labels (Stage Select, Chip Dev., Record, Save, Load, Options)
+    18 bytes = Same as format
+    2 bytes = # of texts (6 for title menu)
+    2 bytes - Offset for Text 1
+    2 bytes - Offset for Text 2
+    2 bytes - Offset for Text 3
+    ...
+    [Variable bytes, @offset for Text 1] Words in Text 1
+        Separated by FF
+    Stage Select = 18 bytes
+    
+MCB Alphabet:
+    0x00 = Space
+    0x01 = !
+    0x02 = "
+    0x03 = %
+    0x04 = &
+    0x05 = (
+    0x06 = )
+    0x07 = x
+    0x08 = +
+    0x09 = -
+    0x0A = , (Comma)
+    0x0B = .
+    0x0C = /
+    0x0D = :
+    0x0E = ;
+    0x0F = (equal sign)
+    0x10 = ?
+    0x11 = @
+    0x12 = [
+    0x13 = ]
+    0x14 = _ (underscore)
+    0x15 = ~
+    0x16 = ´
+    0x17 = °
+    0x18, 0x19 = Centered Double Dots
+    0x1A - 0x23 = Digits (0...9)
+    0x24 - 0x3D = A-Z (Uppercase)
+    0x3E - 0x57 = a-z (Lowercase)
+    0x5C = Triangle
+    
+MCB Format:
+16 Bytes [String] = MCB Version
+2 Bytes = Length of whole file (includes previous 16 bytes), little endian
+2 byte = # of text things
+Files (16 bytes each, padding with 0)
+
+last 2 bytes = FF
+
+gateway cutscene, demo 19
+1st box
+7 boxes, 8 calls to the MCB loading function
+
+Zero: 
+    Vile... Sigma... Como
+    en los viejos tiempos...
+    
+Layer:
+    Zero... ?No te
+    recuerda al virus?
+    
+Zero:
+    Vaya...
+    ?Asi que estas al tanto?
+    
+Zero:
+    Intento utilizarme para
+    destruir el mundo.
+
+Palette:
+    .........
+    
+Zero:
+    Por ello tengo que
+    encontrarlo y convertirlo
+    en un monton de chatarra.
+    
+Zero:
+    Se mi navegante. !Ayudame
+    a encontrar a ese Maverick
+    antes de que cumpla su plan!
+    
+An extra call that sets 
+4617C30 to 0
+46147E4 to 0
+    
+    

@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="26">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>35</ID>
+      <Description>"RD Chip Gen"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>800080</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>13</ID>
+          <Description>"RD Tab1 Name"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+41982A0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>9</ID>
+          <Description>"RD Potential"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+41F5C40</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"RD Potential 2"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+41F5C44</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>11</ID>
+          <Description>"RD Potential 3"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+41F5C48</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>12</ID>
+          <Description>"RD Chars?"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+41F5C50</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>34</ID>
+      <Description>"Res"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>800080</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>14</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C1A0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>15</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C1A4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>16</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C1B4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>17</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C1B8</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>18</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C3C4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>19</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C3C8</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>20</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C3CC</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>21</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C3D0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>22</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C498</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>23</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C49C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>24</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C4A0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>25</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60C4A4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>26</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60DBF0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>27</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+60DBF4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>28</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E81280</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>29</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E81284</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>30</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E813B0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>31</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E813B4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>32</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E813D8</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>33</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E813DC</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>58</ID>
+      <Description>"Player"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <Color>000080</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>1</ID>
+          <Description>"Moneys"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8D31C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>2</ID>
+          <Description>"MoneysHUD"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8D320</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>84</ID>
+          <Description Activated="1">"P1 Health"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8F388</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>83</ID>
+          <Description Activated="1">"P2 Health"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8F574</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>92</ID>
+          <Description>"P3 Health"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8FB38</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>132</ID>
+          <Description>"P4 Health"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8F760</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>8</ID>
+          <Description>"ChargeState"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FC8D24</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>81</ID>
+          <Description>"Player_GreenHealthBars"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB3E0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>45</ID>
+          <Description>"Camera Zoom"</Description>
+          <VariableType>Float</VariableType>
+          <Address>NOCD.EXE+3FEB66C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>47</ID>
+          <Description>"Player 2 X"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <VariableType>Float</VariableType>
+          <Address>NOCD.EXE+41A60D0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>48</ID>
+          <Description>"Player 2 Y"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <VariableType>Float</VariableType>
+          <Address>45A60D4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>43</ID>
+          <Description>"Player1 X"</Description>
+          <VariableType>Float</VariableType>
+          <Address>NOCD.EXE+41A61F8</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>44</ID>
+          <Description>"Player1 Y"</Description>
+          <VariableType>Float</VariableType>
+          <Address>NOCD.EXE+41A61FC</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>51</ID>
+          <Description>"Current Player ID"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+4457A40</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>38</ID>
+          <Description>"Ammo_XDrive"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>NOCD.EXE+4457DC8</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>50</ID>
+          <Description>"2nd Player State"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+445A448</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>105</ID>
+          <Description>"ZeroWeaponIcon"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+445A794</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>111</ID>
+          <Description>"Rasetsusen Related"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+445C5D4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>110</ID>
+          <Description Activated="1">"Rasetsusen Hover Timer (Increases, 0 for infinite hold)"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+445C638</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>40</ID>
+          <Description>"Axl Hover Something"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+445F11C</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>59</ID>
+      <Description>"Level Select"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>000080</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>0</ID>
+          <Description>"EventUnk"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>03CC9E40</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>52</ID>
+          <Description>"Level Select Sigma Picture"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8E110</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>57</ID>
+          <Description>"Mision/Submision Index"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8E654</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>53</ID>
+          <Description>"Level Select Name"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8E874</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>54</ID>
+          <Description>"Level Select Picture"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8E880</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>55</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8E92C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>56</ID>
+          <Description>"Level Select (Last Selected)"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8E930</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>6</ID>
+          <Description>"RealLevelID"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>48CB7DC</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>60</ID>
+      <Description>"Troia Base"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>000080</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>72</ID>
+          <Description>"Timer2"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>0428D794</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>70</ID>
+          <Description>"Timer"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>043EB564</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>65</ID>
+          <Description>"Timer Milleseconds Display"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB568</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>64</ID>
+          <Description>"Timer Seconds Display"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB56C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>66</ID>
+          <Description>"Timer Minute Display"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB570</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>61</ID>
+          <Description>"Enemies Killed 1"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB584</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>62</ID>
+          <Description>"Enemies Killed 2"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB588</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>63</ID>
+          <Description>"Enemies Killed 3"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+44CB734</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>69</ID>
+      <Description>"RD Main Menu"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>67</ID>
+          <Description>"RD Selection"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+41F29DC</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>68</ID>
+          <Description>"No description"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+41F57A8</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>116</ID>
+      <Description>"RD Chips"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <Color>000080</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>114</ID>
+          <Description>"Spike Protection"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>428D4AE</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>115</ID>
+          <Description>"Extra Chance"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>NOCD.EXE+3E8D4AF</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>76</ID>
+          <Description>"Alia Buster"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>NOCD.EXE+3E8D4B0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>77</ID>
+          <Description>"Layer Unlock"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>428D4B1</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>78</ID>
+          <Description>"Palette Unlock"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>428D4B2</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>129</ID>
+          <Description>"RD Hyper AT"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>428d4b6</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>130</ID>
+          <Description>"RD Escape Boost"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>428d4b7</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>131</ID>
+          <Description>"RD Metal Generator"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>428d4b8</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>124</ID>
+          <Description>"Restart Chips"</Description>
+          <VariableType>Array of byte</VariableType>
+          <ByteLength>3</ByteLength>
+          <Address>428D4D3</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>123</ID>
+          <Description>"X RD"</Description>
+          <VariableType>Array of byte</VariableType>
+          <ByteLength>14</ByteLength>
+          <Address>428D503</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>122</ID>
+          <Description>"Zero RD"</Description>
+          <VariableType>Array of byte</VariableType>
+          <ByteLength>21</ByteLength>
+          <Address>428D54B</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>121</ID>
+          <Description>"Spear"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>428D55C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>120</ID>
+          <Description>"Knuckles"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>428D55D</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>119</ID>
+          <Description>"Fan"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>428D55E</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>117</ID>
+          <Description>"Hammer"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>NOCD.EXE+3E8D55F</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>104</ID>
+          <Description>"Sigma Blade"</Description>
+          <VariableType>Byte</VariableType>
+          <Address>428D560</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>118</ID>
+      <Description>"Boss &amp; Stages"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>000080</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>109</ID>
+          <Description>"Stage OGG"</Description>
+          <VariableType>String</VariableType>
+          <Length>15</Length>
+          <Unicode>0</Unicode>
+          <CodePage>0</CodePage>
+          <ZeroTerminate>1</ZeroTerminate>
+          <Address>A0E36E</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>74</ID>
+          <Description>"IsIntermission"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>0428D2A4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>90</ID>
+          <Description>"NoahPark_Mech1_Health"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8F760</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>91</ID>
+          <Description>"NoahPark_Mech2_Health"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E90A98</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>93</ID>
+          <Description>"Boss_Health"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E90C84</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>125</ID>
+      <Description>"No description"</Description>
+      <VariableType>Byte</VariableType>
+      <Address>NOCD.EXE+3E8D460</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>128</ID>
+      <Description>"Mavericks Cleared"</Description>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>4 Bytes</VariableType>
+      <Address>NOCD.EXE+3E8D734</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>126</ID>
+      <Description>"Char Select Option Highlight (Ultimate, Black Zero)"</Description>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>4 Bytes</VariableType>
+      <Address>NOCD.EXE+3E8E654</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>75</ID>
+      <Description>"Is Ded"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>428E79F</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>133</ID>
+      <Description>"out of map"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>48573FE</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>139</ID>
+      <Description>"No description"</Description>
+      <VariableType>Float</VariableType>
+      <Address>NOCD.EXE+41A7478</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>140</ID>
+      <Description>"No description"</Description>
+      <VariableType>Float</VariableType>
+      <Address>45A747C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>142</ID>
+      <Description>"No description"</Description>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>8 Bytes</VariableType>
+      <Address>45A746C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>143</ID>
+      <Description>"No description"</Description>
+      <VariableType>Float</VariableType>
+      <Address>45A74A0</Address>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry>
+      <Description>Change of fstp dword ptr [esi+NOCD.EXE+41A60D4]</Description>
+      <Address>004A1A80</Address>
+      <ModuleName>NOCD.EXE</ModuleName>
+      <ModuleNameOffset>A1A80</ModuleNameOffset>
+      <Before>
+        <Byte>86</Byte>
+        <Byte>D4</Byte>
+        <Byte>60</Byte>
+        <Byte>5A</Byte>
+        <Byte>04</Byte>
+      </Before>
+      <Actual>
+        <Byte>D9</Byte>
+        <Byte>9E</Byte>
+        <Byte>D4</Byte>
+        <Byte>60</Byte>
+        <Byte>5A</Byte>
+        <Byte>04</Byte>
+      </Actual>
+      <After>
+        <Byte>D9</Byte>
+        <Byte>86</Byte>
+        <Byte>48</Byte>
+        <Byte>61</Byte>
+        <Byte>5A</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry>
+      <Description>Change of mov edx,[esi+74]</Description>
+      <Address>004B71CB</Address>
+      <ModuleName>NOCD.EXE</ModuleName>
+      <ModuleNameOffset>B71CB</ModuleNameOffset>
+      <Before>
+        <Byte>4E</Byte>
+        <Byte>70</Byte>
+        <Byte>89</Byte>
+        <Byte>4F</Byte>
+        <Byte>30</Byte>
+      </Before>
+      <Actual>
+        <Byte>8B</Byte>
+        <Byte>56</Byte>
+        <Byte>74</Byte>
+      </Actual>
+      <After>
+        <Byte>89</Byte>
+        <Byte>57</Byte>
+        <Byte>34</Byte>
+        <Byte>8B</Byte>
+        <Byte>46</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols/>
+</CheatTable>
