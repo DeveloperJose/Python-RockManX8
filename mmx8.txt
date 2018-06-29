@@ -183,7 +183,7 @@ PROGRE.MCB
         Some lengths with a PS2 memory card message (contents are damaged)
     SPA and ENG are the same.
     
-LAB0_TIT.MCB
+LABO_TIT.MCB
     The labels of the lab menu titles
     6 total labels (Stage Select, Chip Dev., Record, Save, Load, Options)
     18 bytes = Same as format
@@ -235,7 +235,163 @@ Files (16 bytes each, padding with 0)
 
 last 2 bytes = FF
 
-gateway cutscene, demo 19
+LABO_TXT Menu Option 1
+offset 146
+FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF 15 00 04 00 00 00 FF FF 01 00 FF FF 00 00 FF FF 39 00 4C 00 49 00 53 00 42 00 41 00 00 00 3E 00 00 00 49 00 3E 00 00 00 3F 00 3E 00 50 00 42 00 FD FF 26 00 3E 00 57 00 3E 00 41 00 4C 00 4F 00 42 00 50 00 00 00 56 00 00 00 42 00 49 00 42 00 44 00 46 00 41 00 FD FF 49 00 3E 00 00 00 42 00 51 00 3E 00 4D 00 3E 00 00 00 50 00 46 00 44 00 52 00 46 00 42 00 4B 00 51 00 42 00 0B 00 00 00 7E 00 36 00 52 00 42 00 4F 00 51 00 42 00 01 00
+
+(2 bytes) demo voices (characters)
+(2 bytes) bgm
+
+all bytes between are unused (0x1A bytes)
+
+(2 bytes) char id 
+            navigators (little endian)
+                0300 - BG Alia
+                1300 - FG Alia
+                0400 - BG Layer
+                1400 - FG Layer
+                0500 - BG Pallette
+                1500 - FG Pallette
+            chars
+                0000 - X
+                0100 - Zero
+                0200 - Axl
+(2 bytes) pose
+(2 bytes) unused
+(2 bytes) unused
+
+(2 byte) text position (little endian)
+            0000 - Up
+            0100 - Down
+            
+(2 byte) unused
+(2 byte) Type one at a time
+            0000 - False
+            anything else - True
+            
+(2 byte) Show arrow for continuing text
+            0100 - True
+            
+
+
+EXTRA DATA:
+    2 bytes - Audio clip
+        alia_100 = 0x00 = 0
+        alia_19 = 0x38 = 56
+        ant_20 = 0x5B = 91
+        
+    2 bytes - BGM 
+        b03 = 0x02 = Boss Battle
+        
+    2 bytes - unknown, didn't seem to have any effect
+    2 bytes - unknown, didn't seem to have any effect
+    2 bytes - Gives the text a background, any value except FF FF
+    2 bytes - unknown, no effect
+    2 bytes - unknown, no effect
+    2 bytes - unknown, no effect
+    2 bytes - nothing
+    2 bytes - 
+    
+MCB Progress
+    PROGRE.mcb
+        Empty in ENG/SPA
+        Has some PS2 text in USA
+        Progressive Scan text for TV
+
+    TRIAL.mcb
+        Command Mission demo text
+        "Return to Mega Man X Command Mission-title screen"
+        
+    SUB_TXT.mcb
+        Weapon descriptions and text in pause menu
+        Text in retry menu
+    
+    SUB_TIT.mcb
+        Names of weapons and parts
+        
+    SAVE_TIT.mcb
+        Saving and loading text
+        Contains PS2 traces
+        Language selection for something too ???
+        
+    RESULT.mcb
+        Result screen text
+        
+    PAL.mcb
+        Video mode settings
+        
+    OPT_TXT.mcb
+        Options menu text
+        
+    OPT_TIT.mcb
+        Options menu buttons for controls
+        
+    NV0_ST**.mcb - Alia's text in Stage ID **
+    NV1_ST**.mcb - Layer
+    NV2_ST**.mcb - Palette
+    
+    MOV_****.mcb - Subtitles for cutscenes that are played as AVI movies
+    
+    DM*_*.mcb - Boss quotes
+    
+    CHIP_TXT.mcb - RD Chip descriptions
+    CHIP_TIT.mcb - RD Chip names
+    
+    LABO_TXT.mcb
+        Main RD Lab Menu Text
+        
+    LABO_TIT.mcb
+        Main RD Lab Menu Labels
+        
+    HB_TIT.mcb
+        Stage descriptions
+        Character descriptions
+        Navigator descriptions
+        Neutral Armor parts descriptions
+        Contains "A special stage to-try out all the new-features of X8."
+        
+    HB_IM.mcb
+        Intermission descriptions
+        
+    HB_DM.mcb
+        Cutscene text (officially named "Demos")
+        
+==========NV1_ST11.MCB
+    File offset 62, 
+    Aqui...Alia.....
+    ¿Me...oye...alguien...?
+    
+    File offset E0
+    0x2A (42) bytes after FF from first box
+    Sigma...
+    ...bloquea ...
+    ...la señal...
+
+==========Sigma Palace Intro
+Alia:
+    Aqui...Alia.....
+    ¿Me...oye...alguien...?
+    
+    Sigma...
+    ...bloquea ...
+    ...la señal...
+
+Palette:
+    Soy yo...Pallete...
+    Escucha...
+    
+    Sigma esta......
+    ......interfiriendo
+    ...señal...
+    
+Layer:
+    Aqui...Layer...
+    Alguien...Podeis....
+    
+    La señal... siendo...
+    bloqueada...
+    ...Sigma...
+==========GATEWAY CUTSCENE, demo 19
 1st box
 7 boxes, 8 calls to the MCB loading function
 
