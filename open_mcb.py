@@ -16,12 +16,12 @@ alphabet = [' ', '!', '"', '%', '&', '(', ')', 'x', '+', '-', ',',
 
 # http://sprites-inc.co.uk/sprite.php?local=X/X8/Mugshots/
 poses = [
-    ['Normal R', 'Normal R', 'Surprised F', 'Angry R', 'Neutral Armor F'] , # X
+    ['Normal R', 'Surprised F', 'Angry R', 'Neutral Armor F'] , # X
     ['Normal Holding Sword F', 'Serious R', 'Eyes Closed R'], # Zero
-    ['Smiling F', 'Serious R', 'Holding Gun R', 'Upset R'], # Axl
+    ['Smiling F', 'Upset R', 'Holding Gun R', 'Serious F'], # Axl
     ['Mic Hold L', 'Headphone Hold L', 'Worried F'], # Alia
-    ['Headphone Hold L', 'Headphone Hold L', 'Blush F', 'Embarrassed F'], # Layer
-    ['Headphone Hold L', 'Headphone Hold L', 'Mic Hold L', 'Thinking L', 'RD Lab F'], # Pallette
+    ['Headphone Hold L', 'Blush F', 'Embarrassed F'], # Layer
+    ['Headphone Hold L', 'Mic Hold L', 'Thinking L', 'RD Lab F'], # Pallette
     ['Regular L'], # ??
     ['Hologram L'], # Dr. Light
     ['Regular L'], # Optic Sunflower
@@ -33,8 +33,8 @@ poses = [
     ['Regular L'], # Earthrock Trilobyte
     ['Regular L'], # Bamboo Pandemonium
     ['Regular L'], # Vile
-    ['Real F', 'Copy L', 'Real F', 'Copy L'], # Sigma
-    ['Regular F', 'Regular F', 'Smirk F', 'Defeat F'], # Lumine
+    ['Copy L', 'Real F'], # Sigma
+    ['Regular F', 'Smirk F', 'Defeat F'], # Lumine
 ]
 char_icons = ['X', 'Zero', 'Axl', 'BG Alia', 'BG Layer', 'BG Pallette', 'Signas', 'Dr. Light', \
               'Optic Sunflower', 'Gravity Antonion' ,'Dark Mantis', 'Gigabolt Man-o-War', 'Burn Rooster', \
@@ -63,7 +63,8 @@ def get_typing(idx):
 def get_arrow(idx):
     return idx == 1
 
-def get_pose(char_idx, idx):
+def get_pose(char_idx, pose_idx):
+    pose_idx -= 1
     # Navigator and Sigma FG/BG shenanigans
     if char_idx == 19:
         char_idx = 3
@@ -75,11 +76,14 @@ def get_pose(char_idx, idx):
         char_idx = 11
 
     if char_idx < 0 or char_idx >= len(char_icons):
-        return 'Invalid Character'
+        return 'Invalid Character: ' + str(char_idx)
     char_poses = poses[char_idx]
-    if idx < 0 or idx >= len(char_poses):
-        return 'Probably ' + char_poses[0]
-    return char_poses[idx]
+
+    # Pose 0 defaults to the first pose
+    # Get pose string if possible
+    if pose_idx < 0 or pose_idx >= len(char_poses):
+        return 'OFB: ' + char_poses[0]
+    return char_poses[pose_idx]
 
 def get_character(idx):
     if idx == 19:
@@ -91,7 +95,7 @@ def get_character(idx):
     elif idx == 22:
         return 'Sigma'
     elif idx < 0 or idx >= len(char_icons):
-        return 'Unknown'
+        return 'Unknown: ' + str(idx)
     else:
         return char_icons[idx]
 
@@ -118,13 +122,17 @@ def hexpro_to_str(s):
     bytes = s.split()
     word = ""
     for byte in bytes:
-        word += byte_to_str(int(byte, 16))
+        conv = byte_to_str(int(byte, 16))
+        if not conv:
+            word += '_'
+        else:
+            word += conv
 
     return word
 
 def byte_to_str(idx):
     if idx == 65533:
-        return ' \n '
+        return ' \n\t'
     elif idx < 0 or idx >= len(alphabet):
         return False
     else:
@@ -215,7 +223,7 @@ def open_mcb(path):
                 idx_show_arrow = int.from_bytes(file.read(2), 'little')
 
                 # Find char and pose
-                idx = [idx4, idx5, idx6, idx7, idx8, idx9, idx10, idx11, idx12, idx13, idx14, idx15]
+                idx = [idx3, idx4, idx5, idx6, idx7, idx8, idx9, idx10, idx11, idx12, idx13, idx14, idx15]
                 i = 0
                 while i < len(idx):
                     current = idx[i]
@@ -230,8 +238,9 @@ def open_mcb(path):
                     idx_char = idx[i]
                     idx_pose = idx[i + 1]
 
-                frmt = "%s\t[%s] : \t%s" % (get_character(idx_char), get_pose(idx_char, idx_pose), repr(text))
-                print(frmt)
+                print("%s [%s] : \n\t%s" %
+                      (get_character(idx_char), get_pose(idx_char, idx_pose), text), # String Format
+                      idx_char, idx_pose)
 
                 # print(repr(text), "\t{OFFSET}", str(hex(offset)))
                 if len(notFound) > 0:
@@ -256,7 +265,7 @@ def open_mcb(path):
 # open_mcb("mes/SPA/NV1_ST11.mcb")
 # open_mcb("mes/SPA/NV1_ST11.mcb")
 
-for file in os.listdir("mes/USA/"):
-    open_mcb("mes/USA/" + file)
+# for file in os.listdir("mes/USA/"):
+#     open_mcb("mes/USA/" + file)
 
 # open_mcb("mes/SPA/LABO_TXT.mcb")

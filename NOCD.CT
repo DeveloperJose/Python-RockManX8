@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CheatTable CheatEngineTableVersion="26">
+<CheatTable CheatEngineTableVersion="27">
   <CheatEntries>
     <CheatEntry>
       <ID>35</ID>
@@ -12,7 +12,7 @@
         <CheatEntry>
           <ID>13</ID>
           <Description>"RD Tab1 Name"</Description>
-          <LastState Value="3014663" RealAddress="045982A0"/>
+          <LastState Value="524290" RealAddress="045982A0"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+41982A0</Address>
         </CheatEntry>
@@ -207,14 +207,14 @@
         <CheatEntry>
           <ID>1</ID>
           <Description>"Moneys"</Description>
-          <LastState Value="9816002" RealAddress="0428D31C"/>
+          <LastState Value="9819098" RealAddress="0428D31C"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+3E8D31C</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>2</ID>
           <Description>"MoneysHUD"</Description>
-          <LastState Value="9816002" RealAddress="0428D320"/>
+          <LastState Value="9819098" RealAddress="0428D320"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+3E8D320</Address>
         </CheatEntry>
@@ -233,18 +233,18 @@
           <Address>NOCD.EXE+3E8F574</Address>
         </CheatEntry>
         <CheatEntry>
-          <ID>92</ID>
-          <Description>"P3 Health"</Description>
-          <LastState Value="0" RealAddress="0428FB38"/>
-          <VariableType>4 Bytes</VariableType>
-          <Address>NOCD.EXE+3E8FB38</Address>
-        </CheatEntry>
-        <CheatEntry>
           <ID>132</ID>
           <Description>"P4 Health"</Description>
           <LastState Value="0" RealAddress="0428F760"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+3E8F760</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>92</ID>
+          <Description>"P3 Health"</Description>
+          <LastState Value="0" RealAddress="0428FB38"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8FB38</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>8</ID>
@@ -256,21 +256,21 @@
         <CheatEntry>
           <ID>81</ID>
           <Description>"Player_GreenHealthBars"</Description>
-          <LastState Value="30" RealAddress="043EB3E0"/>
+          <LastState Value="0" RealAddress="043EB3E0"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+3FEB3E0</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>45</ID>
           <Description>"Camera Zoom"</Description>
-          <LastState Value="14.5" RealAddress="043EB66C"/>
+          <LastState Value="-5" RealAddress="043EB66C"/>
           <VariableType>Float</VariableType>
           <Address>NOCD.EXE+3FEB66C</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>47</ID>
           <Description>"Player 2 X"</Description>
-          <LastState Value="41C46F48" RealAddress="045A60D0"/>
+          <LastState Value="44020000" RealAddress="045A60D0"/>
           <ShowAsHex>1</ShowAsHex>
           <VariableType>Float</VariableType>
           <Address>NOCD.EXE+41A60D0</Address>
@@ -278,7 +278,7 @@
         <CheatEntry>
           <ID>48</ID>
           <Description>"Player 2 Y"</Description>
-          <LastState Value="41600000" RealAddress="045A60D4"/>
+          <LastState Value="43AF0000" RealAddress="045A60D4"/>
           <ShowAsHex>1</ShowAsHex>
           <VariableType>Float</VariableType>
           <Address>45A60D4</Address>
@@ -286,42 +286,51 @@
         <CheatEntry>
           <ID>43</ID>
           <Description>"Player1 X"</Description>
-          <LastState Value="-1082" RealAddress="045A61F8"/>
+          <LastState Value="00000000" RealAddress="045A61F8"/>
+          <ShowAsHex>1</ShowAsHex>
           <VariableType>Float</VariableType>
           <Address>NOCD.EXE+41A61F8</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>44</ID>
           <Description>"Player1 Y"</Description>
-          <LastState Value="0.9999998808" RealAddress="045A61FC"/>
+          <LastState Value="00000000" RealAddress="045A61FC"/>
+          <ShowAsHex>1</ShowAsHex>
           <VariableType>Float</VariableType>
           <Address>NOCD.EXE+41A61FC</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>51</ID>
           <Description>"Current Player ID"</Description>
-          <LastState Value="0" RealAddress="04857A40"/>
+          <LastState Value="4294967295" RealAddress="04857A40"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+4457A40</Address>
         </CheatEntry>
         <CheatEntry>
+          <ID>146</ID>
+          <Description>"Nova Strike Energy"</Description>
+          <LastState Value="48" RealAddress="04857DC6"/>
+          <VariableType>2 Bytes</VariableType>
+          <Address>4857DC6</Address>
+        </CheatEntry>
+        <CheatEntry>
           <ID>38</ID>
           <Description>"Ammo_XDrive"</Description>
-          <LastState Value="120" RealAddress="04857DC8"/>
+          <LastState Value="48" RealAddress="04857DC8"/>
           <VariableType>Byte</VariableType>
           <Address>NOCD.EXE+4457DC8</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>50</ID>
           <Description>"2nd Player State"</Description>
-          <LastState Value="1" RealAddress="0485A448"/>
+          <LastState Value="4294967295" RealAddress="0485A448"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+445A448</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>105</ID>
           <Description>"ZeroWeaponIcon"</Description>
-          <LastState Value="9" RealAddress="0485A794"/>
+          <LastState Value="0" RealAddress="0485A794"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+445A794</Address>
         </CheatEntry>
@@ -335,7 +344,7 @@
         <CheatEntry>
           <ID>110</ID>
           <Description>"Rasetsusen Hover Timer (Increases, 0 for infinite hold)"</Description>
-          <LastState Value="0" Activated="1" RealAddress="0485C638"/>
+          <LastState Value="0" RealAddress="0485C638"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+445C638</Address>
         </CheatEntry>
@@ -359,16 +368,37 @@
         <CheatEntry>
           <ID>0</ID>
           <Description>"EventUnk"</Description>
-          <LastState Value="2" RealAddress="03CC9E40"/>
+          <LastState Value="0" RealAddress="03CC9E40"/>
           <VariableType>4 Bytes</VariableType>
           <Address>03CC9E40</Address>
         </CheatEntry>
         <CheatEntry>
+          <ID>74</ID>
+          <Description>"IsIntermission"</Description>
+          <LastState Value="0" RealAddress="0428D2A4"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>0428D2A4</Address>
+        </CheatEntry>
+        <CheatEntry>
           <ID>52</ID>
           <Description>"Level Select Sigma Picture"</Description>
-          <LastState Value="10" RealAddress="0428E110"/>
+          <LastState Value="9" RealAddress="0428E110"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+3E8E110</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>162</ID>
+          <Description>"Previous Level ID"</Description>
+          <LastState Value="1" RealAddress="0428E114"/>
+          <VariableType>Byte</VariableType>
+          <Address>NOCD.EXE+3E8E114</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>164</ID>
+          <Description>"Select y coord"</Description>
+          <LastState Value="28" RealAddress="0428E295"/>
+          <VariableType>Byte</VariableType>
+          <Address>NOCD.EXE+3E8E295</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>57</ID>
@@ -380,35 +410,42 @@
         <CheatEntry>
           <ID>53</ID>
           <Description>"Level Select Name"</Description>
-          <LastState Value="10" RealAddress="0428E874"/>
+          <LastState Value="9" RealAddress="0428E874"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+3E8E874</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>54</ID>
           <Description>"Level Select Picture"</Description>
-          <LastState Value="10" RealAddress="0428E880"/>
+          <LastState Value="9" RealAddress="0428E880"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+3E8E880</Address>
         </CheatEntry>
         <CheatEntry>
-          <ID>55</ID>
-          <Description>"No description"</Description>
-          <LastState Value="10" RealAddress="0428E92C"/>
-          <VariableType>4 Bytes</VariableType>
-          <Address>NOCD.EXE+3E8E92C</Address>
-        </CheatEntry>
-        <CheatEntry>
           <ID>56</ID>
           <Description>"Level Select (Last Selected)"</Description>
-          <LastState Value="10" RealAddress="0428E930"/>
+          <LastState Value="9" RealAddress="0428E930"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+3E8E930</Address>
         </CheatEntry>
         <CheatEntry>
+          <ID>160</ID>
+          <Description>"Next Level ID (Loading)"</Description>
+          <LastState Value="9" RealAddress="0428E938"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8E938</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>161</ID>
+          <Description>"Next Level ID (Needed)"</Description>
+          <LastState Value="9" RealAddress="045EEF18"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+41EEF18</Address>
+        </CheatEntry>
+        <CheatEntry>
           <ID>6</ID>
           <Description>"RealLevelID"</Description>
-          <LastState Value="10" RealAddress="048CB7DC"/>
+          <LastState Value="0" RealAddress="048CB7DC"/>
           <VariableType>4 Bytes</VariableType>
           <Address>48CB7DC</Address>
         </CheatEntry>
@@ -425,7 +462,7 @@
         <CheatEntry>
           <ID>72</ID>
           <Description>"Timer2"</Description>
-          <LastState Value="25817" RealAddress="0428D794"/>
+          <LastState Value="0" RealAddress="0428D794"/>
           <VariableType>4 Bytes</VariableType>
           <Address>0428D794</Address>
         </CheatEntry>
@@ -632,7 +669,7 @@
       <ID>118</ID>
       <Description>"Boss &amp; Stages"</Description>
       <Options moManualExpandCollapse="1"/>
-      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <LastState Value="" RealAddress="00000000"/>
       <Color>000080</Color>
       <GroupHeader>1</GroupHeader>
       <CheatEntries>
@@ -648,13 +685,6 @@
           <Address>A0E36E</Address>
         </CheatEntry>
         <CheatEntry>
-          <ID>74</ID>
-          <Description>"IsIntermission"</Description>
-          <LastState Value="0" RealAddress="0428D2A4"/>
-          <VariableType>4 Bytes</VariableType>
-          <Address>0428D2A4</Address>
-        </CheatEntry>
-        <CheatEntry>
           <ID>90</ID>
           <Description>"NoahPark_Mech1_Health"</Description>
           <LastState Value="0" RealAddress="0428F760"/>
@@ -664,16 +694,137 @@
         <CheatEntry>
           <ID>91</ID>
           <Description>"NoahPark_Mech2_Health"</Description>
-          <LastState Value="10" RealAddress="04290A98"/>
+          <LastState Value="0" RealAddress="04290A98"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+3E90A98</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>93</ID>
           <Description>"Boss_Health"</Description>
-          <LastState Value="10" RealAddress="04290C84"/>
+          <LastState Value="0" RealAddress="04290C84"/>
           <VariableType>4 Bytes</VariableType>
           <Address>NOCD.EXE+3E90C84</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>176</ID>
+      <Description>"Pause"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>000080</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>174</ID>
+          <Description>"Pause Tank Refill Mode"</Description>
+          <LastState Value="845104201" RealAddress="045F5CD4"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+41F5CD4</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>168</ID>
+          <Description>"Pause Menu Highlight (Tab 1)"</Description>
+          <LastState Value="0" RealAddress="0460315C"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+420315C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>171</ID>
+          <Description>"Pause Highlight (Tab 2)"</Description>
+          <LastState Value="0" RealAddress="046036FC"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+42036FC</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>169</ID>
+          <Description>"Pause Menu Tab"</Description>
+          <LastState Value="0" RealAddress="04604084"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+4204084</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>173</ID>
+          <Description>"Pause Lock Tab"</Description>
+          <LastState Value="0" RealAddress="046041CC"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+42041CC</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>172</ID>
+          <Description>"Pause Lock Item"</Description>
+          <LastState Value="0" RealAddress="046041D0"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+42041D0</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>170</ID>
+          <Description>"Pause Menu Selection (Tab 1)"</Description>
+          <LastState Value="0" RealAddress="04857D8C"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+4457D8C</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>175</ID>
+      <Description>"Animation"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>000080</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>165</ID>
+          <Description>"Zero Animation ID"</Description>
+          <LastState Value="0" RealAddress="0447C444"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+407C444</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>166</ID>
+          <Description>"Z Animation ID Copy (No Effect)"</Description>
+          <LastState Value="4294967295" RealAddress="0447C588"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+407C588</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>178</ID>
+      <Description>"Char Select"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>00FF00</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>180</ID>
+          <Description>"Current Char ID"</Description>
+          <LastState Value="3" RealAddress="0428E964"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8E964</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>177</ID>
+          <Description>"Picture ID"</Description>
+          <LastState Value="3" RealAddress="0428E17C"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8E17C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>179</ID>
+          <Description>"Name and Desc"</Description>
+          <LastState Value="4" RealAddress="0428E878"/>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3E8E878</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>181</ID>
+          <Description>"Players Selected"</Description>
+          <LastState Value="1" RealAddress="0428E970"/>
+          <VariableType>Byte</VariableType>
+          <Address>NOCD.EXE+3E8E970</Address>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
@@ -687,7 +838,7 @@
     <CheatEntry>
       <ID>128</ID>
       <Description>"Mavericks Cleared"</Description>
-      <LastState Value="0000000A" RealAddress="0428D734"/>
+      <LastState Value="00000009" RealAddress="0428D734"/>
       <ShowAsHex>1</ShowAsHex>
       <VariableType>4 Bytes</VariableType>
       <Address>NOCD.EXE+3E8D734</Address>
@@ -703,9 +854,16 @@
     <CheatEntry>
       <ID>75</ID>
       <Description>"Is Ded"</Description>
-      <LastState Value="0" RealAddress="0428E79F"/>
+      <LastState Value="587265537" RealAddress="0428E79F"/>
       <VariableType>4 Bytes</VariableType>
       <Address>428E79F</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>167</ID>
+      <Description>"Floor Collision (Set to 1 for air jumps)"</Description>
+      <LastState Value="0" RealAddress="045C2FC0"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>NOCD.EXE+41C2FC0</Address>
     </CheatEntry>
     <CheatEntry>
       <ID>133</ID>
@@ -713,49 +871,6 @@
       <LastState Value="0" RealAddress="048573FE"/>
       <VariableType>4 Bytes</VariableType>
       <Address>48573FE</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>139</ID>
-      <Description>"No description"</Description>
-      <LastState Value="25" RealAddress="045A7478"/>
-      <VariableType>Float</VariableType>
-      <Address>NOCD.EXE+41A7478</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>140</ID>
-      <Description>"No description"</Description>
-      <LastState Value="7.5" RealAddress="045A747C"/>
-      <VariableType>Float</VariableType>
-      <Address>45A747C</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>142</ID>
-      <Description>"No description"</Description>
-      <LastState Value="0000003A00000000" RealAddress="045A746C"/>
-      <ShowAsHex>1</ShowAsHex>
-      <VariableType>8 Bytes</VariableType>
-      <Address>45A746C</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>143</ID>
-      <Description>"No description"</Description>
-      <LastState Value="0" RealAddress="045A74A0"/>
-      <VariableType>Float</VariableType>
-      <Address>45A74A0</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>145</ID>
-      <Description>"No description"</Description>
-      <LastState Value="327800" RealAddress="04593CE8"/>
-      <VariableType>4 Bytes</VariableType>
-      <Address>NOCD.EXE+4193CE8</Address>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>146</ID>
-      <Description>"Nova Strike Energy"</Description>
-      <LastState Value="200" Activated="1" RealAddress="04857DC6"/>
-      <VariableType>2 Bytes</VariableType>
-      <Address>4857DC6</Address>
     </CheatEntry>
   </CheatEntries>
   <CheatCodes>
@@ -814,4 +929,8 @@
     </CodeEntry>
   </CheatCodes>
   <UserdefinedSymbols/>
+  <LuaScript>function CEButton1Click(sender)
+
+end
+</LuaScript>
 </CheatTable>

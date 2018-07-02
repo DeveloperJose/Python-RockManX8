@@ -1,3 +1,14 @@
+Save Data: gamedata.wss
+    Saved:
+        Metal Count
+        If cutscene has been viewed
+        Intermission unlocks
+        RD Chips
+        Record data for each level
+        Armor parts
+
+Config Data: systemdata.wss
+
 crabk in Noah's Park
     129 bytes
     y=-11
@@ -21,12 +32,18 @@ player 2 structure
     45a60f8 direction 1
     45a6110 direction 2 (opp sign)
 
+Rail Format:
+    offset 0x38 (byte) - Camera X position
+    
 troia base spawn coordinates
     (9,-5.96e)
     (41100000,B3800000)
 
 Registry Keys
     \HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\CAPCOM
+
+CD Key
+    MX-1319-0463-0757-04
     
 MCB Format:
 16 Bytes [String] = MCB Version
@@ -131,7 +148,11 @@ MCB Progress
     
     MOV_****.mcb - Subtitles for cutscenes that are played as AVI movies
     
-    DM*_*.mcb - Boss quotes
+    DM_ST** - Dr Light's quotes
+                Other level specific quotes that are character independent (will always play)
+    DM1_ST**.mcb - X quotes
+    DM2_ST** - Zero quotes
+    DM3_ST** - Axl quotes
     
     CHIP_TXT.mcb - RD Chip descriptions
     CHIP_TIT.mcb - RD Chip names
