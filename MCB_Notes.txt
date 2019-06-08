@@ -1,0 +1,47 @@
+MCB Format:
+16 Bytes [String] = MCB Version
+2 Bytes = Length of whole file (includes previous 16 bytes), little endian
+2 byte = text count
+Offsets
+Filenames (Optional)
+File
+    0x1A Extra Data if a filename is specified
+    (16 bytes, padding with 0)
+    Ends with FF
+last 2 bytes = FF
+
+Extra Data Format:
+    (2 bytes) demo voices (characters)
+        alia_100 = 0x00 = 0
+        alia_19 = 0x38 = 56
+        ant_20 = 0x5B = 91
+    (2 bytes) bgm
+        b03 = 0x02 = Boss Battle
+    all bytes between are unused (0x1A bytes)
+    (2 bytes) char id 
+                navigators (little endian)
+                    0300 - BG Alia
+                    1300 - FG Alia
+                    0400 - BG Layer
+                    1400 - FG Layer
+                    0500 - BG Pallette
+                    1500 - FG Pallette
+                chars
+                    0000 - X
+                    0100 - Zero
+                    0200 - Axl
+    (2 bytes) pose
+    (2 bytes) unused
+    (2 bytes) unused
+
+    (2 byte) text position (little endian)
+                0000 - Up
+                0100 - Down
+                
+    (2 byte) unused
+    (2 byte) Type one at a time
+                0000 - False
+                anything else - True
+                
+    (2 byte) Show arrow for continuing text
+                0100 - True

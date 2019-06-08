@@ -1,4 +1,12 @@
+# -*- coding: utf-8 -*-
+# Author: Jose G. Perez <josegperez@mail.com>
+# Allows for the reading of MCB files for RockManX8
+import io
 import os
+import numpy as np
+from PIL import Image
+import pylab as plt
+
 LENGTH_HEADER = 16
 LENGTH_SIZE = 2
 LENGTH_TEXT_COUNT = 2
@@ -6,6 +14,7 @@ LENGTH_TEXT_OFFSET = 2
 LENGTH_FILENAME = 16
 LENGTH_FILENAME_EXTRA = 42
 
+# Extracted from game and from opk/title/spa/FONT.wsx
 alphabet = [' ', '!', '"', '%', '&', '(', ')', 'x', '+', '-', ',',
             '.', '/', ':', ';', '=', '?', '@', '[', ']', '_', '~', '`', '°', '…', '…'
             , '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
@@ -138,7 +147,24 @@ def byte_to_str(idx):
     else:
         return alphabet[idx]
 
-path = "mes/SPA/LABO_TIT.mcb"
+def open_set(path):
+    with open(path, 'rb') as file:
+        print("======", path)
+        header = file.read(104)
+
+        enemies = set()
+        while True:
+            pos_before = file.tell()
+            enemy = file.read(80)
+            pos_after = file.tell()
+            if pos_before == pos_after: # EOF
+                break
+            name = enemy[0:8].decode("utf-8", errors="replace")
+            enemies.add(name)
+
+        print("Enemies Present:")
+        print(", ".join(enemies))
+
 def open_mcb(path):
     with open(path, 'rb') as file:
         print("======", path)
@@ -269,3 +295,43 @@ def open_mcb(path):
 #     open_mcb("mes/USA/" + file)
 
 # open_mcb("mes/SPA/LABO_TXT.mcb")
+
+#%% WPG
+textures = []
+
+with open('opk/title/spa/wpg/font_ID_FONT_000.wpg', 'rb') as file:
+    file.seek(0)
+    wpg_header = file.read(32)
+    while True:
+        texture_data = file.read(262162)
+        # Check for end of file
+        if len(texture_data) != 262162:
+            break
+
+        # Read texture
+        im_raw = Image.frombytes('RGBA', (256, 256), texture_data)
+        im_raw_gray = im_raw.convert("L")
+        im = np.array(im_raw_gray)[:240,:240]
+        textures.append(im)
+
+characters = []
+for texture in textures:
+    # Extract all 144 characters from the texture
+    for row in range(12):
+        for col in range(12):
+            rstart = row * 20
+            rend = rstart + 20
+            cstart = col * 20
+            cend = cstart + 20
+            im_char = texture[rstart:rend, cstart:cend]
+            characters.append(im_char)
+
+# plt.figure()
+# plt.imshow(im_raw_gray, cmap=plt.get_cmap('gray'))
+
+
+
+# for texture in textures:
+#     row_split = np.array(np.array_split(texture, 12))
+#     for rs in row_split:
+#         col_split = np.array_split(rs, 12)

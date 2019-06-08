@@ -1,0 +1,88 @@
+====== MES/USA/HB_IM.mcb
+FG Layer [Headphone Hold L] :
+        A new training program, has
+        been added to Troia Base. 20 1
+FG Layer [Headphone Hold L] :
+        It's called "On Parade." It was
+        made with AI samples from the
+        Mavericks you've defeated. 20 1
+FG Layer [Headphone Hold L] :
+        It should make for some good
+        training for you guys. 20 1
+FG Pallette [Headphone Hold L] :
+        Emergency transmission! News
+        of a priceless Metal stolen
+        from Metal Valley. 21 1
+FG Pallette [Headphone Hold L] :
+        This Metal is concealed in the
+        underground logistics base
+        Pitch Black. 21 1
+FG Pallette [Headphone Hold L] :
+        But since you cleared that
+        mission, security is even
+        tighter. 21 1
+FG Pallette [Headphone Hold L] :
+        The only option we have is to
+        send Axl in disguised as a
+        security droid. 21 1
+FG Pallette [Headphone Hold L] :
+        We need that metal to make new
+        Chips! Go get it and bring it
+        back! 21 1
+FG Layer [Headphone Hold L] :
+        Emergency transmission!
+        Something's happened at the
+        floating city Dynasty. 20 1
+FG Layer [Headphone Hold L] :
+        Someone has snuck in and set
+        explosives thoughout the whole
+        area... 20 1
+FG Layer [Headphone Hold L] :
+        Dynasty will be destroyed
+        unless we get over there and
+        stop this scheme. 20 1
+FG Pallette [Headphone Hold L] :
+        Emergency transmission!
+        A huge hole has opened up at
+        the Inferno disposal center! 21 1
+FG Pallette [Headphone Hold L] :
+        It's really deep.
+        So deep that we can't even
+        estimate how far down it goes. 21 1
+FG Pallette [Headphone Hold L] :
+        That's where you guys come in!
+        We need you to go there and
+        check out the depth. 21 1
+FG Pallette [Headphone Hold L] :
+        Reports of a Maverick attack
+        have come in from the Central
+        White environmental center. 21 1
+FG Pallette [Headphone Hold L] :
+        Apparently, the path to the center has
+        been completely blocked off with debris. 21 1
+FG Pallette [Headphone Hold L] :
+        No ordinary Reploid can get through
+        to the center! Hurry, everyone! Get
+        to the scene as soon as you can! 21 1
+FG Pallette [Headphone Hold L] :
+        Hey, everyone!
+        I have an emergency mission
+        for you! 21 1
+FG Pallette [Headphone Hold L] :
+        The rebellion at the Metal
+        Valley mine are still in
+        progress! 21 1
+FG Pallette [Headphone Hold L] :
+        The Reploids there can't
+        continue their work like this! 21 1
+FG Pallette [Headphone Hold L] :
+        Space development depends on
+        the ore mined there!
+        We have to help them! 21 1
+FG Alia [Mic Hold L] :
+        Emergency at Point Galapagos!
+        Small Mechaniloids have gone
+        berserk! 19 1
+FG Alia [Mic Hold L] :
+        Go and get the situation
+        under control! 19 1

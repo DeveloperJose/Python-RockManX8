@@ -33,7 +33,82 @@ player 2 structure
     45a6110 direction 2 (opp sign)
 
 Rail Format:
+    Controls camera positioning
     offset 0x38 (byte) - Camera X position
+    CE - too far
+    
+Set Format:
+    Controls enemy spawning
+    Mini-bosses are not included
+    
+    0x40 bytes of header
+        2 bytes - Number of enemies in file
+        
+    Enemies (0x50 bytes each):
+        2 bytes - Identifier (0xB4C2 OR 0xB442)
+        8 bytes - Unused
+        4 bytes - X coordinate (float)
+        4 bytes - Y coordinate (float)
+        8 bytes - Unused
+        8 bytes - Unknown (Value 0x45)
+        8 bytes - Enemy Type (PRM####)
+        0x1E bytes - Unknown
+        8 bytes - Unused (0x82FD followed by zeros)
+        
+    Enemy: Prm0012, Bustard
+        Health: 18 (Hard)
+    
+        PRIMROSE
+        0002 - Jumping Spike Wheel
+        0003 - Bustard (Missile Dude)
+        0004 - nothin on primrose
+        0005 - Bat
+        0006 - Jumping Spike Wheel
+        0007 - Batton Bone S
+        0008 - Batton Bone S
+        0088 - Orange Soldier
+        0012 - Bustard
+        0543 - Bustard
+        0082 - Bustard
+        0090 - Shooting Crab (3 shots)
+        0027 - Shooting Crab (1 shot)
+        0024 - Floating guy with shield
+        1084 - Bustard
+        
+============ LPKs
+ESD.LPK
+    Seems to only be loaded on first visit
+    
+PTO.LPK
+    Doesn't seem to be interchangeable
+ 
+SH**.LSP and ST**.LSP
+    Seem to be the same
+
+PTO.LPK
+    Unknown
+    
+PRM.LPK
+    Seems to set which enemies will be loaded onto the stage for use in SET files
+    
+    0x14 bytes - Header?
+        4 bytes - Version? (0x01)
+        2 bytes - ???
+        2 bytes - unused
+        2 bytes - number of PRMs
+    PRMs - 0x18 bytes each
+============
+WSM Format:
+    45 byte header
+        Only first 19 seem important
+        0x12 MUST be 0x61
+    0x7DB Empty Space (video starts at 0x820)
+    MPEG-1 Video
+    
+Event Format:
+    In-stage navigator dialogue
+    Controls room changes
+    Controls character changes
     
 troia base spawn coordinates
     (9,-5.96e)
@@ -59,7 +134,11 @@ last 2 bytes = FF
 
 Extra Data Format:
     (2 bytes) demo voices (characters)
+        alia_100 = 0x00 = 0
+        alia_19 = 0x38 = 56
+        ant_20 = 0x5B = 91
     (2 bytes) bgm
+        b03 = 0x02 = Boss Battle
     all bytes between are unused (0x1A bytes)
     (2 bytes) char id 
                 navigators (little endian)
@@ -88,24 +167,6 @@ Extra Data Format:
                 
     (2 byte) Show arrow for continuing text
                 0100 - True
-            
-EXTRA DATA:
-    2 bytes - Audio clip
-        alia_100 = 0x00 = 0
-        alia_19 = 0x38 = 56
-        ant_20 = 0x5B = 91
-        
-    2 bytes - BGM 
-        b03 = 0x02 = Boss Battle
-        
-    2 bytes - unknown, didn't seem to have any effect
-    2 bytes - unknown, didn't seem to have any effect
-    2 bytes - Gives the text a background, any value except FF FF
-    2 bytes - unknown, no effect
-    2 bytes - unknown, no effect
-    2 bytes - unknown, no effect
-    2 bytes - nothing
-    2 bytes - 
     
 MCB Progress
     PROGRE.mcb
@@ -177,6 +238,12 @@ MCB Progress
     HB_DM.mcb
         Cutscene text (officially named "Demos")
         
+==========OPK Files
+cockpit\ - GUI elements
+cmneff\ - Effects
+pl\ - Player and Enemy
+title\ - Loading screens, credits, hub monitor   
+VAVA\ - Vile
 ==========GATEWAY CUTSCENE, demo 19
 1st box
 7 boxes, 8 calls to the MCB loading function
