@@ -14,41 +14,7 @@ LENGTH_TEXT_OFFSET = 2
 LENGTH_FILENAME = 16
 LENGTH_FILENAME_EXTRA = 42
 
-# Extracted from game and from opk/title/spa/FONT.wsx
-alphabet = [' ', '!', '"', '%', '&', '(', ')', 'x', '+', '-', ',',
-            '.', '/', ':', ';', '=', '?', '@', '[', ']', '_', '~', '`', '°', '…', '…'
-            , '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-            , 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-            , 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-            # 0x58, 59, 5A, 5B, 5C, 5D
-            , "'", "||", "Σ", "◯", "△", "↑", '↓', '↙', '↘', '←', '→', '®', '€']
 
-# http://sprites-inc.co.uk/sprite.php?local=X/X8/Mugshots/
-poses = [
-    ['Normal R', 'Surprised F', 'Angry R', 'Neutral Armor F'] , # X
-    ['Normal Holding Sword F', 'Serious R', 'Eyes Closed R'], # Zero
-    ['Smiling F', 'Upset R', 'Holding Gun R', 'Serious F'], # Axl
-    ['Mic Hold L', 'Headphone Hold L', 'Worried F'], # Alia
-    ['Headphone Hold L', 'Blush F', 'Embarrassed F'], # Layer
-    ['Headphone Hold L', 'Mic Hold L', 'Thinking L', 'RD Lab F'], # Pallette
-    ['Regular L'], # ??
-    ['Hologram L'], # Dr. Light
-    ['Regular L'], # Optic Sunflower
-    ['Regular L'], # Gravity Antonion
-    ['Regular L'], # Dark Mantis
-    ['Regular L'], # Gigabolt Man-o-War
-    ['Regular L'], # Burn Rooster
-    ['Regular L'], # Avalanche Yeti
-    ['Regular L'], # Earthrock Trilobyte
-    ['Regular L'], # Bamboo Pandemonium
-    ['Regular L'], # Vile
-    ['Copy L', 'Real F'], # Sigma
-    ['Regular F', 'Smirk F', 'Defeat F'], # Lumine
-]
-char_icons = ['X', 'Zero', 'Axl', 'BG Alia', 'BG Layer', 'BG Pallette', 'Signas', 'Dr. Light', \
-              'Optic Sunflower', 'Gravity Antonion' ,'Dark Mantis', 'Gigabolt Man-o-War', 'Burn Rooster', \
-              'Avalanche Yeti' ,'Earthrock Trilobyte' ,'Bamboo Pandemonium' ,'Vile' , \
-              'Sigma', 'Lumine']
 
 fileAbbr2 = ['NV', 'HB']
 fileAbbr3 = ['SUB', 'OPT']

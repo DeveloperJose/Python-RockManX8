@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="434d9866-c370-473c-aa26-c8d13b4566be" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/MegaManX8.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MegaManX8.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NOCD.CT" beforeDir="false" afterPath="$PROJECT_DIR$/NOCD.CT" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mmx8.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mmx8.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/open_mcb.py" beforeDir="false" afterPath="$PROJECT_DIR$/open_mcb.py" afterDir="false" />
     </list>
@@ -20,13 +17,34 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/open_mcb.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="33">
-              <caret line="165" column="33" selection-start-line="165" selection-start-column="33" selection-end-line="165" selection-end-column="33" />
+            <state relative-caret-position="315">
+              <caret line="76" selection-start-line="76" selection-end-line="86" selection-end-column="15" />
               <folding>
                 <element signature="e#122#131#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/x8_utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="177" lean-forward="true" selection-start-line="177" selection-end-line="177" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+              <folding>
+                <element signature="e#0#6#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -48,7 +66,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/tga.py" />
+        <option value="$PROJECT_DIR$/gui.py" />
         <option value="$PROJECT_DIR$/open_mcb.py" />
+        <option value="$PROJECT_DIR$/x8_utils.py" />
       </list>
     </option>
   </component>
@@ -86,6 +106,13 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="PyScientificConfigurable" />
   </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings>
+        <option name="useSoftWraps" value="true" />
+      </console-settings>
+    </option>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -98,7 +125,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.open_mcb">
+  <component name="RunManager" selected="Python.x8_utils">
     <configuration name="MCBs" type="PythonConfigurationType" factoryName="Python">
       <module name="MegaManX8" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -113,6 +140,25 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/open_mcb.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="gui" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MegaManX8" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gui.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -143,8 +189,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="x8_utils" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MegaManX8" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/x8_utils.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.x8_utils" />
+        <item itemvalue="Python.gui" />
         <item itemvalue="Python.open_mcb" />
       </list>
     </recent_temporary>
@@ -161,16 +228,18 @@
       <updated>1530239545242</updated>
       <workItem from="1559964426782" duration="10622000" />
       <workItem from="1560025268834" duration="45000" />
+      <workItem from="1560025389388" duration="17012000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10667000" />
+    <option name="totallyTimeSpent" value="27679000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="23" width="1295" height="704" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.55214226" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.32497978" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -182,7 +251,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" x="22" y="280" width="1237" height="189" id="Python Console" maximized="true" order="9" type="WINDOWED" weight="0.32984293" />
+      <window_info active="true" anchor="bottom" auto_hide="true" x="0" y="53" width="1281" height="667" id="Python Console" maximized="true" order="9" type="WINDOWED" visible="true" weight="0.32984293" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Concurrent Activities Diagram" order="11" weight="0.32902467" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
@@ -193,7 +262,7 @@
       <window_info anchor="right" id="Data View" order="3" />
       <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="right" x="436" y="88" width="408" height="573" id="SciView" maximized="true" order="5" type="WINDOWED" weight="0.32983023" />
-      <window_info anchor="right" x="0" y="0" width="273" height="504" id="Documentation" order="6" side_tool="true" visible="true" weight="0.32983023" />
+      <window_info anchor="right" x="0" y="0" width="273" height="504" id="Documentation" order="6" side_tool="true" weight="0.32983023" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,13 +286,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dialog_editor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-75" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+          <folding>
+            <element signature="e#0#6#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2019.1/system/python_stubs/320910831/builtins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="811" column="8" selection-start-line="811" selection-start-column="8" selection-end-line="811" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/open_mcb.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="33">
-          <caret line="165" column="33" selection-start-line="165" selection-start-column="33" selection-end-line="165" selection-end-column="33" />
+        <state relative-caret-position="315">
+          <caret line="76" selection-start-line="76" selection-end-line="86" selection-end-column="15" />
           <folding>
             <element signature="e#122#131#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/x8_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="177" lean-forward="true" selection-start-line="177" selection-end-line="177" />
         </state>
       </provider>
     </entry>
