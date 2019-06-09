@@ -203,15 +203,16 @@ MCB Progress
     OPT_TIT.mcb
         Options menu buttons for controls
         
-    NV0_ST**.mcb - Alia's text in Stage ID **
-    NV1_ST**.mcb - Layer
-    NV2_ST**.mcb - Palette
+    NV1_ST**.mcb - Alia's text in Stage ID **
+    NV2_ST**.mcb - Layer
+    NV3_ST**.mcb - Palette
     
     MOV_****.mcb - Subtitles for cutscenes that are played as AVI movies
     
     DM_ST** - Dr Light's quotes
                 Other level specific quotes that are character independent (will always play)
-    DM1_ST**.mcb - X quotes
+                for events and such
+    DM1_ST**.mcb - X quotes vs bosses
     DM2_ST** - Zero quotes
     DM3_ST** - Axl quotes
     
