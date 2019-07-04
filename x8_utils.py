@@ -1,27 +1,72 @@
-# Author: Jose G. Perez <josegperez@mail.com>
-# Utilities for editing Mega Man X8 files
-# So far, only text editing is implemented (but it's fully functional!)
+import re
+from enum import IntEnum
+from typing import List
 
-# Extracted from game and from opk/title/spa/FONT.wsx
-alphabet = [' ', '!', '"', '%', '&', '(', ')', 'x', '+', '-', ',',
-            '.', '/', ':', ';', '=', '?', '@', '[', ']', '_', '~', '`', '°', '…', '…'
-            , '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-            , 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-            , 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-            # 0x58, 59, 5A, 5B, 5C, 5D
-            , "'", "||", "Σ", "◯", "△", "↑", '↓', '↙', '↘', '←', '→', '®', '€']
-
-def byte_to_str(idx):
-    if idx == 65533:
-        # return ' \n\t'
-        return ' '
-    elif idx < 0 or idx >= len(alphabet):
-        return '_'
-    else:
-        return alphabet[idx]
+import numpy as np
+from PIL import Image
 
 
-class FileReaderWriter():
+class Const:
+    DESCRIPTIONS = {
+        'PROGRE.mcb': 'Progressive Scan text for TV (PS2/USA folder only)',
+        'TRIAL.mcb': 'Command Mission demo texts',
+        'SUB_TXT.mcb': 'Weapon descriptions and pause menu',
+        'SUB_TIT.mcb': 'Weapon and part names',
+        'SAVE_TIT.mcb': 'Saving and loading',
+        'RESULT.mcb': 'Result screen after each level',
+        'PAL.mcb': 'Video mode settings',
+        'OPT_TXT.mcb': 'Options menu',
+        'OPT_TIT.mcb': 'Options menu control buttons names',
+        'LABO_TXT.mcb': 'RD Lab Menu descriptions',
+        'LABO_TIT.mcb': 'RD Lab Menu labels (Stage Select, Chip Dev...)',
+        'HB_TIT.mcb': 'Stage/character/navigator/netural armor descriptions',
+        'HB_IM.mcb': 'Intermissions',
+        'HB_DM.mcb': 'Stage Select cutscenes',
+        'CHIP_TIT.mcb': 'RD Chip names',
+        'CHIP_TXT.mcb': 'RD Chip descriptions'
+    }
+
+    ALPHABET = [' ', '!', '"', '%', '&', '(', ')', 'x', '+', '-', ',',
+                '.', '/', ':', ';', '=', '?', '@', '[', ']', '_', '~', '`', '°', '…', '…'
+        , '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+        , 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+        , 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+                # 0x58, 59, 5A, 5B, 5C, 5D
+        , "'", "||", "Σ", "◯", "△", "↑", '↓', '↙', '↘', '←', '→', '®', '€']
+
+    CHARACTERS = ['X', 'Zero', 'Axl', 'BG Alia', 'BG Layer', 'BG Pallette', 'Signas', 'Dr. Light', 'Optic Sunflower', 'Gravity Antonion', 'Dark Mantis',
+                  'Gigabolt Man-o-War', 'Burn Rooster', 'Avalanche Yeti', 'Earthrock Trilobyte', 'Bamboo Pandemonium', 'Vile', 'Sigma', 'Lumine', 'FG Alia',
+                  'FG Layer', 'FG Pallette', 'None']
+
+    # http://sprites-inc.co.uk/sprite.php?local=X/X8/Mugshots/
+    MUGSHOT_DESCRIPTIONS = [
+        ['Normal R', 'Surprised F', 'Angry R', 'Neutral Armor F'],  # X
+        ['Normal Holding Sword F', 'Serious R', 'Eyes Closed R'],  # Zero
+        ['Smiling F', 'Upset R', 'Holding Gun R', 'Serious F'],  # Axl
+        ['Mic Hold L', 'Headphone Hold L', 'Worried F'],  # BG Alia
+        ['Headphone Hold L', 'Blush F', 'Embarrassed F'],  # BG Layer
+        ['Headphone Hold L', 'Mic Hold L', 'Thinking L', 'RD Lab F'],  # BG Pallette
+        ['Regular L'],  # ??
+        ['Hologram L'],  # Dr. Light
+        ['Regular L'],  # Optic Sunflower
+        ['Regular L'],  # Gravity Antonion
+        ['Regular L'],  # Dark Mantis
+        ['Regular L'],  # Gigabolt Man-o-War
+        ['Regular L'],  # Burn Rooster
+        ['Regular L'],  # Avalanche Yeti
+        ['Regular L'],  # Earthrock Trilobyte
+        ['Regular L'],  # Bamboo Pandemonium
+        ['Regular L'],  # Vile
+        ['Copy L', 'Real F'],  # Sigma
+        ['Regular F', 'Smirk F', 'Defeat F'],  # Lumine
+        ['Mic Hold L', 'Headphone Hold L', 'Worried F'],  # FG Alia
+        ['Headphone Hold L', 'Blush F', 'Embarrassed F'],  # FG Layer
+        ['Headphone Hold L', 'Mic Hold L', 'Thinking L', 'RD Lab F'],  # FG Pallette
+        ['None'],  # None or Sigma?
+    ]
+
+
+class FileStream:
     def __init__(self, file):
         self.file = file
 
@@ -56,78 +101,44 @@ class FileReaderWriter():
             self.write_int(i)
 
 
-class MCBExtra():
-    from enum import IntEnum
-    class DBoxPosition(IntEnum):
-        TopLeft = 0
-        TopRight = 1
-        BottomLeft = 2
-        BottomRight = 3
+class MCBExtra:
+    class MugshotPosition(IntEnum):
+        Left = 0
+        Right = 1
 
-    # http://sprites-inc.co.uk/sprite.php?local=X/X8/Mugshots/
-    CHARACTERS = ['X', 'Zero', 'Axl', 'BG Alia', 'BG Layer', 'BG Pallette', 'Signas', 'Dr. Light', 'Optic Sunflower', 'Gravity Antonion', 'Dark Mantis',
-                  'Gigabolt Man-o-War', 'Burn Rooster', 'Avalanche Yeti', 'Earthrock Trilobyte', 'Bamboo Pandemonium', 'Vile', 'Sigma', 'Lumine', 'FG Alia',
-                  'FG Layer', 'FG Pallette', 'None']
+    @property
+    def char_mug_description(self):
+        return self.get_mugshot_description(self.char, self.char_mug)
 
-    MUGSHOTS = [
-        ['Normal R', 'Surprised F', 'Angry R', 'Neutral Armor F'],  # X
-        ['Normal Holding Sword F', 'Serious R', 'Eyes Closed R'],  # Zero
-        ['Smiling F', 'Upset R', 'Holding Gun R', 'Serious F'],  # Axl
-        ['Mic Hold L', 'Headphone Hold L', 'Worried F'],  # BG Alia
-        ['Headphone Hold L', 'Blush F', 'Embarrassed F'],  # BG Layer
-        ['Headphone Hold L', 'Mic Hold L', 'Thinking L', 'RD Lab F'],  # BG Pallette
-        ['Regular L'],  # ??
-        ['Hologram L'],  # Dr. Light
-        ['Regular L'],  # Optic Sunflower
-        ['Regular L'],  # Gravity Antonion
-        ['Regular L'],  # Dark Mantis
-        ['Regular L'],  # Gigabolt Man-o-War
-        ['Regular L'],  # Burn Rooster
-        ['Regular L'],  # Avalanche Yeti
-        ['Regular L'],  # Earthrock Trilobyte
-        ['Regular L'],  # Bamboo Pandemonium
-        ['Regular L'],  # Vile
-        ['Copy L', 'Real F'],  # Sigma
-        ['Regular F', 'Smirk F', 'Defeat F'],  # Lumine
-        ['Mic Hold L', 'Headphone Hold L', 'Worried F'],  # FG Alia
-        ['Headphone Hold L', 'Blush F', 'Embarrassed F'],  # FG Layer
-        ['Headphone Hold L', 'Mic Hold L', 'Thinking L', 'RD Lab F'],  # FG Pallette
-        ['Copy L', 'Real F'],  # Sigma2
-    ]
+    @property
+    def char_description(self):
+        return self.get_character_description(self.char)
 
-    @classmethod
-    def get_mugshot(cls, int_char, int_mug):
-        if int_char == 0xFFFF:
-            return 'None'
+    def __init__(self):
+        self.voice = 0xFFFF
+        self.bgm = 0xFFFF
+        self.stop_bgm = 0xFFFF
+        self.camera_angle = 0xFFFF
+        self.char = 0xFFFF
+        self.char_mug = 0xFFFF
+        self.char_pos = 0xFFFF
+        self.close_top = 0xFFFF
+        self.text_pos = 0xFFFF
+        self.int18 = 0xFFFF
+        self.typing = 0xFFFF
+        self.show_arrow = 0xFFFF
 
-        int_mug -= 1
-        if int_char < 0 or int_char >= len(MCBExtra.CHARACTERS):
-            return 'Invalid: ' + str(int_char)
-
-        mugshots = cls.MUGSHOTS[int_char]
-
-        # Pose 0 defaults to the first pose
-        # Get pose string if possible
-        if int_mug < 0 or int_mug >= len(mugshots):
-            return 'Default: ' + mugshots[0]
-        return mugshots[int_mug]
-
-    @classmethod
-    def get_character(cls, int_char):
-        if int_char == 0xFFFF:
-            return 'None'
-        elif int_char < 0 or int_char >= len(cls.CHARACTERS):
-            return 'Invalid: ' + str(int_char)
-        else:
-            return cls.CHARACTERS[int_char]
+        self.__raw_char_data = [0xFFFF] * 12
+        self.char_mug_pos = self.MugshotPosition(0)
+        self.filename = ''
 
     @classmethod
     def from_reader(cls, reader):
         instnc = cls()
         instnc.voice = reader.read_int()
         instnc.bgm = reader.read_int()
-        instnc.int2 = reader.read_int()  # Stops BGM from playing when set to 0
-        instnc.int3 = reader.read_int()  # [1-3] camera angles, only used for boss interactions
+        instnc.stop_bgm = reader.read_int()  # Stops BGM from playing when set to 0
+        instnc.camera_angle = reader.read_int()  # [1-3] camera angles, only used for boss interactions
 
         char1 = reader.read_int()
         char_mug1 = reader.read_int()
@@ -145,73 +156,85 @@ class MCBExtra():
 
         # Figure out which of the 4 char/image/pos pairs is the one used for this extra
         # Moves range of possible [0,1,2,3] to range of char_idx [0,3,6,9]
+        # [TopLeft,TopRight,BottomLeft,BottomRight]
         possible = [char1, char2, char3, char4]
         pair_idx = possible.index(min(possible))
         char_idx = pair_idx * 3
         instnc.char = char_data[char_idx]
-        instnc.char_mug = char_data[char_idx+1]
-        instnc.char_pos = char_data[char_idx+2]
+        instnc.char_mug = char_data[char_idx + 1]
+        instnc.char_pos = char_data[char_idx + 2]
         instnc.__raw_char_data = char_data
 
         # Figure out where the portrait and box are drawn
-        instnc.char_box = instnc.DBoxPosition(pair_idx)
+        # [Left=0,Right=1,Left=2,Right=3] so idx mod 2 will get the right pattern
+        instnc.char_mug_pos = MCBExtra.MugshotPosition(pair_idx % 2)
 
         # Closes the top dialogue box when set to 0 (and when it does, char2 is 0xFFFE for some reason)
         # It's set to 1 when the dialogue box is top as well
-        instnc.int16 = reader.read_int()
+        instnc.close_top = reader.read_int()
 
-        instnc.text_pos = reader.read_int()
+        instnc.text_pos = reader.read_int()  # 1 for bottom, anything else for top (usually 0xFFFF I think)
         instnc.int18 = reader.read_int()  # Always 0xFFFF
-        instnc.typing = reader.read_int()
-        instnc.show_arrow = reader.read_int()
+        instnc.typing = reader.read_int()  # 0 if typing one letter at a time
+        instnc.show_arrow = reader.read_int()  # 1 if showing an arrow, 2 otherwise
         return instnc
 
-    def __init__(self):
-        self.voice = 0xFFFF
-        self.bgm = 0xFFFF
-        self.int2 = 0xFFFF
-        self.int3 = 0xFFFF
-        self.char = 0xFFFF
-        self.char_mug = 0xFFFF
-        self.char_pos = 0xFFFF
-        self.char_box = self.DBoxPosition(0)
-        self.int16 = 0xFFFF
-        self.text_pos = 0xFFFF
-        self.int18 = 0xFFFF
-        self.typing = 0xFFFF
-        self.show_arrow = 0xFFFF
+    @staticmethod
+    def is_valid_char(char_idx):
+        return 0 <= char_idx < len(Const.CHARACTERS)
+
+    @staticmethod
+    def get_mugshot_description(char_idx, mug_idx):
+        if not MCBExtra.is_valid_char(char_idx):
+            return 'Invalid Mugshot Character'
+
+        mugshots = Const.MUGSHOT_DESCRIPTIONS[char_idx]
+        is_valid_mugshot = (0 <= mug_idx < len(mugshots))
+        if not is_valid_mugshot:
+            return 'Invalid Mugshot'
+        return mugshots[mug_idx]
+
+    @staticmethod
+    def get_character_description(char_idx):
+        if not MCBExtra.is_valid_char(char_idx):
+            return 'Invalid Character'
+        return Const.CHARACTERS[char_idx]
 
     def __create_char_data__(self):
         char_data = [0xFFFF] * 12
 
-        if self.char_box == self.DBoxPosition.TopLeft:
-            idxs = slice(0,3)
-        elif self.char_box == self.DBoxPosition.TopRight:
-            idxs = slice(3,6)
-        elif self.char_box == self.DBoxPosition.BottomLeft:
-            idxs = slice(6,9)
+        is_top = self.text_pos != 1
+        is_left = self.char_mug_pos == MCBExtra.MugshotPosition.Left
+        if is_top:
+            if is_left:
+                idxs = slice(0, 3)
+            else:
+                idxs = slice(3, 6)
         else:
-            idxs = slice(9,12)
+            if is_left:
+                idxs = slice(6, 9)
+            else:
+                idxs = slice(9, 12)
 
         char_data[idxs] = [self.char, self.char_mug, self.char_pos]
 
         return char_data
 
-    def to_array(self):
-        data = [self.voice, self.bgm, self.int2, self.int3]
+    def to_byte_array(self):
+        data = [self.voice, self.bgm, self.stop_bgm, self.camera_angle]
         data.extend(self.__create_char_data__())
-        data.extend([self.int16, self.text_pos, self.int18, self.typing, self.show_arrow])
+        data.extend([self.close_top, self.text_pos, self.int18, self.typing, self.show_arrow])
         return data
 
-    def to_array2(self):
-        data = [self.voice, self.bgm, self.int2, self.int3]
+    def to_str_array(self):
+        data = [self.voice, self.bgm, self.stop_bgm, self.camera_angle]
         data.extend(self.__raw_char_data)
-        data.append(self.int16)
-        data.append('Dn' if self.text_pos == 1 else 'Up')
+        data.append(self.close_top)
+        data.append('Bot' if self.text_pos == 1 else 'Top')
         data.append(self.int18)
         data.append('Ye' if self.typing == 0 else 'No')
-        data.append('Ye' if self.show_arrow == 1 else 'No')
-        data.append(self.char_box.name.ljust(10))
+        data.append(str(self.show_arrow).ljust(2))
+        data.append(self.char_mug_pos.name.ljust(6))
 
         for idx, num in enumerate(data):
             if num == 0xFFFF:
@@ -225,48 +248,118 @@ class MCBExtra():
 
         return data
 
-    def __str__(self):
-        f_char = MCBExtra.get_character(self.char)
-        f_mug = MCBExtra.get_mugshot(self.char, self.char_mug)
-        f_char_pos = self.char_pos
-        f_voice = self.voice
-        f_bgm = self.bgm
-        f_text_pos = 'Down' if self.text_pos == 1 else 'Up'
-        f_typing = 'Y' if self.typing == 0 else 'N'
-        f_show_arrow = 'Y' if self.show_arrow == 1 else 'S' if self.show_arrow == 2 else 'N'
 
-        frmt = "{C:%s,MUG:%s,CPOS:%d,V:%d,BGM:%d,TPOS:%s,TYP:%s,ARR:%s}"
-        frmt = frmt % (f_char, f_mug, f_char_pos, f_voice, f_bgm, f_text_pos, f_typing, f_show_arrow)
-        return frmt
+class Font:
+    def __init__(self, path):
+        self.wpg = WPGFile(path)
 
-class MCBFile():
+        characters = []
+        for texture in self.wpg.textures:
+            # Extract all 144 characters from the texture
+            for row in range(12):
+                for col in range(12):
+                    rstart = row * 20
+                    rend = rstart + 20
+                    cstart = col * 20
+                    cend = cstart + 20
+                    im_char = texture[rstart:rend, cstart:cend]
+                    characters.append(im_char)
+
+        self.characters = characters
+
+
+class WPGFile:
+    def __init__(self, path=None):
+        self.textures = None
+        self.path = None
+
+        if path is not None:
+            self.path = path
+            self.__load_from_file__(path)
+
+    def __load_from_file__(self, path):
+        textures = []
+        with open(path, 'rb') as file:
+            file.seek(0)
+            wpg_header = file.read(32)
+            while True:
+                texture_data = file.read(262162)
+                # Check for end of file
+                if len(texture_data) != 262162:
+                    break
+
+                # Read texture
+                im_raw = Image.frombytes('RGBA', (256, 256), texture_data)
+                im_raw_gray = im_raw.convert("L")
+                im_texture = np.array(im_raw_gray)[:240, :240]
+                textures.append(im_texture)
+
+        self.textures = textures
+
+
+class MCBFile:
+    extras: List[MCBExtra]
+
     LENGTH_HEADER = 16
     LENGTH_FILENAME_EXTRA = 42
     LENGTH_INTEGER = 2
     LENGTH_STRING = 16
 
-    @property
-    def texts(self):
-        texts = []
-        for text_raw in self.texts_raw:
-            text = ''
-            for text_byte in text_raw:
-                text += byte_to_str(text_byte)
-            texts.append(text)
+    @staticmethod
+    def get_filename_description(fname):
+        desc = Const.DESCRIPTIONS.get(fname)
+        if desc is None:
+            desc = 'Unknown File'
+        return desc
 
-        return texts
+    @staticmethod
+    def convert_text_to_bytes(text):
+        separator = ','
+        text = text.replace('', separator)
+        text = text.replace('[', separator)
+        text = text.replace(']', separator)
+        text = text.replace('newline', '65533')
+
+        raw_bytes = []
+        for st in text.split(separator):
+            st = st.lstrip()
+            try:
+                idx = Const.ALPHABET.index(st)
+            except ValueError:
+                idx = int(st)
+
+            raw_bytes.append(idx)
+        return raw_bytes
+
+    @staticmethod
+    def byte_to_str(b):
+        if b == 65533:
+            return '[newline]'
+        elif b < 0 or b >= len(Const.ALPHABET):
+            return '[{}]'.format(b)
+        else:
+            return Const.ALPHABET[b]
+
+    @staticmethod
+    def convert_bytes_to_text(raw_bytes):
+        text = ''
+        for text_byte in raw_bytes:
+            text += MCBFile.byte_to_str(text_byte)
+        return text
 
     def print(self):
         if self.has_extras():
             print('=== MCB Path:', self.path)
-            print('IDX,VOI,BG,I2,I3,C1,M1,P1,C2,M2,P2,C3,M3,P3,C4,M4,P4,16,TP,18,TY,AR,CB        |||Text Message Goes Here***|||Filename')
-            for idx, (extra, text, filename) in enumerate(zip(self.extras, self.texts, self.files)):
+            print('IDX,VOI,BG,I2,I3,C1,M1,P1,C2,M2,P2,C3,M3,P3,C4,M4,P4,16,TPO,18,TY,AR,MugPos|||Text Message Goes Here***|||Filename')
+            for idx, (extra, text_bytes) in enumerate(zip(self.extras, self.texts_raw)):
+                text = self.convert_bytes_to_text(text_bytes)
                 s_idx = str(idx).ljust(3)
-                s_extra = ','.join(map(str, extra.to_array2()))
-                print('{},{}|||{}|||{}'.format(s_idx, s_extra, text, filename))
+                s_extra = ','.join(map(str, extra.to_str_array()))
+                print('{},{}|||{}|||{}'.format(s_idx, s_extra, text, extra.filename))
         else:
             print('IDX|||Text')
-            for idx, (text) in enumerate(self.texts):
+            for idx, (text_bytes) in enumerate(self.texts_raw):
+                text = self.convert_bytes_to_text(text_bytes)
                 s_idx = str(idx).ljust(3)
                 print('{}|||{}'.format(s_idx, text))
 
@@ -287,10 +380,12 @@ class MCBFile():
             self.__load_from_file__(path)
 
     def save(self, spath=None):
+        self.__recalculate__()
         if spath is None:
             spath = self.path
+
         file = open(spath, 'wb')
-        writer = FileReaderWriter(file)
+        writer = FileStream(file)
 
         writer.write_string(self.header)
         writer.write_int(self.size)
@@ -299,15 +394,15 @@ class MCBFile():
         writer.write_string_array(self.files)
 
         for idx, (text_bytes, extra) in enumerate(zip(self.texts_raw, self.extras)):
-            extra_bytes = extra.to_array()
+            extra_bytes = extra.to_byte_array()
             writer.write_int_array(extra_bytes)
             writer.write_int_array(text_bytes)
             writer.write_int(0xFFFF)
 
         file.close()
 
-    def is_file(self, filename):
-        import re
+    @staticmethod
+    def is_file(filename):
         filename = filename.replace('\x00', '')  # Remove padding zeros
         # Only allows a-z, A-Z, 0-9, and underscores (and filenames of length 10 and above)
         return len(filename) >= 10 and not bool(re.compile(r'[^a-zA-Z0-9_]').search(filename))
@@ -320,7 +415,7 @@ class MCBFile():
         text_bytes = []
         for char in new_text:
             try:
-                char_byte = alphabet.index(char)
+                char_byte = Const.ALPHABET.index(char)
             except ValueError:
                 char_byte = 0
 
@@ -331,7 +426,7 @@ class MCBFile():
 
     def __load_from_file__(self, path):
         file = open(path, 'rb')
-        reader = FileReaderWriter(file)
+        reader = FileStream(file)
 
         self.__load_header__(reader)
         self.__load_files__(reader)
@@ -386,7 +481,6 @@ class MCBFile():
             reader.seek(offset)
 
             text_raw = []
-            text = ''
             data = reader.read_int()
             while data != 65535:
                 text_raw.append(data)
@@ -397,35 +491,10 @@ class MCBFile():
             if self.has_extras():
                 reader.seek(offset_extras)
                 extra = MCBExtra.from_reader(reader)
+                extra.filename = self.files[i]
                 self.extras.append(extra)
 
 
 if __name__ == '__main__':
-    # reset_mcb()
-    mcb_en = MCBFile('mes/ENG/HB_DM.mcb')
-    mcb_en.save('mes/SPA/HB_DM.mcb')
     mcb = MCBFile('mes/SPA/HB_DM.mcb')
     mcb.print()
-
-    # import os
-    # for fname in os.listdir("mes/ENG/"):
-    #     print("=============== File:", 'mes/ENG/'+fname)
-    #     mcb = MCBFile("mes/ENG/" + fname)
-    #     if mcb.has_extras():
-    #         head = 'IDX,VOI,BG,I2,I3,C1,M1,P1,C2,M2,P2,C3,M3,P3,C4,M4,P4,16,TP,18,TY,AR|||Text Message'
-    #         print(head)
-    #         for id in range(len(mcb.texts)):
-    #             print(str(id).ljust(3) + ',' + ','.join(map(str, mcb.extras[id].to_array2())) + '|||' + mcb.texts[id])
-    #         print(head)
-            # for text, extra in zip(mcb.texts, mcb.extras):
-            #     if extra.char_pos != 0:
-            #         print(text)
-            #         print(extra)
-            #         print()
-    #
-    # mcb = MCBFile('mes/SPA/HB_DM.mcb')
-    # head = 'IDX,VOI,BG,I2,I3,C1,M1,P1,C2,M2,P2,C3,M3,P3,C4,M4,P4,16,TP,18,TY,AR|||Text Message'
-    # print(head)
-    # for id in range(len(mcb.texts)):
-    #     print(str(id).ljust(3) + ',' + ','.join(map(str, mcb.extras[id].to_array2())) + '|||' + mcb.texts[id])
-    # print(head)
