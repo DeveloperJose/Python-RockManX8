@@ -28,6 +28,7 @@ TRAINERS/
 *.idc
 *.res
 *.bak
+*.pyc
 
 # Prerequisites
 *.d
@@ -65,7 +66,6 @@ TRAINERS/
 *.i*86
 *.x86_64
 *.hex
-
 
 # Kernel Module Compile Results
 *.mod*
