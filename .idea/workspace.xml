@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="434d9866-c370-473c-aa26-c8d13b4566be" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/build/settings/base.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/build/settings/base.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/python/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/python/ui_editor_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/ui_editor_window.py" afterDir="false" />
     </list>
@@ -27,8 +25,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/python/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="132">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -39,8 +37,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/python/ui_editor_window.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="73" selection-start-line="73" selection-end-line="73" />
+            <state relative-caret-position="45">
+              <caret line="22" column="24" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -71,7 +69,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>raw</find>
       <find>text_pos</find>
       <find>char_mug</find>
       <find>int3</find>
@@ -101,6 +98,7 @@
       <find>spinMugshot</find>
       <find>special</find>
       <find>@safe_run</find>
+      <find>status</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -273,10 +271,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.x8_utils" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.ui_main" />
-        <item itemvalue="Python.x8_utils" />
       </list>
     </recent_temporary>
   </component>
@@ -296,12 +294,12 @@
       <workItem from="1561356071266" duration="13562000" />
       <workItem from="1562213073398" duration="44932000" />
       <workItem from="1562294278069" duration="2175000" />
-      <workItem from="1562307389603" duration="16671000" />
+      <workItem from="1562307389603" duration="17521000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="133346000" />
+    <option name="totallyTimeSpent" value="134196000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -328,7 +326,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32984293" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" auto_hide="true" x="489" y="160" width="302" height="430" id="Python Console" maximized="true" order="9" type="WINDOWED" weight="0.32984293" />
+      <window_info active="true" anchor="bottom" auto_hide="true" x="0" y="53" width="1281" height="667" id="Python Console" maximized="true" order="9" type="WINDOWED" visible="true" weight="0.32984293" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Concurrent Activities Diagram" order="11" weight="0.32902467" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
@@ -426,8 +424,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/ui_editor_window.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        <state relative-caret-position="45">
+          <caret line="22" column="24" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -436,8 +434,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="132">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
