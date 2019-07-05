@@ -5,32 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="434d9866-c370-473c-aa26-c8d13b4566be" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/MegaManX8.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MegaManX8.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NOCD.CT" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/fmt_fatalframe_rsl.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/fmt_mmx8_wpg.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/fmt_mmx8_wsx.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/fmt_mtframework_3ds_tex.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/fmt_planet51_wii_s3t.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/fmt_planet51_wii_zrs.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/fmt_silenthill_wii_tx.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/fmt_swtfu_wii_tex.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Noesis-Plugins-master/lib_zq_nintendo_tex.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAVE4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SAVE5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ctrees.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/editor_v2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/open_mcb.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/types.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_design_editor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_design_editor.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui_design_editor.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_editor_window.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui_main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/x8_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/ui_design.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/ui_design.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/ui_design.ui" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/ui_design.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/ui_editor_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/ui_editor_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/x8_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/x8_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui_design_editor.ui" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/python/main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="240">
-              <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
+              <caret line="16" column="35" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -58,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/python/ui_editor_window.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3000">
-              <caret line="258" column="45" selection-start-line="258" selection-start-column="45" selection-end-line="258" selection-end-column="45" />
+            <state relative-caret-position="15">
+              <caret line="360" column="17" selection-start-line="360" selection-start-column="17" selection-end-line="360" selection-end-column="17" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -73,7 +53,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/python/x8_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4875">
+            <state relative-caret-position="345">
+              <caret line="221" column="54" selection-start-line="221" selection-start-column="54" selection-end-line="221" selection-end-column="54" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -114,6 +95,14 @@
       <find>saved</find>
       <find>texts_raw</find>
       <find>lblTotal</find>
+      <find>lblTo</find>
+      <find>update_extra_data</find>
+      <find>textposition</find>
+      <find>mugshot</find>
+      <find>ui_update_mugshot</find>
+      <find>mug_idx</find>
+      <find>spinMugshot</find>
+      <find>special</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -129,8 +118,9 @@
         <option value="$PROJECT_DIR$/x8_utils.py" />
         <option value="$PROJECT_DIR$/ui_editor_window.py" />
         <option value="$PROJECT_DIR$/ui_main.py" />
-        <option value="$PROJECT_DIR$/src/main/python/ui_editor_window.py" />
         <option value="$PROJECT_DIR$/src/main/python/main.py" />
+        <option value="$PROJECT_DIR$/src/main/python/x8_utils.py" />
+        <option value="$PROJECT_DIR$/src/main/python/ui_editor_window.py" />
       </list>
     </option>
   </component>
@@ -202,7 +192,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.x8_utils">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="MegaManX8" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -267,16 +257,13 @@
       <module name="MegaManX8" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/main/python" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/x8_utils.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main/python/x8_utils.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -287,10 +274,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.x8_utils" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.ui_main" />
         <item itemvalue="Python.x8_utils" />
-        <item itemvalue="Python.ui_main" />
         <item itemvalue="Python.ui_main" />
       </list>
     </recent_temporary>
@@ -311,12 +298,12 @@
       <workItem from="1561356071266" duration="13562000" />
       <workItem from="1562213073398" duration="44932000" />
       <workItem from="1562294278069" duration="2175000" />
-      <workItem from="1562307389603" duration="3586000" />
+      <workItem from="1562307389603" duration="15175000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="120261000" />
+    <option name="totallyTimeSpent" value="131850000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -429,9 +416,20 @@
     <entry file="file://$PROJECT_DIR$/src/main/python/ui_design.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/python/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="35" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/x8_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4875">
+        <state relative-caret-position="345">
+          <caret line="221" column="54" selection-start-line="221" selection-start-column="54" selection-end-line="221" selection-end-column="54" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -440,18 +438,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/ui_editor_window.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3000">
-          <caret line="258" column="45" selection-start-line="258" selection-start-column="45" selection-end-line="258" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/python/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="36" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
+        <state relative-caret-position="15">
+          <caret line="360" column="17" selection-start-line="360" selection-start-column="17" selection-end-line="360" selection-end-column="17" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
