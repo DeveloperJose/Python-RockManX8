@@ -19,11 +19,35 @@ class Const:
         'OPT_TIT.mcb': 'Options menu control buttons names',
         'LABO_TXT.mcb': 'RD Lab Menu descriptions',
         'LABO_TIT.mcb': 'RD Lab Menu labels (Stage Select, Chip Dev...)',
-        'HB_TIT.mcb': 'Stage/character/navigator/netural armor descriptions',
-        'HB_IM.mcb': 'Intermissions',
+        'HB_TIT.mcb': 'Stage, character, navigator, and netural armor descriptions',
+        'HB_IM.mcb': 'Intermission descriptions',
         'HB_DM.mcb': 'Stage Select cutscenes',
         'CHIP_TIT.mcb': 'RD Chip names',
         'CHIP_TXT.mcb': 'RD Chip descriptions'
+    }
+
+    DESCRIPTION_MAP = {
+        'NV1': "Alia's dialogue ",
+        'NV2': "Layer's dialogue ",
+        'NV3': "Palette's dialogue ",
+        'DM_': "Dr. Light and other events ",
+        'DM1': "X's dialogue ",
+        'DM2': "Zero's dialogue ",
+        'DM3': "Axl's dialogue ",
+        'MOV': 'Pre-Rendered Video Subtitles ',
+        'VA': "that involve Vile",
+        'ST00': "in Noah's Park",
+        'ST01': 'in Troia Base',
+        'ST02': 'in Primrose',
+        'ST03': 'in Pitch Black',
+        'ST04': 'in Dynasty',
+        'ST05': 'in Inferno',
+        'ST06': 'in Central White',
+        'ST07': 'in Metal Valley',
+        'ST08': 'in Booster Forest',
+        'ST09': 'in Jakob Elevator',
+        'ST10': 'in Gateway',
+        'ST11': "in Sigma's Palace",
     }
 
     ALPHABET = [' ', '!', '"', '%', '&', '(', ')', 'x', '+', '-', ',',
@@ -40,28 +64,28 @@ class Const:
 
     # http://sprites-inc.co.uk/sprite.php?local=X/X8/Mugshots/
     MUGSHOT_DESCRIPTIONS = [
-        ['Normal R', 'Surprised F', 'Angry R', 'Neutral Armor F'],  # X
-        ['Normal Holding Sword F', 'Serious R', 'Eyes Closed R'],  # Zero
-        ['Smiling F', 'Upset R', 'Holding Gun R', 'Serious F'],  # Axl
-        ['Mic Hold L', 'Headphone Hold L', 'Worried F'],  # BG Alia
-        ['Headphone Hold L', 'Blush F', 'Embarrassed F'],  # BG Layer
-        ['Headphone Hold L', 'Mic Hold L', 'Thinking L', 'RD Lab F'],  # BG Pallette
-        ['Regular L'],  # ??
-        ['Hologram L'],  # Dr. Light
-        ['Regular L'],  # Optic Sunflower
-        ['Regular L'],  # Gravity Antonion
-        ['Regular L'],  # Dark Mantis
-        ['Regular L'],  # Gigabolt Man-o-War
-        ['Regular L'],  # Burn Rooster
-        ['Regular L'],  # Avalanche Yeti
-        ['Regular L'],  # Earthrock Trilobyte
-        ['Regular L'],  # Bamboo Pandemonium
-        ['Regular L'],  # Vile
-        ['Copy L', 'Real F'],  # Sigma
-        ['Regular F', 'Smirk F', 'Defeat F'],  # Lumine
-        ['Mic Hold L', 'Headphone Hold L', 'Worried F'],  # FG Alia
-        ['Headphone Hold L', 'Blush F', 'Embarrassed F'],  # FG Layer
-        ['Headphone Hold L', 'Mic Hold L', 'Thinking L', 'RD Lab F'],  # FG Pallette
+        ['Serious', 'Surprised', 'Angry', 'Neutral Armor'],  # X
+        ['Holding Sword', 'Serious', 'Eyes Closed'],  # Zero
+        ['Smiling', 'Upset', 'Holding Gun', 'Serious'],  # Axl
+        ['Speaking', 'Listening', 'Worried'],  # BG Alia
+        ['Listening', 'Red Face', 'Slight Blush'],  # BG Layer
+        ['Listening', 'Speaking', 'Thinking', 'RD Lab'],  # BG Pallette
+        ['Serious'],  # Signas
+        ['Hologram'],  # Dr. Light
+        ['Default'],  # Optic Sunflower
+        ['Default'],  # Gravity Antonion
+        ['Default'],  # Dark Mantis
+        ['Default'],  # Gigabolt Man-o-War
+        ['Default'],  # Burn Rooster
+        ['Default'],  # Avalanche Yeti
+        ['Default'],  # Earthrock Trilobyte
+        ['Default'],  # Bamboo Pandemonium
+        ['Default'],  # Vile
+        ['Copy', 'Real'],  # Sigma
+        ['Regular', 'Psychopath Smirk', 'Defeated'],  # Lumine
+        ['Speaking', 'Listening', 'Worried'],  # FG Alia
+        ['Listening', 'Red Face', 'Slight Blush'],  # FG Layer
+        ['Listening', 'Speaking', 'Thinking', 'RD Lab'],  # FG Pallette
         ['None'],  # None or Sigma?
     ]
 
@@ -107,8 +131,8 @@ class MCBExtra:
         Right = 1
 
     class TextPosition(IntEnum):
-        Bottom = 0xFFFF
-        Top = 1
+        Bottom = 1
+        Top = 0xFFFF
 
     @property
     def char_mug_description(self):
@@ -195,7 +219,7 @@ class MCBExtra:
         mugshots = Const.MUGSHOT_DESCRIPTIONS[char_idx]
         is_valid_mugshot = (0 <= mug_idx < len(mugshots))
         if not is_valid_mugshot:
-            return 'Invalid Mugshot'
+            return 'Invalid Mugshot : ' + str(mug_idx)
         return mugshots[mug_idx]
 
     @staticmethod
@@ -230,14 +254,21 @@ class MCBExtra:
         data.extend([self.close_top, self.text_pos, self.int18, self.typing, self.show_arrow])
         return data
 
-    def to_str_array(self):
-        data = [self.voice, self.bgm, self.stop_bgm, self.camera_angle]
+    def to_str_array(self, use_text=False):
+        data = [str(self.voice).ljust(3), self.bgm, self.stop_bgm, self.camera_angle]
         data.extend(self.__raw_char_data)
         data.append(self.close_top)
-        data.append('Bot' if self.text_pos == 1 else 'Top')
-        data.append(self.int18)
-        data.append('Ye' if self.typing == 0 else 'No')
-        data.append(str(self.show_arrow).ljust(2))
+        if use_text:
+            data.append('Bot' if self.text_pos == 1 else 'Top')
+            data.append(self.int18)
+            data.append('Ye' if self.typing == 0 else 'No')
+            data.append('Ye' if self.show_arrow == 1 else 'No')
+        else:
+            data.append(self.text_pos)
+            data.append(self.int18)
+            data.append(self.typing)
+            data.append(self.show_arrow)
+
         data.append(self.char_mug_pos.name.ljust(6))
 
         for idx, num in enumerate(data):
@@ -247,8 +278,6 @@ class MCBExtra:
                 data[idx] = 'FE'
 
             data[idx] = str(data[idx]).ljust(2)
-
-        data[0] = str(data[0]).ljust(3)
 
         return data
 
@@ -310,15 +339,23 @@ class MCBFile:
     LENGTH_STRING = 16
 
     @staticmethod
-    def get_filename_description(fname):
+    def get_filename_description(fname: str):
         desc = Const.DESCRIPTIONS.get(fname)
-        if desc is None:
-            desc = 'Unknown File'
-        return desc
+        if desc is not None:
+            return desc
+
+        built_desc = ''
+        for key in Const.DESCRIPTION_MAP.keys():
+            if key in fname:
+                built_desc += Const.DESCRIPTION_MAP[key]
+
+        if built_desc == '':
+            return 'Unknown File'
+        return built_desc
 
     @staticmethod
     def convert_text_to_bytes(orig_text):
-        text = orig_text.replace('[newline]', '[65533]')
+        text = orig_text.replace('\n', '[65533]')
 
         raw_bytes = []
         current_stack = ''
@@ -349,7 +386,7 @@ class MCBFile:
     @staticmethod
     def byte_to_str(b):
         if b == 65533:
-            return '[newline]'
+            return '\n'
         elif b < 0 or b >= len(Const.ALPHABET):
             return '[{}]'.format(b)
         else:
@@ -372,11 +409,11 @@ class MCBFile:
     def print(self):
         if self.has_extras():
             print('=== MCB Path:', self.path)
-            print('IDX,VOI,BG,I2,I3,C1,M1,P1,C2,M2,P2,C3,M3,P3,C4,M4,P4,16,TPO,18,TY,AR,MugPos|||Text Message Goes Here***|||Filename')
+            print('IDX,VOI,BG,SM,CA,C1,M1,P1,C2,M2,P2,C3,M3,P3,C4,M4,P4,CT,TP,18,TY,AR,MugPos|||Text Message Goes Here***|||Filename')
             for idx, (extra, text_bytes) in enumerate(zip(self.extras, self.texts_raw)):
-                text = self.convert_bytes_to_text(text_bytes)
+                text = self.convert_bytes_to_text(text_bytes).replace('\n', ' ')
                 s_idx = str(idx).ljust(3)
-                s_extra = ','.join(map(str, extra.to_str_array()))
+                s_extra = ','.join(map(str, extra.to_str_array(False)))
                 print('{},{}|||{}|||{}'.format(s_idx, s_extra, text, extra.filename))
         else:
             print('IDX|||Text')
@@ -519,6 +556,5 @@ class MCBFile:
 
 
 if __name__ == '__main__':
-    mcb = MCBFile('mes/SPA/LABO_TIT.mcb')
+    mcb = MCBFile('C:/Users/xeroj/Desktop/Local_Programming/RockManX8_Tools/Game/mes/SPA/NV1_ST11.mcb')
     mcb.print()
-    mcb.save('TEST.mcb')

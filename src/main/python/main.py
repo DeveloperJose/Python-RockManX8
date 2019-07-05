@@ -1,7 +1,7 @@
 import os
 import sys
 
-from PyQt5.QtWidgets import QFileDialog, QInputDialog, QApplication, QHBoxLayout
+from PyQt5.QtWidgets import QFileDialog, QInputDialog, QApplication
 from fbs_runtime.application_context.PyQt5 import ApplicationContext
 
 from ui_editor_window import EditorWindow
@@ -14,7 +14,7 @@ def setup():
     if language_selected:
         lang_folder = prompt.split('-')[0].strip()
 
-        x8_installation_path = 'Game'
+        x8_installation_path = 'C:/Users/xeroj/Desktop/Local_Programming/RockManX8_Tools/Game'
         while not os.path.exists(os.path.join(x8_installation_path, 'mes', lang_folder)):
             x8_installation_path = QFileDialog.getExistingDirectory(None, caption='Please select your X8 installation folder (must contain a /mes/ directory)', directory='')
 

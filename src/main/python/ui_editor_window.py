@@ -4,9 +4,9 @@ from typing import List
 
 import numpy as np
 import qimage2ndarray
+from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow
-from PyQt5.QtCore import QTimer
 
 from ui_design import Ui_MainWindow
 from x8_utils import Const, MCBFile, MCBExtra, Font
@@ -33,6 +33,24 @@ class EditorWindow(QMainWindow):
 
         return func_wrapper
 
+    @staticmethod
+    def mcb_sorting_key(fname: str):
+        key = len(fname)
+        if 'TRIAL' in fname:
+            key += 1
+        if '_' in fname:
+            key += 2
+        if 'DM' in fname:
+            key += 3
+        if 'ST' in fname:
+            key += 4
+        if 'VA' in fname:
+            key += 5
+        if 'MOV' in fname:
+            key += 6
+
+        return key
+
     def __init__(self, installation_path: str, language: str):
         super(EditorWindow, self).__init__(None)
         self.ui = Ui_MainWindow()
@@ -46,8 +64,8 @@ class EditorWindow(QMainWindow):
 
         self.mcb = None
         self.font = Font(self.font_path)
-        self.mcb_files = os.listdir(self.mcb_folder_path)
 
+        self.mcb_files = sorted(os.listdir(self.mcb_folder_path), key=self.mcb_sorting_key)
         self.__init_file_group__()
         self.__init_editor_group__()
         self.__init_extra_group__()
@@ -151,26 +169,31 @@ class EditorWindow(QMainWindow):
 
         if self.mcb.has_extras():
             voice_name = self.ui.comboVoice.currentText()
-            voice_idx = 0xFFFF if voice_name is 'None' else self.ui.comboVoice.currentIndex()
+            voice_idx = 0xFFFF if voice_name == 'None' else self.ui.comboVoice.currentIndex()
 
             bgm_name = self.ui.comboBGM.currentText()
-            bgm_idx = 0xFFFF if bgm_name is 'None' else self.ui.comboBGM.currentIndex()
+            bgm_idx = 0xFFFF if bgm_name == 'None' else self.ui.comboBGM.currentIndex()
 
             char_name = self.ui.comboCharacter.currentText()
-            char_idx = 0xFFFF if char_name is 'None' else self.ui.comboCharacter.currentIndex()
+            char_idx = 0xFFFF if char_name == 'None' else self.ui.comboCharacter.currentIndex()
 
             camera_idx = 0xFFFF
             if self.ui.spinCameraAngle.isEnabled():
                 camera_idx = self.ui.spinCameraAngle.value()
 
-            mugshot_idx = self.ui.spinMugshot.value()
+            # Note: Mugshot byte values start at 1, but indices start 0
+            mugshot_idx = self.ui.spinMugshot.value()+1
+
             mugshot_pos_idx = MCBExtra.MugshotPosition[self.ui.comboMugshotPos.currentText()]
-            text_pos_idx = MCBExtra.TextPosition[self.ui.comboTextPos.currentText()]
+            text_pos_idx = MCBExtra.TextPosition[self.ui.comboTextPos.currentText()].value
 
             close_top_idx = 0 if self.ui.checkCloseTop.isChecked() else 0xFFFF
-            typing_idx = 0 if self.ui.checkTyping.isChecked() else 0xFFFF
+            typing_idx = 0 if self.ui.checkTyping.isChecked() else 1
             show_arrow_idx = 1 if self.ui.checkArrow.isChecked() else 2
             stop_bgm_idx = 0 if self.ui.checkStopBGM.isChecked() else 0xFFFF
+
+            # Special Case: Set to 1 when position is Top
+            close_top_idx = 1 if text_pos_idx == MCBExtra.TextPosition.Top else close_top_idx
 
             extra = self.get_current_extra()
             extra.voice = voice_idx
@@ -188,7 +211,7 @@ class EditorWindow(QMainWindow):
             self.mcb.extras[idx] = extra
 
         self.mcb.save()
-        self.ui.statusbar.showMessage('Saved MCB changes!', 2000)
+        self.ui.statusbar.showMessage('Saved MCB changes!', 5000)
         self.disable_save()
 
     @safe_run
@@ -204,7 +227,6 @@ class EditorWindow(QMainWindow):
         self.ui.groupPreview.setVisible(True)
 
         self.ui_update_editor()
-        self.ui_update_extra_data()
 
     @safe_run
     def ui_file_close(self):
@@ -257,13 +279,14 @@ class EditorWindow(QMainWindow):
         if idx > total_texts:
             idx = 0
         self.ui.spinCurrentText.setValue(idx)
-        self.ui.lblTotalTexts.setText('<span style=" font-size:12pt; color:#aa0000;">{}</span>'.format(total_texts))
+        self.ui.lblTotalTexts.setText('<span style=" color:#aa0000;">{}</span>'.format(total_texts))
 
         # Current Text
         text = MCBFile.convert_bytes_to_text(self.mcb.texts_raw[idx])
         self.ui.textEditor.setText(text)
 
         self.disable_save()
+        self.ui_update_extra_data()
 
     @safe_run
     def ui_update_extra_data(self):
@@ -294,7 +317,7 @@ class EditorWindow(QMainWindow):
         is_camera_disabled = (extra.camera_angle == 0xFFFF)
         self.ui.spinCameraAngle.setDisabled(is_camera_disabled)
         if is_camera_disabled:
-            self.ui.spinCameraAngle.setSpecialValueText('Disabled')
+            self.ui.spinCameraAngle.setSpecialValueText('N/A')
         else:
             self.ui.spinCameraAngle.setValue(extra.camera_angle)
 
