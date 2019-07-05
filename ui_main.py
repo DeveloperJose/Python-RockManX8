@@ -11,6 +11,7 @@ LANGUAGES = ['SPA - [Spanish]', 'ENG - [English]', 'CHI - [Chinese]', 'FRE - [Fr
 app = QtWidgets.QApplication([])
 
 # == Settings
+# pyuic5 ui_design_editor.ui -o ui_design_editor.py
 prompt, language_selected = QInputDialog.getItem(None, 'Language Select', 'Please select the language to edit', LANGUAGES, 0, False)
 if language_selected:
     language = prompt.split('-')[0].strip()
@@ -21,4 +22,4 @@ if language_selected:
 
     application = EditorWindow(installation_path, language)
     application.show()
-    sys.exit(app.exec())
+    # sys.exit(app.exec())

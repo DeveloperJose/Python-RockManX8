@@ -106,6 +106,10 @@ class MCBExtra:
         Left = 0
         Right = 1
 
+    class TextPosition(IntEnum):
+        Bottom = 0xFFFF
+        Top = 1
+
     @property
     def char_mug_description(self):
         return self.get_mugshot_description(self.char, self.char_mug)
@@ -203,8 +207,8 @@ class MCBExtra:
     def __create_char_data__(self):
         char_data = [0xFFFF] * 12
 
-        is_top = self.text_pos != 1
-        is_left = self.char_mug_pos == MCBExtra.MugshotPosition.Left
+        is_top = (self.text_pos == MCBExtra.TextPosition.Top)
+        is_left = (self.char_mug_pos == MCBExtra.MugshotPosition.Left)
         if is_top:
             if is_left:
                 idxs = slice(0, 3)
@@ -313,22 +317,33 @@ class MCBFile:
         return desc
 
     @staticmethod
-    def convert_text_to_bytes(text):
-        separator = ','
-        text = text.replace('', separator)
-        text = text.replace('[', separator)
-        text = text.replace(']', separator)
-        text = text.replace('newline', '65533')
+    def convert_text_to_bytes(orig_text):
+        text = orig_text.replace('[newline]', '[65533]')
 
         raw_bytes = []
-        for st in text.split(separator):
-            st = st.lstrip()
-            try:
-                idx = Const.ALPHABET.index(st)
-            except ValueError:
-                idx = int(st)
+        current_stack = ''
+        reading_byte = False
+        for char in text:
+            if reading_byte:
+                if char == ']':
+                    try:
+                        stack_bytes = int(current_stack)
+                    except ValueError:
+                        stack_bytes = 0
+                    raw_bytes.append(stack_bytes)
+                    reading_byte = False
+                    current_stack = ''
+                else:
+                    current_stack += char
+            elif char == '[':
+                reading_byte = True
+            else:
+                char_byte = MCBFile.char_to_byte(char)
+                raw_bytes.append(char_byte)
 
-            raw_bytes.append(idx)
+        if len(raw_bytes) == 0:
+            raw_bytes = [0]
+
         return raw_bytes
 
     @staticmethod
@@ -339,6 +354,13 @@ class MCBFile:
             return '[{}]'.format(b)
         else:
             return Const.ALPHABET[b]
+
+    @staticmethod
+    def char_to_byte(st):
+        try:
+            return Const.ALPHABET.index(st)
+        except ValueError:
+            return 0
 
     @staticmethod
     def convert_bytes_to_text(raw_bytes):
