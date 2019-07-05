@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'editor_v2.ui'
+# Form implementation generated from reading ui file 'ui_design.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -48,8 +48,10 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
-        self.horizontalLayout_2.setSpacing(4)
+        self.horizontalLayout_2.setSpacing(10)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem)
         self.label = QtWidgets.QLabel(self.groupText)
         self.label.setMinimumSize(QtCore.QSize(40, 0))
         self.label.setMaximumSize(QtCore.QSize(100, 40))
@@ -61,7 +63,7 @@ class Ui_MainWindow(object):
         self.spinCurrentText.setObjectName("spinCurrentText")
         self.horizontalLayout_2.addWidget(self.spinCurrentText)
         self.label_2 = QtWidgets.QLabel(self.groupText)
-        self.label_2.setMinimumSize(QtCore.QSize(50, 0))
+        self.label_2.setMinimumSize(QtCore.QSize(0, 0))
         self.label_2.setMaximumSize(QtCore.QSize(50, 40))
         self.label_2.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.label_2.setObjectName("label_2")
@@ -74,13 +76,25 @@ class Ui_MainWindow(object):
         self.lblTotalTexts.setTextFormat(QtCore.Qt.RichText)
         self.lblTotalTexts.setObjectName("lblTotalTexts")
         self.horizontalLayout_2.addWidget(self.lblTotalTexts)
-        spacerItem = QtWidgets.QSpacerItem(40, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 0, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.textEditor = QtWidgets.QTextEdit(self.groupText)
-        self.textEditor.setMaximumSize(QtCore.QSize(1000, 1000))
+        self.textEditor.setMaximumSize(QtCore.QSize(1000, 400))
         self.textEditor.setObjectName("textEditor")
         self.verticalLayout.addWidget(self.textEditor)
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem2)
+        self.btnSave = QtWidgets.QPushButton(self.groupText)
+        self.btnSave.setEnabled(False)
+        self.btnSave.setObjectName("btnSave")
+        self.horizontalLayout_7.addWidget(self.btnSave)
+        self.btnRevert = QtWidgets.QPushButton(self.groupText)
+        self.btnRevert.setObjectName("btnRevert")
+        self.horizontalLayout_7.addWidget(self.btnRevert)
+        self.verticalLayout.addLayout(self.horizontalLayout_7)
         self.horizontalLayout_4.addWidget(self.groupText)
         self.groupExtraData = QtWidgets.QGroupBox(self.centralwidget)
         self.groupExtraData.setMaximumSize(QtCore.QSize(400, 150000))
@@ -165,15 +179,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.graphicsPreview = QtWidgets.QLabel(self.groupPreview)
         self.graphicsPreview.setMinimumSize(QtCore.QSize(0, 0))
-        self.graphicsPreview.setMaximumSize(QtCore.QSize(600, 200))
+        self.graphicsPreview.setMaximumSize(QtCore.QSize(1000, 1000))
         self.graphicsPreview.setObjectName("graphicsPreview")
         self.verticalLayout_3.addWidget(self.graphicsPreview)
         self.verticalLayout_2.addWidget(self.groupPreview)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 18))
-        self.menubar.setObjectName("menubar")
-        MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
@@ -183,13 +193,15 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MegaManX8 Text Editor by DevJ <V1.0>"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "MegaManX8 Text Editor by RainfallPianist <V1.0>"))
         self.groupFile.setTitle(_translate("MainWindow", "File"))
         self.btnOpenCloseFile.setText(_translate("MainWindow", "Open File"))
         self.groupText.setTitle(_translate("MainWindow", "Text Editor"))
         self.label.setText(_translate("MainWindow", "Current Text"))
         self.label_2.setText(_translate("MainWindow", "out of"))
         self.lblTotalTexts.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; color:#aa0000;\">42</span></p></body></html>"))
+        self.btnSave.setText(_translate("MainWindow", "Save Changes"))
+        self.btnRevert.setText(_translate("MainWindow", "Revert"))
         self.groupExtraData.setTitle(_translate("MainWindow", "Extra Data Editor"))
         self.label_5.setText(_translate("MainWindow", "Filename"))
         self.label_6.setText(_translate("MainWindow", "Voice"))

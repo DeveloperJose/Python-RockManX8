@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import QTimer
 
-from ui_design_editor import Ui_MainWindow
+from ui_design import Ui_MainWindow
 from x8_utils import Const, MCBFile, MCBExtra, Font
 
 
@@ -33,7 +33,7 @@ class EditorWindow(QMainWindow):
 
         return func_wrapper
 
-    def __init__(self, installation_path, language):
+    def __init__(self, installation_path: str, language: str):
         super(EditorWindow, self).__init__(None)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -41,7 +41,7 @@ class EditorWindow(QMainWindow):
         self.installation_path = installation_path
         self.language = language
 
-        self.font_path = os.path.join('opk', 'title', language, 'wpg', 'font_ID_FONT_000.wpg')
+        self.font_path = os.path.join(installation_path, 'opk', 'title', language.lower(), 'wpg', 'font_ID_FONT_000.wpg')
         self.mcb_folder_path = os.path.join(installation_path, 'mes', language)
 
         self.mcb = None
@@ -188,7 +188,7 @@ class EditorWindow(QMainWindow):
             self.mcb.extras[idx] = extra
 
         self.mcb.save()
-        self.ui.statusbar.showMessage('Saved MCB changes!')
+        self.ui.statusbar.showMessage('Saved MCB changes!', 2000)
         self.disable_save()
 
     @safe_run
@@ -254,7 +254,9 @@ class EditorWindow(QMainWindow):
         # Text Counts
         total_texts = len(self.mcb.texts_raw) - 1
         self.ui.spinCurrentText.setRange(0, total_texts)
-        self.ui.spinCurrentText.setValue(0)
+        if idx > total_texts:
+            idx = 0
+        self.ui.spinCurrentText.setValue(idx)
         self.ui.lblTotalTexts.setText('<span style=" font-size:12pt; color:#aa0000;">{}</span>'.format(total_texts))
 
         # Current Text
