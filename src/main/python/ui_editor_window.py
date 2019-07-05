@@ -22,16 +22,16 @@ class EditorWindow(QMainWindow):
     font: Font
     mcb_files: List[str]
 
-    def safe_run(func):
-        def func_wrapper(*args, **kwargs):
-            try:
-                return func(*args, **kwargs)
-            except Exception as e:
-                traceback.print_exc()
-                args[0].ui.statusbar.showMessage(str(e))
-                return None
-
-        return func_wrapper
+    # def safe_run(func):
+    #     def func_wrapper(*args, **kwargs):
+    #         try:
+    #             return func(*args, **kwargs)
+    #         except Exception as e:
+    #             traceback.print_exc()
+    #             args[0].ui.statusbar.showMessage(str(e))
+    #             return None
+    #
+    #     return func_wrapper
 
     @staticmethod
     def mcb_sorting_key(fname: str):
@@ -72,7 +72,6 @@ class EditorWindow(QMainWindow):
         self.__init_preview_group__()
         self.adjustSize()
 
-    @safe_run
     def __init_file_group__(self):
         for fname in self.mcb_files:
             desc = MCBFile.get_filename_description(fname)
@@ -80,7 +79,6 @@ class EditorWindow(QMainWindow):
 
         self.ui.btnOpenCloseFile.clicked.connect(self.evt_clicked_openclosefile)
 
-    @safe_run
     def __init_editor_group__(self):
         self.ui.groupText.setVisible(False)
         self.ui.spinCurrentText.valueChanged.connect(lambda new_value: self.ui_update_editor())
@@ -90,7 +88,6 @@ class EditorWindow(QMainWindow):
         self.ui.btnSave.clicked.connect(self.evt_clicked_save)
         self.ui.btnRevert.clicked.connect(lambda: self.ui_update_editor())
 
-    @safe_run
     def __init_extra_group__(self):
         self.ui.groupExtraData.setVisible(False)
 
@@ -123,7 +120,6 @@ class EditorWindow(QMainWindow):
         self.ui.checkCloseTop.stateChanged.connect(self.enable_save)
         self.ui.checkStopBGM.stateChanged.connect(self.enable_save)
 
-    @safe_run
     def __init_preview_group__(self):
         self.ui.groupPreview.setVisible(False)
 
@@ -135,21 +131,17 @@ class EditorWindow(QMainWindow):
         idx = self.ui.spinCurrentText.value()
         return self.mcb.texts_raw[idx]
 
-    @safe_run
     def enable_save(self, *args, **kwargs):
         self.ui.btnSave.setEnabled(True)
         self.ui.btnSave.setText('Save Changes*')
 
-    @safe_run
     def disable_save(self):
         self.ui.btnSave.setEnabled(False)
         self.ui.btnSave.setText('Save Changes')
 
-    @safe_run
     def evt_timer_redraw(self):
         self.adjustSize()
 
-    @safe_run
     def evt_clicked_openclosefile(self, checked):
         if self.mcb is None:
             self.ui_file_open()
@@ -159,7 +151,6 @@ class EditorWindow(QMainWindow):
         # For proper resizing, you need to wait a little bit
         QTimer.singleShot(0, self.evt_timer_redraw)
 
-    @safe_run
     def evt_clicked_save(self, checked):
         # Convert text to bytes, then replace them in the MCB
         idx = self.ui.spinCurrentText.value()
@@ -214,7 +205,6 @@ class EditorWindow(QMainWindow):
         self.ui.statusbar.showMessage('Saved MCB changes!', 5000)
         self.disable_save()
 
-    @safe_run
     def ui_file_open(self):
         self.ui.btnOpenCloseFile.setText("Close File")
 
@@ -228,7 +218,6 @@ class EditorWindow(QMainWindow):
 
         self.ui_update_editor()
 
-    @safe_run
     def ui_file_close(self):
         self.ui.btnOpenCloseFile.setText("Open File")
         self.mcb = None
@@ -238,7 +227,6 @@ class EditorWindow(QMainWindow):
         self.ui.groupExtraData.setVisible(False)
         self.ui.groupPreview.setVisible(False)
 
-    @safe_run
     def ui_update_mugshot(self, mug_idx):
         extra = self.get_current_extra()
         # Update the mugshot text number and description
@@ -246,7 +234,6 @@ class EditorWindow(QMainWindow):
         self.ui.spinMugshot.setValue(mug_idx)
         self.ui.textMugshotDesc.setText(MCBExtra.get_mugshot_description(char_idx, mug_idx))
 
-    @safe_run
     def ui_update_character(self, char_idx):
         mugshots = Const.MUGSHOT_DESCRIPTIONS[char_idx]
         num_mugshots = len(mugshots)
@@ -256,7 +243,6 @@ class EditorWindow(QMainWindow):
         self.ui.spinMugshot.setRange(0, num_mugshots - 1)
         self.ui.spinMugshot.setDisabled(num_mugshots == 1)
 
-    @safe_run
     def ui_update_preview(self):
         curr_text = self.ui.textEditor.toPlainText()
         curr_bytes = MCBFile.convert_text_to_bytes(curr_text)
@@ -266,7 +252,6 @@ class EditorWindow(QMainWindow):
         if pixmap is not None:
             self.ui.graphicsPreview.setPixmap(pixmap)
 
-    @safe_run
     def ui_update_editor(self):
         if self.mcb is None:
             return
@@ -288,7 +273,6 @@ class EditorWindow(QMainWindow):
         self.disable_save()
         self.ui_update_extra_data()
 
-    @safe_run
     def ui_update_extra_data(self):
         self.ui.groupExtraData.setVisible(self.mcb.has_extras())
         if not self.mcb.has_extras():
@@ -323,12 +307,10 @@ class EditorWindow(QMainWindow):
 
         self.disable_save()
 
-    @safe_run
     def np_to_pixmap(self, arr: np.ndarray):
         q_im = qimage2ndarray.array2qimage(arr)
         return QPixmap(q_im)
 
-    @safe_run
     def text_bytes_to_np(self, raw_bytes):
         split_indices = [0]
         split_indices.extend([idx + 1 for idx, char_byte in enumerate(raw_bytes) if char_byte == 65533])

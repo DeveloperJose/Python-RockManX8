@@ -30,6 +30,8 @@ TRAINERS/
 *.bak
 *.pyc
 
+target/
+
 # Prerequisites
 *.d
 
