@@ -415,9 +415,10 @@ class MCBFile:
         writer.write_int_array(self.offsets)
         writer.write_string_array(self.files)
 
-        for idx, (text_bytes, extra) in enumerate(zip(self.texts_raw, self.extras)):
-            extra_bytes = extra.to_byte_array()
-            writer.write_int_array(extra_bytes)
+        for idx, text_bytes in enumerate(self.texts_raw):
+            if self.has_extras():
+                extra_bytes = self.extras[idx].to_byte_array()
+                writer.write_int_array(extra_bytes)
             writer.write_int_array(text_bytes)
             writer.write_int(0xFFFF)
 
@@ -518,5 +519,6 @@ class MCBFile:
 
 
 if __name__ == '__main__':
-    mcb = MCBFile('mes/SPA/HB_DM.mcb')
+    mcb = MCBFile('mes/SPA/LABO_TIT.mcb')
     mcb.print()
+    mcb.save('TEST.mcb')

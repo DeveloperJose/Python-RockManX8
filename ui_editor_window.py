@@ -189,6 +189,7 @@ class EditorWindow(QMainWindow):
 
         self.mcb.save()
         self.ui.statusbar.showMessage('Saved MCB changes!')
+        self.disable_save()
 
     @safe_run
     def ui_file_open(self):

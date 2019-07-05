@@ -22,4 +22,4 @@ if language_selected:
 
     application = EditorWindow(installation_path, language)
     application.show()
-    # sys.exit(app.exec())
+    sys.exit(app.exec())
