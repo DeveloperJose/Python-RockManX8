@@ -22,17 +22,6 @@ class EditorWindow(QMainWindow):
     font: Font
     mcb_files: List[str]
 
-    # def safe_run(func):
-    #     def func_wrapper(*args, **kwargs):
-    #         try:
-    #             return func(*args, **kwargs)
-    #         except Exception as e:
-    #             traceback.print_exc()
-    #             args[0].ui.statusbar.showMessage(str(e))
-    #             return None
-    #
-    #     return func_wrapper
-
     @staticmethod
     def mcb_sorting_key(fname: str):
         key = len(fname)
