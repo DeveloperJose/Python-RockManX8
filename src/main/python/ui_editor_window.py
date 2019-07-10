@@ -1,5 +1,4 @@
 import os
-import traceback
 from typing import List
 
 import numpy as np
@@ -162,7 +161,7 @@ class EditorWindow(QMainWindow):
                 camera_idx = self.ui.spinCameraAngle.value()
 
             # Note: Mugshot byte values start at 1, but indices start 0
-            mugshot_idx = self.ui.spinMugshot.value()+1
+            mugshot_idx = self.ui.spinMugshot.value() + 1
 
             mugshot_pos_idx = MCBExtra.MugshotPosition[self.ui.comboMugshotPos.currentText()]
             text_pos_idx = MCBExtra.TextPosition[self.ui.comboTextPos.currentText()].value

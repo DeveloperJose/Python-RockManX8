@@ -1,58 +1,20 @@
 import os
 import sys
-from typing import ClassVar
 
 from PyQt5.QtWidgets import QFileDialog, QInputDialog, QApplication
-from fbs_runtime.application_context import cached_property, is_frozen
-from fbs_runtime.application_context.PyQt5 import ApplicationContext
-from fbs_runtime.excepthook import ExceptionHandler
-from fbs_runtime.excepthook.sentry import SentryExceptionHandler
 
+from fbs_utils import AppContext
 from ui_editor_window import EditorWindow
-from ui_design import Ui_MainWindow
-
-
-class AppContext(ApplicationContext):
-    ui: Ui_MainWindow = None
-
-    @cached_property
-    def exception_handlers(self):
-        result = super().exception_handlers
-        result.append(ExHandler(self))
-
-        if is_frozen():
-            result.append(self.sentry_exception_handler)
-        return result
-
-    @cached_property
-    def sentry_exception_handler(self):
-        return SentryExceptionHandler(
-            self.build_settings['sentry_dsn'],
-            self.build_settings['version'],
-            self.build_settings['environment'])
-
-
-class ExHandler(ExceptionHandler):
-    app_context: AppContext
-
-    def __init__(self, app_context):
-        self.app_context = app_context
-
-    def handle(self, exc_type, exc_value, enriched_tb):
-        if self.app_context.ui is not None:
-            msg = "{}".format(exc_value)
-            self.app_context.ui.statusbar.showMessage(msg, 30000)
-
 
 LANGUAGES = ['SPA - [Spanish]', 'ENG - [English]', 'CHI - [Chinese]', 'FRE - [French]', 'GER - [German]', 'ITA - [Italian]', 'JPN - [Japanese]', 'KOR - [Korean]', 'USA - [PS2 English]']
 
 
-def setup():
+def pre_initialization():
     prompt, language_selected = QInputDialog.getItem(None, 'Language Select', 'Please select the language to edit'.ljust(50), LANGUAGES, 0, False)
     if language_selected:
         lang_folder = prompt.split('-')[0].strip()
 
-        x8_installation_path = ''
+        x8_installation_path = 'C:/Users/xeroj/Desktop/Local_Programming/RockManX8_Tools/Game'
         while not os.path.exists(os.path.join(x8_installation_path, 'mes', lang_folder)):
             x8_installation_path = QFileDialog.getExistingDirectory(None, caption='Please select your X8 installation folder (must contain a /mes/ directory)', directory='')
 
@@ -67,11 +29,14 @@ def setup():
 if __name__ == '__main__':
     app = QApplication([])
     appctxt = AppContext()
-    installation_path, language = setup()
+    installation_path, language = pre_initialization()
+    window_title = 'MegaManX8 Text Editor by RainfallPianist [{}]'.format(appctxt.build_settings['version'])
+
     if not installation_path:
         sys.exit(0)
 
     application = EditorWindow(installation_path, language)
+    application.setWindowTitle(window_title)
     appctxt.ui = application.ui
 
     application.show()
