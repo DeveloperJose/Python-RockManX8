@@ -590,7 +590,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MegaManX8 Text Editor by RainfallPianist <Version Alpha>"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Title Will Be Set In Code"))
         self.groupFile.setTitle(_translate("MainWindow", "File"))
         self.btnOpenCloseFile.setText(_translate("MainWindow", "Open File"))
         self.groupText.setTitle(_translate("MainWindow", "Text Editor"))
