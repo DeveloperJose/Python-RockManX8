@@ -1,10 +1,10 @@
 import re
+from configparser import ConfigParser
 from enum import IntEnum
 from typing import List
 
 import numpy as np
 from PIL import Image
-
 
 class Const:
     DESCRIPTIONS = {
@@ -101,6 +101,12 @@ class FileStream:
     def read_int(self, size=2):
         raw = self.file.read(size)
         return int.from_bytes(raw, byteorder='little')
+
+    def read_int_array(self, size):
+        arr = []
+        for i in range(size):
+            arr.append(self.read_int())
+        return arr
 
     def tell(self):
         return self.file.tell()
@@ -255,7 +261,7 @@ class MCBExtra:
         return data
 
     def to_str_array(self, use_text=False):
-        data = [str(self.voice).ljust(3), self.bgm, self.stop_bgm, self.camera_angle]
+        data = [self.voice, self.bgm, self.stop_bgm, self.camera_angle]
         data.extend(self.__raw_char_data)
         data.append(self.close_top)
         if use_text:
@@ -269,7 +275,7 @@ class MCBExtra:
             data.append(self.typing)
             data.append(self.show_arrow)
 
-        data.append(self.char_mug_pos.name.ljust(6))
+        data.append(self.char_mug_pos.name)
 
         for idx, num in enumerate(data):
             if num == 0xFFFF:
@@ -278,6 +284,9 @@ class MCBExtra:
                 data[idx] = 'FE'
 
             data[idx] = str(data[idx]).ljust(2)
+
+        data[0].ljust(3)
+        data[-1].ljust(6)
 
         return data
 
@@ -407,8 +416,8 @@ class MCBFile:
         return text
 
     def print(self):
+        print('=== MCB Path:', self.path)
         if self.has_extras():
-            print('=== MCB Path:', self.path)
             print('IDX,VOI,BG,SM,CA,C1,M1,P1,C2,M2,P2,C3,M3,P3,C4,M4,P4,CT,TP,18,TY,AR,MugPos|||Text Message Goes Here***|||Filename')
             for idx, (extra, text_bytes) in enumerate(zip(self.extras, self.texts_raw)):
                 text = self.convert_bytes_to_text(text_bytes).replace('\n', ' ')
@@ -418,12 +427,13 @@ class MCBFile:
         else:
             print('IDX|||Text')
             for idx, (text_bytes) in enumerate(self.texts_raw):
-                text = self.convert_bytes_to_text(text_bytes)
+                text = self.convert_bytes_to_text(text_bytes).replace('\n', ' ')
                 s_idx = str(idx).ljust(3)
                 print('{}|||{}'.format(s_idx, text))
 
     def __init__(self, path=None):
-        self.header = ""
+        self.omcb_header = ''
+        self.header = ''
         self.size = 0
         self.text_count = 0
         self.offsets = []
@@ -445,6 +455,11 @@ class MCBFile:
 
         file = open(spath, 'wb')
         writer = FileStream(file)
+
+        if len(self.omcb_header) > 0:
+            writer.write_string(self.omcb_header)
+            writer.write_int(self.size)
+            writer.write_int(0)
 
         writer.write_string(self.header)
         writer.write_int(self.size)
@@ -514,7 +529,18 @@ class MCBFile:
         self.text_count = len(self.texts_raw)
 
     def __load_header__(self, reader):
-        self.header = reader.read_string(self.LENGTH_HEADER)
+        self.header = reader.read_string(16)
+
+        # ARC File Check
+        if 'OMCB' in self.header:
+            reader.seek(0)
+            self.omcb_header = reader.read_string(8)
+            omcb_size = reader.read_int()  # Same as MCB size
+            omcb_unused = reader.read_int() # Seems to be 0
+            if omcb_unused != 0:
+                print('omcb_unused is', omcb_unused)
+            self.header = reader.read_string(16)
+
         self.size = reader.read_int()
         self.text_count = reader.read_int()
         for i in range(self.text_count):
@@ -556,5 +582,5 @@ class MCBFile:
 
 
 if __name__ == '__main__':
-    mcb = MCBFile('C:/Users/xeroj/Desktop/Local_Programming/RockManX8_Tools/Game/mes/SPA/NV1_ST11.mcb')
+    mcb = MCBFile('C:/Users/xeroj/Desktop/Local_Programming/RockManX8_Tools/tools/arctool/LABO_TIT/X8/data/mes/USA/LABO_TIT.0589CBA3')
     mcb.print()

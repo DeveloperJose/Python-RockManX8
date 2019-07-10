@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="434d9866-c370-473c-aa26-c8d13b4566be" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/MegaManX8.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MegaManX8.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/build/settings/base.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/build/settings/base.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mmx8.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mmx8.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/python/fbs_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/fbs_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/python/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/python/ui_design.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/ui_design.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/python/ui_design.ui" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/ui_design.ui" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/python/ui_editor_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/ui_editor_window.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/python/x8_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/python/x8_utils.py" afterDir="false" />
     </list>
@@ -30,8 +30,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/python/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="585">
-              <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
+            <state relative-caret-position="549">
+              <caret line="72" column="32" selection-start-line="72" selection-start-column="32" selection-end-line="72" selection-end-column="32" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -42,8 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/python/fbs_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="64">
-              <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
+            <state relative-caret-position="-32">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -51,11 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/python/ui_editor_window.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="28" column="24" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
+            <state relative-caret-position="624">
+              <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -63,14 +63,35 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/python/x8_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2745">
-              <caret line="322" selection-start-line="322" selection-end-line="322" />
+            <state relative-caret-position="90">
+              <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/extract_arc.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="70" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="70" />
+              <folding>
+                <element signature="e#0#44#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tools/arctool/update_arc.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="70" selection-start-line="12" selection-start-column="70" selection-end-line="12" selection-end-column="70" />
             </state>
           </provider>
         </entry>
@@ -131,18 +152,21 @@
         <option value="$PROJECT_DIR$/x8_utils.py" />
         <option value="$PROJECT_DIR$/ui_editor_window.py" />
         <option value="$PROJECT_DIR$/ui_main.py" />
+        <option value="$PROJECT_DIR$/tools/arctool/update_arc.py" />
+        <option value="$PROJECT_DIR$/extract_arc.py" />
+        <option value="$PROJECT_DIR$/MCBManager.py" />
+        <option value="$PROJECT_DIR$/src/main/python/fbs_utils.py" />
+        <option value="$PROJECT_DIR$/src/main/python/x8_utils.py" />
         <option value="$PROJECT_DIR$/src/main/python/main.py" />
         <option value="$PROJECT_DIR$/src/main/python/ui_editor_window.py" />
-        <option value="$PROJECT_DIR$/src/main/python/x8_utils.py" />
-        <option value="$PROJECT_DIR$/src/main/python/fbs_utils.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-24" />
-    <option name="y" value="36" />
-    <option name="width" value="1293" />
-    <option name="height" value="282" />
+    <option name="x" value="-16" />
+    <option name="y" value="24" />
+    <option name="width" value="862" />
+    <option name="height" value="188" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -206,7 +230,26 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.x8_utils">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="extract_arc" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MegaManX8" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/extract_arc.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="fbs_utils" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="MegaManX8" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -237,28 +280,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main/python/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="ui_editor_window" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="MegaManX8" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ui_editor_window.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -307,11 +328,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.extract_arc" />
+        <item itemvalue="Python.extract_arc" />
+        <item itemvalue="Python.extract_arc" />
         <item itemvalue="Python.x8_utils" />
-        <item itemvalue="Python.fbs_utils" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -331,12 +352,12 @@
       <workItem from="1561356071266" duration="13562000" />
       <workItem from="1562213073398" duration="44932000" />
       <workItem from="1562294278069" duration="2175000" />
-      <workItem from="1562307389603" duration="24831000" />
+      <workItem from="1562307389603" duration="41240000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="141506000" />
+    <option name="totallyTimeSpent" value="157915000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -348,26 +369,27 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="23" width="1295" height="704" extended-state="6" />
+    <frame x="-8" y="22" width="1936" height="1066" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.33063865" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.3304904" />
       <window_info id="Structure" order="1" weight="0.2497979" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32983023" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32809773" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3279743" />
       <window_info anchor="bottom" x="212" y="321" width="856" height="107" id="Run" maximized="true" order="2" type="WINDOWED" weight="0.32902467" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39952996" />
+      <window_info anchor="bottom" x="22" y="261" width="1237" height="228" id="Debug" maximized="true" order="3" type="WINDOWED" weight="0.39790577" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32984293" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info active="true" anchor="bottom" auto_hide="true" x="0" y="53" width="1281" height="667" id="Python Console" maximized="true" order="9" type="WINDOWED" visible="true" weight="0.32984293" />
+      <window_info active="true" anchor="bottom" auto_hide="true" x="0" y="53" width="1920" height="1027" id="Python Console" maximized="true" order="9" type="WINDOWED" visible="true" weight="0.32984293" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Concurrent Activities Diagram" order="11" weight="0.32902467" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="13" />
-      <window_info anchor="bottom" id="Inspection Results" order="14" weight="0.32984293" />
+      <window_info anchor="bottom" id="Inspection Results" order="14" weight="0.3290461" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -382,7 +404,8 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/RockManX8_Tools$ui_main.coverage" NAME="ui_main Coverage Results" MODIFIED="1562292198863" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/RockManX8_Tools$x8_utils.coverage" NAME="x8_utils Coverage Results" MODIFIED="1562292807441" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RockManX8_Tools$x8_utils.coverage" NAME="x8_utils Coverage Results" MODIFIED="1562737421724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/main/python" />
+    <SUITE FILE_PATH="coverage/RockManX8_Tools$extract_arc.coverage" NAME="extract_arc Coverage Results" MODIFIED="1562738378843" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/Anaconda3/envs/py36/Lib/site-packages/matplotlib/image.py">
@@ -448,10 +471,47 @@
     <entry file="file://$PROJECT_DIR$/src/main/python/ui_design.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/tools/arctool/update_arc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="70" selection-start-line="12" selection-start-column="70" selection-end-line="12" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MCBManager.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/extract_arc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="70" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="70" />
+          <folding>
+            <element signature="e#0#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/envs/fbs/Lib/configparser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="1181" selection-start-line="1181" selection-end-line="1181" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/python/x8_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/fbs_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="30" column="44" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
+        <state relative-caret-position="-32">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
@@ -460,8 +520,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
+        <state relative-caret-position="549">
+          <caret line="72" column="32" selection-start-line="72" selection-start-column="32" selection-end-line="72" selection-end-column="32" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -470,18 +530,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/python/ui_editor_window.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="28" column="24" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/python/x8_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2745">
-          <caret line="322" selection-start-line="322" selection-end-line="322" />
+        <state relative-caret-position="624">
+          <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
