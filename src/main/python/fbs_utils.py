@@ -1,5 +1,5 @@
 from fbs_runtime import platform
-from fbs_runtime.application_context import cached_property, is_frozen
+from fbs_runtime.application_context import cached_property
 from fbs_runtime.application_context.PyQt5 import ApplicationContext
 from fbs_runtime.excepthook import ExceptionHandler
 from fbs_runtime.excepthook.sentry import SentryExceptionHandler
@@ -23,7 +23,7 @@ class AppContext(ApplicationContext):
         result.append(UIExceptionHandler(self))
 
         # if is_frozen():
-        result.append(self.sentry_exception_handler)
+        # result.append(self.sentry_exception_handler)
         return result
 
     @cached_property

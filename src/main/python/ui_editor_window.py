@@ -1,25 +1,21 @@
 import os
-from typing import List
+import subprocess
+from configparser import ConfigParser
 
 import numpy as np
 import qimage2ndarray
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QProgressDialog
 
+import fbs_utils as fbs
+import shutil
 from ui_design import Ui_MainWindow
 from x8_utils import Const, MCBFile, MCBExtra, Font
 
 
-class EditorWindow(QMainWindow):
-    installation_path: str
-    language: str
-    mcb_folder_path: str
-    font_path: str
-
-    mcb: MCBFile
+class MCBManager:
     font: Font
-    mcb_files: List[str]
 
     @staticmethod
     def mcb_sorting_key(fname: str):
@@ -39,21 +35,69 @@ class EditorWindow(QMainWindow):
 
         return key
 
-    def __init__(self, installation_path: str, language: str):
+    def __init__(self, appctxt, config: ConfigParser):
+        self.appctxt = appctxt
+        self.config = config
+
+        self.is_valid_collection = config.getboolean('editor', 'is_legacy_collection')
+        self.language = config['editor']['language']
+        self.install_path = config['editor']['installation_path']
+
+        self.font_path = appctxt.get_resource('font.wpg')
+        self.arctool_path = appctxt.get_resource('arctool.exe')
+
+        if self.is_valid_collection:
+            self.mcb_path = os.path.join('ARC')
+            self.extract_arcs()
+        else:
+            self.font_path = os.path.join(self.install_path, 'opk', 'title', self.language.lower(), 'wpg', 'font_ID_FONT_000.wpg')
+            self.mcb_path = os.path.join(self.install_path, 'mes', self.language)
+
+        self.font = Font(self.font_path)
+
+    def extract_arcs(self):
+        if not self.is_valid_collection:
+            return
+
+        if os.path.exists(self.mcb_path):
+            return
+
+        diag = QProgressDialog("Processing Legacy Collection ARC Files", "Cancel", 0, 110)
+        diag.setModal(True)
+
+        arc_path = os.path.join(self.install_path, 'nativeDX10', 'X8', 'romPC', 'data', 'mes', self.language)
+        for idx, fname in enumerate(os.listdir(arc_path)):
+            diag.setValue(idx)
+            fpath = os.path.join(arc_path, fname)
+            subprocess.call([self.arctool_path, '-x', '-pc', '-noextractdir', fpath])
+
+        src = os.path.join(arc_path, 'X8', 'data', 'mes', 'USA')
+        dst = self.mcb_path
+        shutil.move(src, dst)
+        shutil.rmtree(os.path.join(arc_path, 'X8'))
+
+    def update_arcs(self):
+        if not self.is_valid_collection:
+            return
+
+    def get_mcb_files(self):
+        return sorted(os.listdir(self.mcb_path), key=self.mcb_sorting_key)
+
+
+class EditorWindow(QMainWindow):
+    mcbManager: MCBManager
+    mcb: MCBFile
+
+    def __init__(self, appctxt, config):
         super(EditorWindow, self).__init__(None)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.installation_path = installation_path
-        self.language = language
-
-        self.font_path = os.path.join(installation_path, 'opk', 'title', language.lower(), 'wpg', 'font_ID_FONT_000.wpg')
-        self.mcb_folder_path = os.path.join(installation_path, 'mes', language)
-
+        self.appctxt = appctxt
+        self.config = config
+        self.mcbManager = MCBManager(appctxt, config)
         self.mcb = None
-        self.font = Font(self.font_path)
 
-        self.mcb_files = sorted(os.listdir(self.mcb_folder_path), key=self.mcb_sorting_key)
         self.__init_file_group__()
         self.__init_editor_group__()
         self.__init_extra_group__()
@@ -61,7 +105,7 @@ class EditorWindow(QMainWindow):
         self.adjustSize()
 
     def __init_file_group__(self):
-        for fname in self.mcb_files:
+        for fname in self.mcbManager.get_mcb_files():
             desc = MCBFile.get_filename_description(fname)
             self.ui.comboFiles.addItem(fname + ' - [' + desc + ']')
 
@@ -190,6 +234,7 @@ class EditorWindow(QMainWindow):
             self.mcb.extras[idx] = extra
 
         self.mcb.save()
+        self.mcbManager.update_arcs()
         self.ui.statusbar.showMessage('Saved MCB changes!', 5000)
         self.disable_save()
 
@@ -197,7 +242,7 @@ class EditorWindow(QMainWindow):
         self.ui.btnOpenCloseFile.setText("Close File")
 
         mcb_filename = self.ui.comboFiles.currentText().split('-')[0].strip()
-        mcb_path = os.path.join(self.mcb_folder_path, mcb_filename)
+        mcb_path = os.path.join(self.mcbManager.mcb_path, mcb_filename)
         self.mcb = MCBFile(mcb_path)
 
         self.ui.comboFiles.setDisabled(True)
@@ -236,7 +281,8 @@ class EditorWindow(QMainWindow):
         curr_bytes = MCBFile.convert_text_to_bytes(curr_text)
 
         im_text = self.text_bytes_to_np(curr_bytes)
-        pixmap = self.np_to_pixmap(im_text)
+        q_im = qimage2ndarray.array2qimage(im_text)
+        pixmap = QPixmap(q_im)
         if pixmap is not None:
             self.ui.graphicsPreview.setPixmap(pixmap)
 
@@ -295,10 +341,6 @@ class EditorWindow(QMainWindow):
 
         self.disable_save()
 
-    def np_to_pixmap(self, arr: np.ndarray):
-        q_im = qimage2ndarray.array2qimage(arr)
-        return QPixmap(q_im)
-
     def text_bytes_to_np(self, raw_bytes):
         split_indices = [0]
         split_indices.extend([idx + 1 for idx, char_byte in enumerate(raw_bytes) if char_byte == 65533])
@@ -316,14 +358,15 @@ class EditorWindow(QMainWindow):
         cols = 20 * max_sentence_char
         rows = 20 * len(sentences)
         im = np.zeros((rows, cols))
+        font = self.mcbManager.font
         for row_idx, sentence in enumerate(sentences):
             row_start = row_idx * 20
             row_end = row_start + 20
             for col_idx, char_byte in enumerate(sentence):
-                if char_byte >= len(self.font.characters):
-                    im_curr_char = self.font.characters[0]
+                if char_byte >= len(font.characters):
+                    im_curr_char = font.characters[0]
                 else:
-                    im_curr_char = self.font.characters[char_byte]
+                    im_curr_char = font.characters[char_byte]
                 col_start = col_idx * 20
                 col_end = col_start + 20
                 im[row_start:row_end, col_start:col_end] = im_curr_char

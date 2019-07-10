@@ -1,3 +1,20 @@
+X Legacy Collection
+========================
+OOP Files (WSX + WPG)
+    HEADER (12 bytes)
+        (8 bytes) header ("OOP")
+        (4 bytes) file size
+
+    Unknown (12 bytes)
+    
+    
+
+
+
+
+
+
+========================
 Save Data: gamedata.wss
     Saved:
         Metal Count

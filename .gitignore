@@ -33,6 +33,8 @@ TRAINERS/
 target/
 tools/
 
+*.0589CBA3
+
 # Prerequisites
 *.d
 
