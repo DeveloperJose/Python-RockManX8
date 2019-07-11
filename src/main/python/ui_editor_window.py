@@ -4,6 +4,7 @@ from pathlib import Path
 
 import numpy as np
 import qimage2ndarray
+import PyQt5.QtCore as QtCore
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QProgressDialog
@@ -93,7 +94,8 @@ class MCBManager:
             file.seek(4)
             file.write(0x07.to_bytes(1, byteorder='little'))
 
-        shutil.move(str(arc_file_path), str(self.arc_folder_path))
+        shutil.copy(str(arc_file_path), str(self.arc_folder_path))
+        arc_file_path.unlink()
 
     def get_mcb_names(self):
         return sorted([fpath.stem for fpath in self.mcb_path.glob(self.glob_filter)], key=self.__mcb_sorting_key__)
@@ -107,13 +109,13 @@ class EditorWindow(QMainWindow):
     mcb: MCBFile
 
     def __init__(self, appctxt):
-        super(EditorWindow, self).__init__(None, flags=None)
+        super(EditorWindow, self).__init__(None)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
         self.appctxt = appctxt
         self.mcbManager = MCBManager(appctxt)
-        self.mcb = MCBFile()
+        self.mcb = None
 
         self.__init_file_group__()
         self.__init_editor_group__()
@@ -272,7 +274,7 @@ class EditorWindow(QMainWindow):
 
     def ui_file_close(self):
         self.ui.btnOpenCloseFile.setText("Open File")
-        self.mcb = MCBFile()
+        self.mcb = None
 
         self.ui.comboFiles.setEnabled(True)
         self.ui.groupText.setVisible(False)

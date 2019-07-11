@@ -55,7 +55,8 @@ if __name__ == '__main__':
     if not config:
         sys.exit(0)
 
-    appctxt = AppContext(config)
+    appctxt = AppContext()
+    appctxt.config = config
     window_title = 'MegaManX8 Text Editor by RainfallPianist [{}]'.format(appctxt.build_settings['version'])
 
     application = EditorWindow(appctxt)

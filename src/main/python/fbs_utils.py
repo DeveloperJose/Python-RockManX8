@@ -6,15 +6,12 @@ from fbs_runtime.excepthook.sentry import SentryExceptionHandler
 
 from config_utils import Config
 from ui_editor_window import EditorWindow
+from PyQt5.QtWidgets import QMessageBox
 
 
 class AppContext(ApplicationContext):
     config: Config
     __editor__: EditorWindow
-
-    def __init__(self, config: Config):
-        super().__init__()
-        self.config = config
 
     def log(self, message, *args):
         message = message.format(*args)
@@ -41,7 +38,7 @@ class AppContext(ApplicationContext):
         dns = self.build_settings['sentry_dsn']
         ver = self.build_settings['version']
         env = self.build_settings['environment']
-        return SentryExceptionHandler(dns, ver, env, callback=self._on_sentry_init)
+        return SentryExceptionHandler(dns, ver, env, callback=self._on_sentry_init, rate_limit=10)
 
     @cached_property
     def _on_sentry_init(self):
@@ -72,4 +69,10 @@ class UIExceptionHandler(ExceptionHandler):
         self.app_context = app_context
 
     def handle(self, exc_type, exc_value, enriched_tb):
-        self.app_context.log_ui('{}', exc_value, 15000)
+        # self.app_context.log_ui('{}', exc_value, 15000)
+        mbox = QMessageBox(self.app_context.app)
+        mbox.setModal(True)
+        mbox.setWindowTitle('An error has occurred')
+        mbox.setText(str(exc_type))
+        mbox.setInformativeText(str(exc_value))
+        mbox.setDetailedText(str(enriched_tb))
