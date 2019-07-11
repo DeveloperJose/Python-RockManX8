@@ -4,7 +4,6 @@ from pathlib import Path
 
 import numpy as np
 import qimage2ndarray
-import PyQt5.QtCore as QtCore
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QProgressDialog
@@ -66,34 +65,53 @@ class MCBManager:
         fname = mcb_name + ext
         return path / fname
 
+    def __arctool_extract__(self, fpath):
+        # Call arc-tool to extract the contents
+        subprocess.call([str(self.arctool_path), '-x', '-pc', str(fpath)])
+
+        # Move from legacy collection folder to a local directory (mcb_path)
+        # TODO: Perhaps we should copy the arcs and do this locally?
+        folder_path = self.arc_folder_path / fpath.stem
+        shutil.move(str(folder_path), str(self.mcb_path))
+        self.__arctool_clean__()
+
+    def __arctool_compress__(self, fpath):
+        subprocess.call([str(self.arctool_path), '-c', '-pc', str(fpath)])
+        self.__arctool_clean__()
+
+    @staticmethod
+    def __arctool_clean__():
+        # TODO: Ask the developer of arc-tool if this can be disabled in the command-line
+        Path('log.txt').unlink()
+
     def __extract_arcs__(self):
         if not self.cfg.is_valid_collection or self.mcb_path.exists():
             return
+
+        self.mcb_path.mkdir()
 
         diag = QProgressDialog("Extracting Legacy Collection ARC Files", "Cancel", 0, 110)
         diag.setModal(True)
 
         for idx, fpath in enumerate(self.arc_folder_path.glob('*.arc')):
             diag.setValue(idx)
-
-            subprocess.call([str(self.arctool_path), '-x', '-pc', str(fpath)])
-
-            folder_path = self.arc_folder_path / fpath.stem
-            shutil.move(str(folder_path), str(self.mcb_path))
+            self.__arctool_extract__(fpath)
 
     def update_arc(self, mcb_name):
         if not self.cfg.is_valid_collection:
             return
 
         fpath = self.mcb_path / mcb_name
-        subprocess.call([str(self.arctool_path), '-c', '-pc', str(fpath)])
+        self.__arctool_compress__(fpath)
 
+        # Fix the ARC file so it doesn't crash the legacy collection
         arc_name = mcb_name + '.arc'
         arc_file_path = self.mcb_path / arc_name
         with open(arc_file_path, 'r+b') as file:
             file.seek(4)
             file.write(0x07.to_bytes(1, byteorder='little'))
 
+        # Overwrite legacy ARC file with our own and then delete our copy
         shutil.copy(str(arc_file_path), str(self.arc_folder_path))
         arc_file_path.unlink()
 

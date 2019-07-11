@@ -1,5 +1,0 @@
-RE6 tex format selected.
-Processing files for archive.
-ARC\LABO_TIT\X8\data\mes\USA\LABO_TIT.0589CBA3 (compressed)
-Writing files to archive.
-ARC\LABO_TIT.arc created with 1 files. All files compressed.
