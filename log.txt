@@ -1,2 +1,0 @@
-RE6 tex format selected.
-Error: Couldn't open tools/arctool/USA ARCS\X8 for reading.

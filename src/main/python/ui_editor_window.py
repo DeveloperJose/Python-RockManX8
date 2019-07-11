@@ -1,6 +1,5 @@
 import shutil
 import subprocess
-from configparser import ConfigParser
 from pathlib import Path
 
 import numpy as np
@@ -9,12 +8,14 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QProgressDialog
 
+from config_utils import Config
 from ui_design import Ui_MainWindow
 from x8_utils import Const, MCBFile, MCBExtra, Font
 
 
 class MCBManager:
     font: Font
+    cfg: Config
 
     @staticmethod
     def __mcb_sorting_key__(fname: str):
@@ -34,32 +35,28 @@ class MCBManager:
 
         return key
 
-    def __init__(self, appctxt, config: ConfigParser):
+    def __init__(self, appctxt):
         self.appctxt = appctxt
-        self.config = config
+        self.cfg = appctxt.config
 
-        self.is_valid_collection = config.getboolean('editor', 'is_legacy_collection')
-        self.language = config['editor']['language']
-        self.install_path = Path(config['editor']['installation_path'])
-
-        self.font_path = Path(appctxt.get_resource('font.wpg'))
         self.arctool_path = Path(appctxt.get_resource('arctool.exe'))
-        self.arc_folder_path = self.install_path / 'nativeDX10' / 'X8' / 'romPC' / 'data' / 'mes' / self.language
+        self.arc_folder_path = self.cfg.install_path / 'nativeDX10' / 'X8' / 'romPC' / 'data' / 'mes' / self.cfg.language
 
-        if self.is_valid_collection:
+        if self.cfg.is_valid_collection:
+            self.font_path = Path(appctxt.get_resource('font.wpg'))
             self.mcb_path = Path('ARC')
-            self.__extract_arcs__()
-            self.glob_filter = '*/X8/data/mes/{}/*.0589CBA3'.format(self.language)
+            self.glob_filter = '*/X8/data/mes/{}/*.0589CBA3'.format(self.cfg.language)
         else:
-            self.font_path = self.install_path / 'opk' / 'title' / self.language.lower() / 'wpg' / 'font_ID_FONT_000.wpg'
-            self.mcb_path = self.install_path / 'mes' / self.language
+            self.font_path = self.cfg.install_path / 'opk' / 'title' / self.cfg.language.lower() / 'wpg' / 'font_ID_FONT_000.wpg'
+            self.mcb_path = self.cfg.install_path / 'mes' / self.cfg.language
             self.glob_filter = '*.mcb'
 
         self.font = Font(self.font_path)
+        self.__extract_arcs__()
 
     def __get_mcb_path__(self, mcb_name):
-        if self.is_valid_collection:
-            path = self.mcb_path / mcb_name / 'X8/data/mes' / self.language
+        if self.cfg.is_valid_collection:
+            path = self.mcb_path / mcb_name / 'X8/data/mes' / self.cfg.language
             ext = '.0589CBA3'
         else:
             path = self.mcb_path
@@ -69,7 +66,7 @@ class MCBManager:
         return path / fname
 
     def __extract_arcs__(self):
-        if not self.is_valid_collection or self.mcb_path.exists():
+        if not self.cfg.is_valid_collection or self.mcb_path.exists():
             return
 
         diag = QProgressDialog("Extracting Legacy Collection ARC Files", "Cancel", 0, 110)
@@ -81,10 +78,10 @@ class MCBManager:
             subprocess.call([str(self.arctool_path), '-x', '-pc', str(fpath)])
 
             folder_path = self.arc_folder_path / fpath.stem
-            shutil.move(folder_path, self.mcb_path)
+            shutil.move(str(folder_path), str(self.mcb_path))
 
     def update_arc(self, mcb_name):
-        if not self.is_valid_collection:
+        if not self.cfg.is_valid_collection:
             return
 
         fpath = self.mcb_path / mcb_name
@@ -109,15 +106,14 @@ class EditorWindow(QMainWindow):
     mcbManager: MCBManager
     mcb: MCBFile
 
-    def __init__(self, appctxt, config):
-        super(EditorWindow, self).__init__(None)
+    def __init__(self, appctxt):
+        super(EditorWindow, self).__init__(None, flags=None)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
         self.appctxt = appctxt
-        self.config = config
-        self.mcbManager = MCBManager(appctxt, config)
-        self.mcb = None
+        self.mcbManager = MCBManager(appctxt)
+        self.mcb = MCBFile()
 
         self.__init_file_group__()
         self.__init_editor_group__()
@@ -206,7 +202,7 @@ class EditorWindow(QMainWindow):
             self.ui_file_close()
 
         # For proper resizing, you need to wait a little bit
-        QTimer.singleShot(0, self.evt_timer_redraw)
+        QTimer().singleShot(0, self.evt_timer_redraw)
 
     def evt_clicked_save(self, checked):
         # Convert text to bytes, then replace them in the MCB
@@ -276,7 +272,7 @@ class EditorWindow(QMainWindow):
 
     def ui_file_close(self):
         self.ui.btnOpenCloseFile.setText("Open File")
-        self.mcb = None
+        self.mcb = MCBFile()
 
         self.ui.comboFiles.setEnabled(True)
         self.ui.groupText.setVisible(False)
@@ -284,7 +280,6 @@ class EditorWindow(QMainWindow):
         self.ui.groupPreview.setVisible(False)
 
     def ui_update_mugshot(self, mug_idx):
-        extra = self.get_current_extra()
         # Update the mugshot text number and description
         char_idx = self.ui.comboCharacter.currentIndex()
         self.ui.spinMugshot.setValue(mug_idx)

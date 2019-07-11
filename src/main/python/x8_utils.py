@@ -489,20 +489,6 @@ class MCBFile:
     def has_extras(self):
         return len(self.files) != 0
 
-    def edit_text(self, idx, new_text):
-        # Convert new_text to bytes
-        text_bytes = []
-        for char in new_text:
-            try:
-                char_byte = Const.ALPHABET.index(char)
-            except ValueError:
-                char_byte = 0
-
-            text_bytes.append(char_byte)
-
-        self.texts_raw[idx] = text_bytes
-        self.__recalculate__()
-
     def __load_from_file__(self, path):
         file = open(path, 'rb')
         reader = FileStream(file)
@@ -541,8 +527,6 @@ class MCBFile:
             self.omcb_header = reader.read_string(8)
             omcb_size = reader.read_int()  # Same as MCB size
             omcb_unused = reader.read_int()  # Seems to be 0
-            if omcb_unused != 0:
-                print('omcb_unused is', omcb_unused)
             self.header = reader.read_string(16)
 
         self.size = reader.read_int()

@@ -4,18 +4,28 @@ from fbs_runtime.application_context.PyQt5 import ApplicationContext
 from fbs_runtime.excepthook import ExceptionHandler
 from fbs_runtime.excepthook.sentry import SentryExceptionHandler
 
+from config_utils import Config
 from ui_editor_window import EditorWindow
 
 
 class AppContext(ApplicationContext):
-    editor: EditorWindow
+    config: Config
+    __editor__: EditorWindow
 
-    @property
-    def ui(self):
-        return self.editor.ui
+    def __init__(self, config: Config):
+        super().__init__()
+        self.config = config
 
-    def run(self):
-        pass
+    def log(self, message, *args):
+        message = message.format(*args)
+        print('[RainLog]', message)
+
+    def log_ui(self, message, *args, duration_ms=1000):
+        if self.__editor__ is None:
+            return
+
+        message = message.format(*args)
+        self.__editor__.ui.statusbar.showMessage(message, duration_ms)
 
     @cached_property
     def exception_handlers(self):
@@ -37,18 +47,22 @@ class AppContext(ApplicationContext):
     def _on_sentry_init(self):
         self.sentry.scope.set_extra('os', platform.name())
 
-        if self.editor is not None:
-            self.sentry.scope.set_extra('X8 Language', self.editor.language)
+        if self.__editor__ is not None:
+            self.sentry.scope.set_extra('X8 Language', self.__editor__.language)
 
-            mcb = self.editor.mcb
+            mcb = self.__editor__.mcb
             if mcb is not None:
-                idx = self.ui.spinCurrentText.value()
+                idx = self.__editor__.ui.spinCurrentText.value()
                 self.sentry.scope.set_extra('MCB IDX', idx)
                 self.sentry.scope.set_extra('MCB Path', mcb.path)
                 self.sentry.scope.set_extra('MCB Text Bytes', mcb.texts_raw[idx])
 
                 if mcb.has_extras():
                     self.sentry.scope.set_extra('MCB Extra Bytes', mcb.extras[idx])
+        return self.sentry
+
+    def run(self):
+        pass
 
 
 class UIExceptionHandler(ExceptionHandler):
@@ -58,6 +72,4 @@ class UIExceptionHandler(ExceptionHandler):
         self.app_context = app_context
 
     def handle(self, exc_type, exc_value, enriched_tb):
-        if self.ui is not None:
-            msg = "{}".format(exc_value)
-            self.app_context.ui.statusbar.showMessage(msg, 30000)
+        self.app_context.log_ui('{}', exc_value, 15000)
