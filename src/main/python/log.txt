@@ -1,0 +1,5 @@
+RE6 tex format selected.
+Little endian ARC detected.
+Wrote C:\Users\xeroj\Desktop\Programs\Steam\steamapps\common\Mega Man X Legacy Collection 2\nativeDX10\X8\romPC\data\mes\USA\CHIP_TXT\X8\data\mes\USA\CHIP_TXT.0589CBA3 (uncompressed)
+Process complete.
+Extracted 1 files. 1 were compressed and 0 uncompressed.
