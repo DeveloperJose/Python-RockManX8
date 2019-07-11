@@ -1,29 +1,30 @@
+import os
 import re
-from configparser import ConfigParser
 from enum import IntEnum
 from typing import List
 
 import numpy as np
 from PIL import Image
 
+
 class Const:
     DESCRIPTIONS = {
-        'PROGRE.mcb': 'Progressive Scan text for TV (PS2/USA folder only)',
-        'TRIAL.mcb': 'Command Mission demo texts',
-        'SUB_TXT.mcb': 'Weapon descriptions and pause menu',
-        'SUB_TIT.mcb': 'Weapon and part names',
-        'SAVE_TIT.mcb': 'Saving and loading',
-        'RESULT.mcb': 'Result screen after each level',
-        'PAL.mcb': 'Video mode settings',
-        'OPT_TXT.mcb': 'Options menu',
-        'OPT_TIT.mcb': 'Options menu control buttons names',
-        'LABO_TXT.mcb': 'RD Lab Menu descriptions',
-        'LABO_TIT.mcb': 'RD Lab Menu labels (Stage Select, Chip Dev...)',
-        'HB_TIT.mcb': 'Stage, character, navigator, and netural armor descriptions',
-        'HB_IM.mcb': 'Intermission descriptions',
-        'HB_DM.mcb': 'Stage Select cutscenes',
-        'CHIP_TIT.mcb': 'RD Chip names',
-        'CHIP_TXT.mcb': 'RD Chip descriptions'
+        'PROGRE': 'Progressive Scan text for TV',
+        'TRIAL': 'Command Mission demo texts',
+        'SUB_TXT': 'Weapon descriptions and pause menu',
+        'SUB_TIT': 'Weapon and part names',
+        'SAVE_TIT': 'Saving and loading',
+        'RESULT': 'Result screen after each level',
+        'PAL': 'Video mode settings',
+        'OPT_TXT': 'Options menu',
+        'OPT_TIT': 'Options menu control buttons names',
+        'LABO_TXT': 'RD Lab Menu descriptions',
+        'LABO_TIT': 'RD Lab Menu labels (Stage Select, Chip Dev...)',
+        'HB_TIT': 'Stage, character, navigator, and netural armor descriptions',
+        'HB_IM': 'Intermission descriptions',
+        'HB_DM': 'Stage Select cutscenes',
+        'CHIP_TIT': 'RD Chip names',
+        'CHIP_TXT': 'RD Chip descriptions'
     }
 
     DESCRIPTION_MAP = {
@@ -349,6 +350,9 @@ class MCBFile:
 
     @staticmethod
     def get_filename_description(fname: str):
+        # Remove known extensions
+        fname, ext = os.path.splitext(fname)
+
         desc = Const.DESCRIPTIONS.get(fname)
         if desc is not None:
             return desc
@@ -415,6 +419,12 @@ class MCBFile:
             text += MCBFile.byte_to_str(text_byte)
         return text
 
+    @staticmethod
+    def is_file(filename):
+        filename = filename.replace('\x00', '')  # Remove padding zeros
+        # Only allows a-z, A-Z, 0-9, and underscores (and filenames of length 10 and above)
+        return len(filename) >= 10 and not bool(re.compile(r'[^a-zA-Z0-9_]').search(filename))
+
     def print(self):
         print('=== MCB Path:', self.path)
         if self.has_extras():
@@ -476,12 +486,6 @@ class MCBFile:
 
         file.close()
 
-    @staticmethod
-    def is_file(filename):
-        filename = filename.replace('\x00', '')  # Remove padding zeros
-        # Only allows a-z, A-Z, 0-9, and underscores (and filenames of length 10 and above)
-        return len(filename) >= 10 and not bool(re.compile(r'[^a-zA-Z0-9_]').search(filename))
-
     def has_extras(self):
         return len(self.files) != 0
 
@@ -536,7 +540,7 @@ class MCBFile:
             reader.seek(0)
             self.omcb_header = reader.read_string(8)
             omcb_size = reader.read_int()  # Same as MCB size
-            omcb_unused = reader.read_int() # Seems to be 0
+            omcb_unused = reader.read_int()  # Seems to be 0
             if omcb_unused != 0:
                 print('omcb_unused is', omcb_unused)
             self.header = reader.read_string(16)

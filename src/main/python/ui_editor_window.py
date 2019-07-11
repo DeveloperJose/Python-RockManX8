@@ -1,6 +1,7 @@
-import os
+import shutil
 import subprocess
 from configparser import ConfigParser
+from pathlib import Path
 
 import numpy as np
 import qimage2ndarray
@@ -8,8 +9,6 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QProgressDialog
 
-import fbs_utils as fbs
-import shutil
 from ui_design import Ui_MainWindow
 from x8_utils import Const, MCBFile, MCBExtra, Font
 
@@ -18,7 +17,7 @@ class MCBManager:
     font: Font
 
     @staticmethod
-    def mcb_sorting_key(fname: str):
+    def __mcb_sorting_key__(fname: str):
         key = len(fname)
         if 'TRIAL' in fname:
             key += 1
@@ -41,47 +40,69 @@ class MCBManager:
 
         self.is_valid_collection = config.getboolean('editor', 'is_legacy_collection')
         self.language = config['editor']['language']
-        self.install_path = config['editor']['installation_path']
+        self.install_path = Path(config['editor']['installation_path'])
 
-        self.font_path = appctxt.get_resource('font.wpg')
-        self.arctool_path = appctxt.get_resource('arctool.exe')
+        self.font_path = Path(appctxt.get_resource('font.wpg'))
+        self.arctool_path = Path(appctxt.get_resource('arctool.exe'))
+        self.arc_folder_path = self.install_path / 'nativeDX10' / 'X8' / 'romPC' / 'data' / 'mes' / self.language
 
         if self.is_valid_collection:
-            self.mcb_path = os.path.join('ARC')
-            self.extract_arcs()
+            self.mcb_path = Path('ARC')
+            self.__extract_arcs__()
+            self.glob_filter = '*/X8/data/mes/{}/*.0589CBA3'.format(self.language)
         else:
-            self.font_path = os.path.join(self.install_path, 'opk', 'title', self.language.lower(), 'wpg', 'font_ID_FONT_000.wpg')
-            self.mcb_path = os.path.join(self.install_path, 'mes', self.language)
+            self.font_path = self.install_path / 'opk' / 'title' / self.language.lower() / 'wpg' / 'font_ID_FONT_000.wpg'
+            self.mcb_path = self.install_path / 'mes' / self.language
+            self.glob_filter = '*.mcb'
 
         self.font = Font(self.font_path)
 
-    def extract_arcs(self):
-        if not self.is_valid_collection:
+    def __get_mcb_path__(self, mcb_name):
+        if self.is_valid_collection:
+            path = self.mcb_path / mcb_name / 'X8/data/mes' / self.language
+            ext = '.0589CBA3'
+        else:
+            path = self.mcb_path
+            ext = '.mcb'
+
+        fname = mcb_name + ext
+        return path / fname
+
+    def __extract_arcs__(self):
+        if not self.is_valid_collection or self.mcb_path.exists():
             return
 
-        if os.path.exists(self.mcb_path):
-            return
-
-        diag = QProgressDialog("Processing Legacy Collection ARC Files", "Cancel", 0, 110)
+        diag = QProgressDialog("Extracting Legacy Collection ARC Files", "Cancel", 0, 110)
         diag.setModal(True)
 
-        arc_path = os.path.join(self.install_path, 'nativeDX10', 'X8', 'romPC', 'data', 'mes', self.language)
-        for idx, fname in enumerate(os.listdir(arc_path)):
+        for idx, fpath in enumerate(self.arc_folder_path.glob('*.arc')):
             diag.setValue(idx)
-            fpath = os.path.join(arc_path, fname)
-            subprocess.call([self.arctool_path, '-x', '-pc', '-noextractdir', fpath])
 
-        src = os.path.join(arc_path, 'X8', 'data', 'mes', 'USA')
-        dst = self.mcb_path
-        shutil.move(src, dst)
-        shutil.rmtree(os.path.join(arc_path, 'X8'))
+            subprocess.call([str(self.arctool_path), '-x', '-pc', str(fpath)])
 
-    def update_arcs(self):
+            folder_path = self.arc_folder_path / fpath.stem
+            shutil.move(folder_path, self.mcb_path)
+
+    def update_arc(self, mcb_name):
         if not self.is_valid_collection:
             return
 
-    def get_mcb_files(self):
-        return sorted(os.listdir(self.mcb_path), key=self.mcb_sorting_key)
+        fpath = self.mcb_path / mcb_name
+        subprocess.call([str(self.arctool_path), '-c', '-pc', str(fpath)])
+
+        arc_name = mcb_name + '.arc'
+        arc_file_path = self.mcb_path / arc_name
+        with open(arc_file_path, 'r+b') as file:
+            file.seek(4)
+            file.write(0x07.to_bytes(1, byteorder='little'))
+
+        shutil.move(str(arc_file_path), str(self.arc_folder_path))
+
+    def get_mcb_names(self):
+        return sorted([fpath.stem for fpath in self.mcb_path.glob(self.glob_filter)], key=self.__mcb_sorting_key__)
+
+    def get_mcb(self, mcb_name):
+        return MCBFile(self.__get_mcb_path__(mcb_name))
 
 
 class EditorWindow(QMainWindow):
@@ -105,7 +126,7 @@ class EditorWindow(QMainWindow):
         self.adjustSize()
 
     def __init_file_group__(self):
-        for fname in self.mcbManager.get_mcb_files():
+        for fname in self.mcbManager.get_mcb_names():
             desc = MCBFile.get_filename_description(fname)
             self.ui.comboFiles.addItem(fname + ' - [' + desc + ']')
 
@@ -162,6 +183,10 @@ class EditorWindow(QMainWindow):
     def get_current_text_bytes(self):
         idx = self.ui.spinCurrentText.value()
         return self.mcb.texts_raw[idx]
+
+    def get_current_mcb_name(self):
+        mcb_name = self.ui.comboFiles.currentText().split('-')[0].strip()
+        return mcb_name
 
     def enable_save(self, *args, **kwargs):
         self.ui.btnSave.setEnabled(True)
@@ -234,16 +259,14 @@ class EditorWindow(QMainWindow):
             self.mcb.extras[idx] = extra
 
         self.mcb.save()
-        self.mcbManager.update_arcs()
+        self.mcbManager.update_arc(mcb_name=self.get_current_mcb_name())
+
         self.ui.statusbar.showMessage('Saved MCB changes!', 5000)
         self.disable_save()
 
     def ui_file_open(self):
         self.ui.btnOpenCloseFile.setText("Close File")
-
-        mcb_filename = self.ui.comboFiles.currentText().split('-')[0].strip()
-        mcb_path = os.path.join(self.mcbManager.mcb_path, mcb_filename)
-        self.mcb = MCBFile(mcb_path)
+        self.mcb = self.mcbManager.get_mcb(mcb_name=self.get_current_mcb_name())
 
         self.ui.comboFiles.setDisabled(True)
         self.ui.groupText.setVisible(True)
