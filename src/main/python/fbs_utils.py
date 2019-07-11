@@ -69,10 +69,23 @@ class UIExceptionHandler(ExceptionHandler):
         self.app_context = app_context
 
     def handle(self, exc_type, exc_value, enriched_tb):
+        if self.app_context.__editor__ is None:
+            return
+
         # self.app_context.log_ui('{}', exc_value, 15000)
-        mbox = QMessageBox(self.app_context.app)
+        mbox = QMessageBox(self.app_context.__editor__)
         mbox.setModal(True)
-        mbox.setWindowTitle('An error has occurred')
-        mbox.setText(str(exc_type))
-        mbox.setInformativeText(str(exc_value))
+        mbox.setIcon(QMessageBox.Warning)
+        mbox.setWindowTitle('An error has occurred! [uh-oh?]')
+
+        if isinstance(exc_value, PermissionError):
+            msg = 'Permission denied while trying to write to file: {}'.format(exc_value.filename)
+            info = 'That file is most likely read-only. Please make sure to disable that on the file/folder properties and trying again!'
+        else:
+            msg = 'Error: {}'.format(exc_value)
+            info = 'An unknown error has occured. RainfallPianist has been sent the error information and may be able to provide assistance.'
+
+        mbox.setText(msg)
+        mbox.setInformativeText(info)
         mbox.setDetailedText(str(enriched_tb))
+        mbox.show()
