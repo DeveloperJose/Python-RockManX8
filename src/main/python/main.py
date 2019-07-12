@@ -1,7 +1,8 @@
 import sys
 
-from fbs_utils import AppContext
 from PyQt5.QtWidgets import QApplication
+
+from fbs_utils import AppContext
 
 if __name__ == '__main__':
     app = QApplication([])

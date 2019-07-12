@@ -37,6 +37,8 @@ tools/
 *.0589CBA3
 *.arc
 
+workspace.xml
+
 # Prerequisites
 *.d
 

@@ -1,4 +1,3 @@
-import os
 import re
 from enum import IntEnum
 from typing import List
@@ -350,9 +349,6 @@ class MCBFile:
 
     @staticmethod
     def get_filename_description(fname: str):
-        # Remove known extensions
-        fname, ext = os.path.splitext(fname)
-
         desc = Const.DESCRIPTIONS.get(fname)
         if desc is not None:
             return desc
