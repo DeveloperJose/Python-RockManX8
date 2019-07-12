@@ -126,11 +126,12 @@ class EditorWindow(QMainWindow):
     mcbManager: MCBManager
     mcb: MCBFile
 
-    def __init__(self, appctxt):
+    def __init__(self):
         super(EditorWindow, self).__init__(None)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+    def __init_ui__(self, appctxt):
         self.appctxt = appctxt
         self.mcbManager = MCBManager(appctxt)
         self.mcb = None
@@ -274,10 +275,12 @@ class EditorWindow(QMainWindow):
 
             self.mcb.extras[idx] = extra
 
+        self.appctxt.log_ui('Saving changes...', duration_ms=5000)
+
         self.mcb.save()
         self.mcbManager.update_arc(mcb_name=self.get_current_mcb_name())
 
-        self.ui.statusbar.showMessage('Saved MCB changes!', 5000)
+        self.appctxt.log_ui('Succesfully saved changes!', duration_ms=5000)
         self.disable_save()
 
     def ui_file_open(self):
