@@ -37,6 +37,7 @@ tools/
 *.0589CBA3
 *.arc
 
+settings.ini
 workspace.xml
 
 # Prerequisites

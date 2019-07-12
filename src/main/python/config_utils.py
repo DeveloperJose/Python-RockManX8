@@ -28,7 +28,7 @@ class Config:
         cfg = ConfigParser()
         cfg.add_section('editor')
         cfg.set('editor', 'language', lang_folder)
-        cfg.set('editor', 'installation_path', install_path)
+        cfg.set('editor', 'installation_path', str(install_path))
         cfg.set('editor', 'is_legacy_collection', str(is_valid_collection))
 
         with open(cfg_path, 'w') as cfgfile:
