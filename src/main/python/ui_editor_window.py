@@ -275,12 +275,12 @@ class EditorWindow(QMainWindow):
 
             self.mcb.extras[idx] = extra
 
-        self.appctxt.log_ui('Saving changes...', duration_ms=5000)
+        self.appctxt.log_ui('Saving changes...')
 
         self.mcb.save()
         self.mcbManager.update_arc(mcb_name=self.get_current_mcb_name())
 
-        self.appctxt.log_ui('Succesfully saved changes!', duration_ms=5000)
+        self.appctxt.log_ui('Succesfully saved changes!')
         self.disable_save()
 
     def ui_file_open(self):
