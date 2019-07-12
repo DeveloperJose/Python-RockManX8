@@ -45,9 +45,14 @@ class AppContext(ApplicationContext):
 
         self.__editor__.show()
         self.__editor__.__init_ui__(self)
+        if self.config.is_valid_collection:
+            self.log_ui('Editing X8 from the X Legacy Collection 2')
+        else:
+            self.log_ui('Editing X8 PC version released in 2004')
+            
         return self.app.exec_()
 
-    def log_ui(self, message, *args, duration_ms=1000):
+    def log_ui(self, message, *args, duration_ms=5000):
         if self.__editor__ is None:
             return
 
