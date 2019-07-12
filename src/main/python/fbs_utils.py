@@ -28,28 +28,30 @@ class AppContext(ApplicationContext):
         if SETTINGS_PATH.exists():
             cfg = Config.from_path(SETTINGS_PATH)
         else:
-            install_path = AppContext.prompt_installation()
-            lang_folder = AppContext.prompt_language()
-            is_valid_collection = (install_path / 'nativeDX10' / 'X8' / 'romPC' / 'data' / 'mes').exists()
-
-            if not install_path or not lang_folder:
+            install_path = self.prompt_installation()
+            if not install_path:
                 return False
 
+            lang_folder = self.prompt_language()
+            if not lang_folder:
+                return False
+
+            is_valid_collection = (install_path / 'nativeDX10' / 'X8' / 'romPC' / 'data' / 'mes').exists()
             cfg = Config.create_default(SETTINGS_PATH, lang_folder, install_path, is_valid_collection)
 
         return cfg
 
-    def run(self) -> int:
+    def run(self):
         if not self.config:
-            return 0
+            return False
 
-        self.__editor__.show()
         self.__editor__.__init_ui__(self)
+        self.__editor__.show()
         if self.config.is_valid_collection:
             self.log_ui('Editing X8 from the X Legacy Collection 2')
         else:
             self.log_ui('Editing X8 PC version released in 2004')
-            
+
         return self.app.exec_()
 
     def log_ui(self, message, *args, duration_ms=5000):
@@ -78,7 +80,6 @@ class AppContext(ApplicationContext):
             install_path = Path(install_fname)
             regular_path = install_path / 'mes'
             collection_path = install_path / 'nativeDX10' / 'X8' / 'romPC' / 'data' / 'mes'
-
             if regular_path.exists() or collection_path.exists():
                 return install_fname
 
@@ -88,7 +89,7 @@ class AppContext(ApplicationContext):
         result.append(UIExceptionHandler(self))
 
         if is_frozen():
-            result.append(self.sentry_exception_handler)
+            result.append(self.sentry)
         return result
 
     @cached_property
