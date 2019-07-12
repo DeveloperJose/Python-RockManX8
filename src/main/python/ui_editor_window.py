@@ -1,6 +1,7 @@
 import shutil
 import subprocess
 from pathlib import Path
+from typing import List
 
 import numpy as np
 import qimage2ndarray
@@ -125,6 +126,7 @@ class MCBManager:
 class EditorWindow(QMainWindow):
     mcbManager: MCBManager
     mcb: MCBFile
+    mugshots: List[np.ndarray]
 
     def __init__(self):
         super(EditorWindow, self).__init__(None)
@@ -135,6 +137,7 @@ class EditorWindow(QMainWindow):
         self.appctxt = appctxt
         self.mcbManager = MCBManager(appctxt)
         self.mcb = None
+        self.mugshots = np.load(appctxt.get_resource('mugshots.npz'), allow_pickle=True)['mugshots']
 
         self.__init_file_group__()
         self.__init_editor_group__()
@@ -308,6 +311,11 @@ class EditorWindow(QMainWindow):
         self.ui.spinMugshot.setValue(mug_idx)
         self.ui.textMugshotDesc.setText(MCBExtra.get_mugshot_description(char_idx, mug_idx))
 
+        im = self.get_mugshot_np(char_idx, mug_idx)
+        q_im = qimage2ndarray.array2qimage(im)
+        pixmap = QPixmap(q_im)
+        self.ui.graphicsMugshot.setPixmap(pixmap)
+
     def ui_update_character(self, char_idx):
         mugshots = Const.MUGSHOT_DESCRIPTIONS[char_idx]
         num_mugshots = len(mugshots)
@@ -381,6 +389,16 @@ class EditorWindow(QMainWindow):
             self.ui.spinCameraAngle.setValue(extra.camera_angle)
 
         self.disable_save()
+
+    def get_mugshot_np(self, char_idx, mug_idx):
+        if not MCBExtra.is_valid_char(char_idx):
+            return np.zeros((128, 128))
+
+        curr_mugshots = self.mugshots[char_idx]
+        is_valid_mugshot = (0 <= mug_idx < len(curr_mugshots))
+        if not is_valid_mugshot:
+            return np.zeros((128,128))
+        return curr_mugshots[mug_idx]
 
     def text_bytes_to_np(self, raw_bytes):
         split_indices = [0]

@@ -1021,7 +1021,26 @@ color: white;</string>
       <property name="title">
        <string>Preview</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <widget class="QLabel" name="graphicsMugshot">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>128</width>
+           <height>128</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Mugshot Will Go Here</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QLabel" name="graphicsPreview">
          <property name="minimumSize">
@@ -1037,7 +1056,7 @@ color: white;</string>
           </size>
          </property>
          <property name="text">
-          <string>PREVIEW WILL GO HERE</string>
+          <string>Text Will Go Here</string>
          </property>
         </widget>
        </item>
