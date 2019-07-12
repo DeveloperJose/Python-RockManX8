@@ -81,7 +81,7 @@ class AppContext(ApplicationContext):
             regular_path = install_path / 'mes'
             collection_path = install_path / 'nativeDX10' / 'X8' / 'romPC' / 'data' / 'mes'
             if regular_path.exists() or collection_path.exists():
-                return install_fname
+                return install_path
 
     @cached_property
     def exception_handlers(self):
