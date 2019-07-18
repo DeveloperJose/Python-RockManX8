@@ -43,7 +43,7 @@ class Ui_MainWindow(object):
 "    color: black;\n"
 "}\n"
 "\n"
-"QPushButton:disabled, QLineEdit:disabled{\n"
+"QPushButton:disabled, QLineEdit:disabled, QComboBox:disabled{\n"
 "    background: rgb(191, 191, 191);\n"
 "    color: rgb(85, 85, 85);\n"
 "}")
@@ -202,6 +202,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setSpacing(0)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.btnOpenCharMap = QtWidgets.QPushButton(self.groupText)
+        self.btnOpenCharMap.setObjectName("btnOpenCharMap")
+        self.horizontalLayout_7.addWidget(self.btnOpenCharMap)
         spacerItem2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem2)
         self.btnSave = QtWidgets.QPushButton(self.groupText)
@@ -608,6 +611,7 @@ class Ui_MainWindow(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Consolas\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Example Text</p></body></html>"))
+        self.btnOpenCharMap.setText(_translate("MainWindow", "Open Character Map"))
         self.btnSave.setText(_translate("MainWindow", "Save Changes"))
         self.btnRevert.setText(_translate("MainWindow", "Revert"))
         self.groupExtraData.setTitle(_translate("MainWindow", "Extra Data Editor"))

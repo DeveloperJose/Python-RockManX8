@@ -307,7 +307,42 @@ class Font:
                     im_char = texture[rstart:rend, cstart:cend]
                     characters.append(im_char)
 
-        self.characters = characters
+        self.characters = np.array(characters)
+
+    def text_bytes_to_array(self, raw_bytes):
+        sentences, max_sentence_len = self.__split_to_sentences__(raw_bytes)
+        cols = 20 * max_sentence_len
+        rows = 20 * len(sentences)
+        im = np.zeros((rows, cols))
+        for row_idx, sentence in enumerate(sentences):
+            row_start = row_idx * 20
+            row_end = row_start + 20
+            for col_idx, char_byte in enumerate(sentence):
+                if char_byte >= len(self.characters):
+                    im_curr_char = self.characters[0]
+                else:
+                    im_curr_char = self.characters[char_byte]
+                col_start = col_idx * 20
+                col_end = col_start + 20
+                im[row_start:row_end, col_start:col_end] = im_curr_char
+
+        return im
+
+    @staticmethod
+    def __split_to_sentences__(raw_bytes):
+        split_indices = [0]
+        split_indices.extend([idx + 1 for idx, char_byte in enumerate(raw_bytes) if char_byte == 65533])
+        split_indices.append(len(raw_bytes) + 1)
+        sentences = []
+        max_sentence_len = 0
+        for split_idx, slice_start in enumerate(split_indices):
+            if split_idx >= len(split_indices) - 1:
+                break
+            slice_end = split_indices[split_idx + 1]
+            sentence = raw_bytes[slice_start:slice_end]
+            max_sentence_len = max(max_sentence_len, len(sentence))
+            sentences.append(sentence)
+        return sentences, max_sentence_len
 
 
 class WPGFile:
@@ -612,6 +647,6 @@ if __name__ == '__main__':
     ]
     results = np.array(results, dtype=np.ndarray)
     np.savez_compressed(npz_path, mugshots=results)
-    data = np.load(npz_path, allow_pickle=True)['mugshots']
+    d = np.load(npz_path, allow_pickle=True)['mugshots']
     # mcb = MCBFile('C:/Users/xeroj/Desktop/Local_Programming/RockManX8_Tools/tools/arctool/LABO_TIT/X8/data/mes/USA/LABO_TIT.0589CBA3')
     # mcb.print()

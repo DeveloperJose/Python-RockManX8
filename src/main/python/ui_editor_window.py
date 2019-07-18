@@ -3,13 +3,15 @@ import subprocess
 from pathlib import Path
 from typing import List
 
+import PyQt5.QtCore as QtCore
 import numpy as np
 import qimage2ndarray
 from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QMainWindow, QProgressDialog
+from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtWidgets import QMainWindow, QProgressDialog, QDialog, QTableWidgetItem, QAbstractItemView
 
 from config_utils import Config
+from ui_character_map import Ui_CharacterMapDialog
 from ui_design import Ui_MainWindow
 from x8_utils import Const, MCBFile, MCBExtra, Font
 
@@ -68,22 +70,15 @@ class MCBManager:
 
     def __arctool_extract__(self, fpath):
         # Call arc-tool to extract the contents
-        subprocess.call([str(self.arctool_path), '-x', '-pc', str(fpath)])
+        subprocess.call([str(self.arctool_path), '-x', '-pc', '-silent', str(fpath)])
 
         # Move from legacy collection folder to a local directory (mcb_path)
         # TODO: Perhaps we should copy the arcs and do this locally?
         folder_path = self.arc_folder_path / fpath.stem
         shutil.move(str(folder_path), str(self.mcb_path))
-        self.__arctool_clean__()
 
     def __arctool_compress__(self, fpath):
-        subprocess.call([str(self.arctool_path), '-c', '-pc', str(fpath)])
-        self.__arctool_clean__()
-
-    @staticmethod
-    def __arctool_clean__():
-        # TODO: Ask the developer of arc-tool if this can be disabled in the command-line
-        Path('log.txt').unlink()
+        subprocess.call([str(self.arctool_path), '-c', '-pc', '-silent', str(fpath)])
 
     def __extract_arcs__(self):
         if not self.cfg.is_valid_collection or self.mcb_path.exists():
@@ -138,6 +133,7 @@ class EditorWindow(QMainWindow):
         self.mcbManager = MCBManager(appctxt)
         self.mcb = None
         self.mugshots = np.load(appctxt.get_resource('mugshots.npz'), allow_pickle=True)['mugshots']
+        self.char_map_dialog = CharacterMapDialog(self.mcbManager, self.evt_clicked_dialog_insert)
 
         self.__init_file_group__()
         self.__init_editor_group__()
@@ -158,6 +154,7 @@ class EditorWindow(QMainWindow):
         self.ui.textEditor.textChanged.connect(lambda: self.ui_update_preview())
         self.ui.textEditor.textChanged.connect(self.enable_save)
 
+        self.ui.btnOpenCharMap.clicked.connect(self.evt_clicked_opencharmap)
         self.ui.btnSave.clicked.connect(self.evt_clicked_save)
         self.ui.btnRevert.clicked.connect(lambda: self.ui_update_editor())
 
@@ -209,15 +206,25 @@ class EditorWindow(QMainWindow):
         return mcb_name
 
     def enable_save(self, *args, **kwargs):
+        self.ui.btnRevert.setEnabled(True)
         self.ui.btnSave.setEnabled(True)
         self.ui.btnSave.setText('Save Changes*')
 
     def disable_save(self):
+        self.ui.btnRevert.setEnabled(False)
         self.ui.btnSave.setEnabled(False)
         self.ui.btnSave.setText('Save Changes')
 
     def evt_timer_redraw(self):
         self.adjustSize()
+
+    def evt_clicked_dialog_insert(self, checked):
+        char_byte = self.char_map_dialog.get_selected_char_byte()
+        insert_str = '[{}]'.format(char_byte)
+        self.ui.textEditor.insertPlainText(insert_str)
+
+    def evt_clicked_opencharmap(self, checked):
+        self.char_map_dialog.show()
 
     def evt_clicked_openclosefile(self, checked):
         if self.mcb is None:
@@ -300,6 +307,7 @@ class EditorWindow(QMainWindow):
         self.ui.btnOpenCloseFile.setText("Open File")
         self.mcb = None
 
+        self.char_map_dialog.close()
         self.ui.comboFiles.setEnabled(True)
         self.ui.groupText.setVisible(False)
         self.ui.groupExtraData.setVisible(False)
@@ -329,7 +337,7 @@ class EditorWindow(QMainWindow):
         curr_text = self.ui.textEditor.toPlainText()
         curr_bytes = MCBFile.convert_text_to_bytes(curr_text)
 
-        im_text = self.text_bytes_to_np(curr_bytes)
+        im_text = self.mcbManager.font.text_bytes_to_array(curr_bytes)
         q_im = qimage2ndarray.array2qimage(im_text)
         pixmap = QPixmap(q_im)
         if pixmap is not None:
@@ -358,6 +366,7 @@ class EditorWindow(QMainWindow):
 
     def ui_update_extra_data(self):
         self.ui.groupExtraData.setVisible(self.mcb.has_extras())
+        self.ui.graphicsMugshot.setVisible(self.mcb.has_extras())
         if not self.mcb.has_extras():
             return
 
@@ -397,37 +406,36 @@ class EditorWindow(QMainWindow):
         curr_mugshots = self.mugshots[char_idx]
         is_valid_mugshot = (0 <= mug_idx < len(curr_mugshots))
         if not is_valid_mugshot:
-            return np.zeros((128,128))
+            return np.zeros((128, 128))
         return curr_mugshots[mug_idx]
 
-    def text_bytes_to_np(self, raw_bytes):
-        split_indices = [0]
-        split_indices.extend([idx + 1 for idx, char_byte in enumerate(raw_bytes) if char_byte == 65533])
-        split_indices.append(len(raw_bytes) + 1)
-        sentences = []
-        max_sentence_char = 0
-        for split_idx, slice_start in enumerate(split_indices):
-            if split_idx >= len(split_indices) - 1:
-                break
-            slice_end = split_indices[split_idx + 1]
-            sentence = raw_bytes[slice_start:slice_end]
-            max_sentence_char = max(max_sentence_char, len(sentence))
-            sentences.append(sentence)
 
-        cols = 20 * max_sentence_char
-        rows = 20 * len(sentences)
-        im = np.zeros((rows, cols))
-        font = self.mcbManager.font
-        for row_idx, sentence in enumerate(sentences):
-            row_start = row_idx * 20
-            row_end = row_start + 20
-            for col_idx, char_byte in enumerate(sentence):
-                if char_byte >= len(font.characters):
-                    im_curr_char = font.characters[0]
-                else:
-                    im_curr_char = font.characters[char_byte]
-                col_start = col_idx * 20
-                col_end = col_start + 20
-                im[row_start:row_end, col_start:col_end] = im_curr_char
+class CharacterMapDialog(QDialog):
+    def __init__(self, mcb_manager: MCBManager, btn_callback):
+        super(QDialog, self).__init__(None)
+        self.ui = Ui_CharacterMapDialog()
+        self.ui.setupUi(self)
 
-        return im
+        chars = mcb_manager.font.characters
+        col_count = 12
+        row_count = len(chars) // col_count
+        chars = chars.reshape(row_count, col_count, 20, 20)
+
+        self.ui.tableCharMap.setRowCount(row_count)
+        self.ui.tableCharMap.setColumnCount(col_count)
+        self.ui.tableCharMap.setIconSize(QtCore.QSize(40, 40))
+        self.ui.tableCharMap.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.ui.btnInsertChar.clicked.connect(btn_callback)
+
+        for row_idx, col_arr in enumerate(chars):
+            for col_idx, im_char in enumerate(col_arr):
+                idx = (row_idx * col_count) + col_idx
+
+                q_im = qimage2ndarray.array2qimage(im_char)
+                pixmap = QPixmap(q_im).scaled(40, 40)
+                icon = QIcon(pixmap)
+                item = QTableWidgetItem(icon, str(idx))
+                self.ui.tableCharMap.setItem(row_idx, col_idx, item)
+
+    def get_selected_char_byte(self):
+        return self.ui.tableCharMap.selectedItems()[0].text()

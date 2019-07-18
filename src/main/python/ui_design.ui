@@ -57,7 +57,7 @@ QPushButton:enabled {
 	color: black;
 }
 
-QPushButton:disabled, QLineEdit:disabled{
+QPushButton:disabled, QLineEdit:disabled, QComboBox:disabled{
 	background: rgb(191, 191, 191);
 	color: rgb(85, 85, 85);
 }</string>
@@ -376,6 +376,13 @@ p, li { white-space: pre-wrap; }
          <property name="spacing">
           <number>0</number>
          </property>
+         <item>
+          <widget class="QPushButton" name="btnOpenCharMap">
+           <property name="text">
+            <string>Open Character Map</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <spacer name="horizontalSpacer_3">
            <property name="orientation">
