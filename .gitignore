@@ -1,3 +1,12 @@
+# MCB/ARC/Settings
+*.mcb
+*.0589CBA3
+*.arc
+
+log.txt
+settings.ini
+workspace.xml
+
 # MMX8 assets
 demo/
 event/
@@ -32,13 +41,6 @@ tools/
 *.bak
 *.pyc
 *.jar
-
-*.mcb
-*.0589CBA3
-*.arc
-
-settings.ini
-workspace.xml
 
 # Prerequisites
 *.d
