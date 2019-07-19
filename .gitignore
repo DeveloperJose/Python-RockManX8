@@ -8,6 +8,8 @@ settings.ini
 workspace.xml
 
 # MMX8 assets
+ARC/
+game/
 demo/
 event/
 lpk/

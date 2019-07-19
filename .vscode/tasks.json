@@ -6,6 +6,8 @@
             "dependsOn": ["update_ui"],
             "presentation": {
                 "panel": "shared",
+                "reveal": "silent",
+                "clear": true
             }
         },
         {
@@ -14,6 +16,8 @@
             "command": ".\\update_ui.bat",
             "presentation": {
                 "panel": "shared",
+                "reveal": "silent",
+                "clear": true
             }
         }
     ]

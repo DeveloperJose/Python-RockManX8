@@ -5,12 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Main",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceRoot}\\src\\main\\python\\main.py",
+            "console": "integratedTerminal",
+            "preLaunchTask": "build"
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
-            "preLaunchTask": "build"
+            "console": "integratedTerminal"
         }
     ]
 }
