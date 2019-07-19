@@ -106,15 +106,15 @@ class AppContext(ApplicationContext):
             self.sentry.scope.set_extra('X8 Language', self.config.language)
             self.sentry.scope.set_extra('Legacy Collection?', self.config.is_valid_collection)
 
-            mcb = self.__editor__.mcb
-            if mcb is not None:
-                idx = self.__editor__.ui.spinCurrentText.value()
-                self.sentry.scope.set_extra('MCB IDX', idx)
-                self.sentry.scope.set_extra('MCB Path', mcb.path)
-                self.sentry.scope.set_extra('MCB Text Bytes', mcb.texts_raw[idx])
+            # mcb = self.__editor__.mcb
+            # if mcb is not None:
+            #     idx = self.__editor__.ui.spinCurrentText.value()
+            #     self.sentry.scope.set_extra('MCB IDX', idx)
+            #     self.sentry.scope.set_extra('MCB Path', mcb.path)
+            #     self.sentry.scope.set_extra('MCB Text Bytes', mcb.texts_raw[idx])
 
-                if mcb.has_extras():
-                    self.sentry.scope.set_extra('MCB Extra Bytes', mcb.extras[idx])
+            #     if mcb.has_extras():
+            #         self.sentry.scope.set_extra('MCB Extra Bytes', mcb.extras[idx])
 
 
 class UIExceptionHandler(ExceptionHandler):
