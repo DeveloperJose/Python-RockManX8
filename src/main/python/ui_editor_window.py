@@ -94,7 +94,7 @@ class MCBManager:
 
     def __arctool_extract__(self, fpath):
         # Call arc-tool to extract the contents
-        subprocess.call([str(self.arctool_path), '-x', '-pc', '-silent', str(fpath)])
+        subprocess.call([str(self.arctool_path), '-x', '-pc', '-silent', str(fpath)], creationflags=subprocess.CREATE_NO_WINDOW)
 
         # Move from legacy collection folder to a local directory (mcb_path)
         # TODO: Perhaps we should copy the arcs and do this locally?
@@ -102,7 +102,7 @@ class MCBManager:
         shutil.move(str(folder_path), str(self.mcb_path))
 
     def __arctool_compress__(self, fpath):
-        subprocess.call([str(self.arctool_path), '-c', '-pc', '-silent', str(fpath)])
+        subprocess.call([str(self.arctool_path), '-c', '-pc', '-silent', str(fpath)], creationflags=subprocess.CREATE_NO_WINDOW)
 
     def __extract_arcs__(self):
         if not self.cfg.is_valid_collection or self.mcb_path.exists():

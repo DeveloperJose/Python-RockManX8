@@ -2,7 +2,7 @@
     "app_name": "X8TextEditor",
     "author": "RainfallPianist",
     "main_module": "src/main/python/main.py",
-    "version": "v1.2-alpha",
+    "version": "v1.3-alpha",
     "sentry_dsn": "https://9870efae765a4b1e9f876915cd8be37a@sentry.io/1497819",
     "public_settings": ["sentry_dsn", "version"]
 }
