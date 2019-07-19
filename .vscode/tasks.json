@@ -1,0 +1,20 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "dependsOn": ["update_ui"],
+            "presentation": {
+                "panel": "shared",
+            }
+        },
+        {
+            "label": "update_ui",
+            "type": "shell",
+            "command": ".\\update_ui.bat",
+            "presentation": {
+                "panel": "shared",
+            }
+        }
+    ]
+}
