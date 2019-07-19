@@ -6,14 +6,38 @@ from typing import List
 import PyQt5.QtCore as QtCore
 import numpy as np
 import qimage2ndarray
-from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtCore import QTimer, QRegExp
+from PyQt5.QtGui import QPixmap, QIcon, QSyntaxHighlighter, QTextCharFormat, QColor
 from PyQt5.QtWidgets import QMainWindow, QProgressDialog, QDialog, QTableWidgetItem, QAbstractItemView
 
 from config_utils import Config
 from ui_character_map import Ui_CharacterMapDialog
 from ui_design import Ui_MainWindow
 from x8_utils import Const, MCBFile, MCBExtra, Font
+
+
+class SyntaxHighligher(QSyntaxHighlighter):
+    def __init__(self, parent):
+        QSyntaxHighlighter.__init__(self, parent)
+        self.parent = parent
+
+        symbol_format = QTextCharFormat()
+        symbol_format.setForeground(QColor(19, 150, 250))
+        symbol_pattern = QRegExp(r"\[[0-9]+\]")
+        symbol_pattern.setMinimal(True)
+
+        self.formats = [symbol_format]
+        self.patterns = [symbol_pattern]
+
+    def highlightBlock(self, text):
+        for frmt, pattern in zip(self.formats, self.patterns):
+            idx = pattern.indexIn(text)
+
+            while idx >= 0:
+                length = pattern.matchedLength()
+                self.setFormat(idx, length, frmt)
+                idx = pattern.indexIn(text, idx + length)
+        self.setCurrentBlockState(0)
 
 
 class MCBManager:
@@ -153,6 +177,7 @@ class EditorWindow(QMainWindow):
         self.ui.spinCurrentText.valueChanged.connect(lambda new_value: self.ui_update_editor())
         self.ui.textEditor.textChanged.connect(lambda: self.ui_update_preview())
         self.ui.textEditor.textChanged.connect(self.enable_save)
+        self.syntax_highlighter = SyntaxHighligher(self.ui.textEditor)
 
         self.ui.btnOpenCharMap.clicked.connect(self.evt_clicked_opencharmap)
         self.ui.btnSave.clicked.connect(self.evt_clicked_save)
