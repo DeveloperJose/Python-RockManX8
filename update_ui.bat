@@ -1,10 +1,10 @@
 @ECHO OFF
-CD src/main/python
+CALL activate pyqt5
 
-activate fbs
-pyuic5 ui_design.ui -o ui_design.py
-pyuic5 ui_character_map.ui -o ui_character_map.py
-
+CD src/gui/design
+CALL pyuic5 editor_window.ui -o ui_editor_window.py
+CALL pyuic5 character_map.ui -o ui_character_map.py
 CD ../../..
+
 ECHO Updated UI design Python code from .ui file
 @ECHO ON

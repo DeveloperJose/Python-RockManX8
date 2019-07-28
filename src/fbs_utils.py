@@ -15,7 +15,7 @@ LANGUAGES = ['SPA - [Spanish]', 'USA - [English (USA)]', 'ENG - [English (Europe
 SETTINGS_PATH = Path('settings.ini')
 
 
-class AppContext(ApplicationContext):
+class AppContext():
 
     @cached_property
     def __editor__(self) -> EditorWindow:

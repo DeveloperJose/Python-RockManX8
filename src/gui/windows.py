@@ -1,19 +1,13 @@
-import shutil
-import subprocess
-from pathlib import Path
-from typing import List
-
-import PyQt5.QtCore as QtCore
 import numpy as np
 import qimage2ndarray
 from PyQt5.QtCore import QTimer, QRegExp
-from PyQt5.QtGui import QPixmap, QIcon, QSyntaxHighlighter, QTextCharFormat, QColor
-from PyQt5.QtWidgets import QMainWindow, QProgressDialog, QDialog, QTableWidgetItem, QAbstractItemView
+from PyQt5.QtGui import QPixmap, QSyntaxHighlighter, QTextCharFormat, QColor
+from PyQt5.QtWidgets import QMainWindow
 
-from config_utils import Config
-from ui_character_map import Ui_CharacterMapDialog
-from ui_design import Ui_MainWindow
-from x8_utils import Const, MCBFile, MCBExtra, Font
+from core.x8_utils import Const, MCBFile, MCBExtra
+from gui.design.ui_editor_window import Ui_MainWindow
+from gui.dialogues import CharacterMapDialog
+from app import mcb_manager, resource_manager
 
 
 class SyntaxHighligher(QSyntaxHighlighter):
@@ -40,124 +34,16 @@ class SyntaxHighligher(QSyntaxHighlighter):
         self.setCurrentBlockState(0)
 
 
-class MCBManager:
-    font: Font
-    cfg: Config
-
-    @staticmethod
-    def __mcb_sorting_key__(fname: str):
-        key = len(fname)
-        if 'TRIAL' in fname:
-            key += 1
-        if '_' in fname:
-            key += 2
-        if 'DM' in fname:
-            key += 3
-        if 'ST' in fname:
-            key += 4
-        if 'VA' in fname:
-            key += 5
-        if 'MOV' in fname:
-            key += 6
-
-        return key
-
-    def __init__(self, appctxt):
-        self.appctxt = appctxt
-        self.cfg = appctxt.config
-
-        self.arctool_path = Path(appctxt.get_resource('arctool.exe'))
-        self.arc_folder_path = self.cfg.install_path / 'nativeDX10' / 'X8' / 'romPC' / 'data' / 'mes' / self.cfg.language
-
-        if self.cfg.is_valid_collection:
-            self.font_path = Path(appctxt.get_resource('font.wpg'))
-            self.mcb_path = Path('ARC')
-            self.glob_filter = '*/X8/data/mes/{}/*.0589CBA3'.format(self.cfg.language)
-        else:
-            self.font_path = self.cfg.install_path / 'opk' / 'title' / self.cfg.language.lower() / 'wpg' / 'font_ID_FONT_000.wpg'
-            self.mcb_path = self.cfg.install_path / 'mes' / self.cfg.language
-            self.glob_filter = '*.mcb'
-
-        self.font = Font(self.font_path)
-        self.__extract_arcs__()
-
-    def __get_mcb_path__(self, mcb_name):
-        if self.cfg.is_valid_collection:
-            path = self.mcb_path / mcb_name / 'X8/data/mes' / self.cfg.language
-            ext = '.0589CBA3'
-        else:
-            path = self.mcb_path
-            ext = '.mcb'
-
-        fname = mcb_name + ext
-        return path / fname
-
-    def __arctool_extract__(self, fpath):
-        # Call arc-tool to extract the contents
-        subprocess.call([str(self.arctool_path), '-x', '-pc', '-silent', str(fpath)], creationflags=subprocess.CREATE_NO_WINDOW)
-
-        # Move from legacy collection folder to a local directory (mcb_path)
-        # TODO: Perhaps we should copy the arcs and do this locally?
-        folder_path = self.arc_folder_path / fpath.stem
-        shutil.move(str(folder_path), str(self.mcb_path))
-
-    def __arctool_compress__(self, fpath):
-        subprocess.call([str(self.arctool_path), '-c', '-pc', '-silent', str(fpath)], creationflags=subprocess.CREATE_NO_WINDOW)
-
-    def __extract_arcs__(self):
-        if not self.cfg.is_valid_collection or self.mcb_path.exists():
-            return
-
-        self.mcb_path.mkdir()
-
-        diag = QProgressDialog("Extracting Legacy Collection ARC Files", "Cancel", 0, 110)
-        diag.setModal(True)
-
-        for idx, fpath in enumerate(self.arc_folder_path.glob('*.arc')):
-            diag.setValue(idx)
-            self.__arctool_extract__(fpath)
-
-    def update_arc(self, mcb_name):
-        if not self.cfg.is_valid_collection:
-            return
-
-        fpath = self.mcb_path / mcb_name
-        self.__arctool_compress__(fpath)
-
-        # Fix the ARC file so it doesn't crash the legacy collection
-        arc_name = mcb_name + '.arc'
-        arc_file_path = self.mcb_path / arc_name
-        with open(arc_file_path, 'r+b') as file:
-            file.seek(4)
-            file.write(0x07.to_bytes(1, byteorder='little'))
-
-        # Overwrite legacy ARC file with our own and then delete our copy
-        shutil.copy(str(arc_file_path), str(self.arc_folder_path))
-        arc_file_path.unlink()
-
-    def get_mcb_names(self):
-        return sorted([fpath.stem for fpath in self.mcb_path.glob(self.glob_filter)], key=self.__mcb_sorting_key__)
-
-    def get_mcb(self, mcb_name):
-        return MCBFile(self.__get_mcb_path__(mcb_name))
-
-
 class EditorWindow(QMainWindow):
-    mcbManager: MCBManager
-    mcb: MCBFile
-    mugshots: List[np.ndarray]
-
     def __init__(self):
         super(EditorWindow, self).__init__(None)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.__init_ui__()
 
-    def __init_ui__(self, appctxt):
-        self.appctxt = appctxt
-        self.mcbManager = MCBManager(appctxt)
+    def __init_ui__(self):
         self.mcb = None
-        self.mugshots = np.load(appctxt.get_resource('mugshots.npz'), allow_pickle=True)['mugshots']
-        self.char_map_dialog = CharacterMapDialog(self.mcbManager, self.evt_clicked_dialog_insert)
+        self.char_map_dialog = CharacterMapDialog(self.evt_clicked_dialog_insert)
 
         self.__init_file_group__()
         self.__init_editor_group__()
@@ -166,7 +52,7 @@ class EditorWindow(QMainWindow):
         self.adjustSize()
 
     def __init_file_group__(self):
-        for fname in self.mcbManager.get_mcb_names():
+        for fname in mcb_manager.get_mcb_names():
             desc = MCBFile.get_filename_description(fname)
             self.ui.comboFiles.addItem(fname + ' - [' + desc + ']')
 
@@ -310,17 +196,17 @@ class EditorWindow(QMainWindow):
 
             self.mcb.extras[idx] = extra
 
-        self.appctxt.log_ui('Saving changes...')
+        self.ui.statusbar.showMessage('Saving changes...', 5000)
 
         self.mcb.save()
-        self.mcbManager.update_arc(mcb_name=self.get_current_mcb_name())
+        mcb_manager.update_collection_mcb(mcb_name=self.get_current_mcb_name())
 
-        self.appctxt.log_ui('Succesfully saved changes!')
+        self.ui.statusbar.showMessage('Succesfully saved changes!', 5000)
         self.disable_save()
 
     def ui_file_open(self):
         self.ui.btnOpenCloseFile.setText("Close File")
-        self.mcb = self.mcbManager.get_mcb(mcb_name=self.get_current_mcb_name())
+        self.mcb = mcb_manager.get_mcb(mcb_name=self.get_current_mcb_name())
 
         self.ui.comboFiles.setDisabled(True)
         self.ui.groupText.setVisible(True)
@@ -362,7 +248,7 @@ class EditorWindow(QMainWindow):
         curr_text = self.ui.textEditor.toPlainText()
         curr_bytes = MCBFile.convert_text_to_bytes(curr_text)
 
-        im_text = self.mcbManager.font.text_bytes_to_array(curr_bytes)
+        im_text = resource_manager.resources.font.text_bytes_to_array(curr_bytes)
         q_im = qimage2ndarray.array2qimage(im_text)
         pixmap = QPixmap(q_im)
         if pixmap is not None:
@@ -428,39 +314,8 @@ class EditorWindow(QMainWindow):
         if not MCBExtra.is_valid_char(char_idx):
             return np.zeros((128, 128))
 
-        curr_mugshots = self.mugshots[char_idx]
+        curr_mugshots = resource_manager.resources.mugshots[char_idx]
         is_valid_mugshot = (0 <= mug_idx < len(curr_mugshots))
         if not is_valid_mugshot:
             return np.zeros((128, 128))
         return curr_mugshots[mug_idx]
-
-
-class CharacterMapDialog(QDialog):
-    def __init__(self, mcb_manager: MCBManager, btn_callback):
-        super(QDialog, self).__init__(None)
-        self.ui = Ui_CharacterMapDialog()
-        self.ui.setupUi(self)
-
-        chars = mcb_manager.font.characters
-        col_count = 12
-        row_count = len(chars) // col_count
-        chars = chars.reshape(row_count, col_count, 20, 20)
-
-        self.ui.tableCharMap.setRowCount(row_count)
-        self.ui.tableCharMap.setColumnCount(col_count)
-        self.ui.tableCharMap.setIconSize(QtCore.QSize(40, 40))
-        self.ui.tableCharMap.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.ui.btnInsertChar.clicked.connect(btn_callback)
-
-        for row_idx, col_arr in enumerate(chars):
-            for col_idx, im_char in enumerate(col_arr):
-                idx = (row_idx * col_count) + col_idx
-
-                q_im = qimage2ndarray.array2qimage(im_char)
-                pixmap = QPixmap(q_im).scaled(40, 40)
-                icon = QIcon(pixmap)
-                item = QTableWidgetItem(icon, str(idx))
-                self.ui.tableCharMap.setItem(row_idx, col_idx, item)
-
-    def get_selected_char_byte(self):
-        return self.ui.tableCharMap.selectedItems()[0].text()
