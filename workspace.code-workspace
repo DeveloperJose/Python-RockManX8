@@ -15,6 +15,7 @@
 			"**/resources": true,
 			"**/target": true,
 			"**/tools": true
-		}
+		},
+		"editor.fontSize": 18
 	}
 }

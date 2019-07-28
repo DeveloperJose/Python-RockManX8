@@ -2,10 +2,10 @@
 *.mcb
 *.0589CBA3
 *.arc
-ARC/
+arc/
 
 log.txt
-settings.ini
+*.ini
 workspace.xml
 
 # Workspace

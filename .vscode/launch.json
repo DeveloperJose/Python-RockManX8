@@ -8,7 +8,7 @@
             "name": "Python: Main",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceRoot}\\src\\main\\python\\main.py",
+            "program": "${workspaceRoot}\\src\\main.py",
             "console": "integratedTerminal",
             "preLaunchTask": "build"
         },
