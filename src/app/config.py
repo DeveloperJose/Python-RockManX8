@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QFileDialog, QInputDialog
 
 # Metadata
 author = 'RainfallPianist'
-version = 'v1.3-alpha'
+version = 'v1.4-beta'
 
 # Application Variables
 window_title = 'MegaManX8 Text Editor by {} [{}]'.format(author, version)
