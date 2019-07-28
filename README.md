@@ -18,7 +18,7 @@ If you have a 64-bit Windows machine, you can download the pre-bundled package f
 Clone this repository using git, then run *"gui/main.py"*
 
 # License
-TBA
+The MIT License (see LICENSE)
 
 # Acknowledgments
 * ARCtool by FluffyQuack (v0.9.428) which allowed for editing on the X Legacy Collection 2
