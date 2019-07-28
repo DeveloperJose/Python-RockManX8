@@ -2,28 +2,18 @@
 *.mcb
 *.0589CBA3
 *.arc
+ARC/
 
 log.txt
 settings.ini
 workspace.xml
 
-# MMX8 assets
-ARC/
+# Workspace
+.idea
+__pycache__
 game/
-demo/
-event/
-lpk/
-mes/
-mouse/
-movie/
-multilingual/
-ogg/
-opk/
-rail/
-set/
-snd/
-target/
 tools/
+target/
 
 *.wss
 *.wck
