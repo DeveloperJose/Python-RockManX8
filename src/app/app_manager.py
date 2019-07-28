@@ -1,3 +1,4 @@
+import sentry_sdk
 from PyQt5.QtWidgets import QApplication
 
 from gui.windows import EditorWindow
@@ -7,6 +8,7 @@ from app import config, mcb_manager, exception_manager
 class AppManager:
     def __init__(self):
         self.app = QApplication([])
+        sentry_sdk.init(dsn='https://acf5a98fa8964650b635e059bfbf75d4@sentry.io/1515321')
 
     def __init_config__(self):
         return config.load_config_or_default()
