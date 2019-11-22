@@ -1,4 +1,5 @@
 import re
+import struct
 from enum import IntEnum
 from typing import List
 
@@ -94,19 +95,25 @@ class FileStream:
     def __init__(self, file):
         self.file = file
 
-    def read_string(self, size=16):
-        raw = self.file.read(size)
-        return raw.decode('utf-8', errors='replace')
+    def read_string(self, size_bytes=16):
+        raw = self.file.read(size_bytes)
+        decoded_str = raw.decode('utf-8', errors='replace')
+        # decoded_str = re.sub(r'[\x00-\x2F]', r'', decoded_str)
+        return decoded_str
 
-    def read_int(self, size=2):
-        raw = self.file.read(size)
+    def read_int(self, size_bytes=2):
+        raw = self.file.read(size_bytes)
         return int.from_bytes(raw, byteorder='little')
 
-    def read_int_array(self, size):
+    def read_int_array(self, num_ints):
         arr = []
-        for i in range(size):
+        for i in range(num_ints):
             arr.append(self.read_int())
         return arr
+
+    def read_float(self, size_bytes=4):
+        raw = self.file.read(size_bytes)
+        return struct.unpack('<f', raw)[0]
 
     def tell(self):
         return self.file.tell()
@@ -114,9 +121,18 @@ class FileStream:
     def seek(self, offset):
         self.file.seek(offset)
 
-    def write_string(self, s):
+    def write_string(self, s, pad_bytes=16):
         str_bytes = str.encode(s)
         self.file.write(str_bytes)
+
+        # Pad missing bytes with 0
+        missing_bytes = max(pad_bytes-len(s), 0)
+        for i in range(missing_bytes):
+            self.file.write(b'\0')
+
+    def write_float(self, f):
+        float_bytes = struct.pack("<f", f)
+        self.file.write(float_bytes)
 
     def write_int(self, i):
         int_bytes = i.to_bytes(2, byteorder='little')
@@ -130,6 +146,39 @@ class FileStream:
         for i in arr:
             self.write_int(i)
 
+    @staticmethod
+    def int_array_to_hex(arr):
+        hexes = []
+        # Little-Endian order is reversed
+        for n in arr:
+            hexes.append(FileStream.int_to_hex(n))
+        return ",".join(hexes)
+
+    @staticmethod
+    def int_to_hex(n):
+        # Convert to hex
+        hex_str = hex(n)
+        # Remove 0x
+        hex_str = hex_str[2:]
+        # Reverse
+        p1 = hex_str[0:2]
+        p2 = hex_str[2:4]
+        # Pad
+        return (p2 + p1).ljust(4, '_')
+
+    @staticmethod
+    def float_to_hex(f):
+        # Convert to hex
+        hex_str = hex(struct.unpack('<I', struct.pack('<f', f))[0])
+        # Remove 0x and e##
+        hex_str = hex_str[2:-3]
+        # Reverse
+        p1 = hex_str[0:2]
+        p2 = hex_str[2:4]
+        p3 = hex_str[4:6]
+        p4 = hex_str[6:8]
+        # Pad
+        return (p4 + p3 + p2 + p1).ljust(8, '_')
 
 class MCBExtra:
     class MugshotPosition(IntEnum):
@@ -372,6 +421,123 @@ class WPGFile:
                 textures.append(im_texture)
 
         self.textures = textures
+
+class SetEnemy:
+    def __init__(self):
+        self.u1 = None
+        self.id = 0
+        self.u2 = None
+        self.x = 0.0
+        self.y = 0.0
+        self.u3 = None
+        self.k1 = 0
+        self.u4 = None
+        self.type = ""
+        self.u5 = None
+
+    @classmethod
+    def from_reader(cls, reader):
+        instnc = cls()
+
+        u1 = reader.read_int_array(3)  # 6 bytes
+        enemy_id = reader.read_int()  # 2 bytes
+        u2 = reader.read_int_array(4)  # 8 bytes
+        enemy_x = reader.read_float()  # 4 bytes
+        enemy_y = reader.read_float()  # 4 bytes
+        u3 = reader.read_int_array(4)  # 8 bytes
+        k1 = reader.read_int()  # 2 bytes
+        u4 = reader.read_int_array(3)  # 6 bytes
+        enemy_type = reader.read_string(8)  # 8 bytes
+        u5 = reader.read_int_array(16)  # 32 bytes
+
+        instnc.u1 = u1
+        instnc.id = enemy_id
+        instnc.u2 = u2
+        instnc.x = enemy_x
+        instnc.y = enemy_y
+        instnc.u3 = u3
+        instnc.k1 = k1
+        instnc.u4 = u4
+        instnc.type = enemy_type
+        instnc.u5 = u5
+        return instnc
+
+    def write_to_stream(self, writer: FileStream):
+        writer.write_int_array(self.u1)
+        writer.write_int(self.id)
+        writer.write_int_array(self.u2)
+        writer.write_float(self.x)
+        writer.write_float(self.y)
+        writer.write_int_array(self.u3)
+        writer.write_int(self.k1)
+        writer.write_int_array(self.u4)
+        writer.write_string(self.type, pad_bytes=8)
+        writer.write_int_array(self.u5)
+
+    def get_header(self):
+        s = "IDX".ljust(3) + ","
+        s += "U1".ljust(len(self.u1) * 5-1) + ","
+        s += "ID".ljust(4) + ","
+        s += "U2".ljust(len(self.u2) * 5-1) + ","
+        s += "U3".ljust(len(self.u3) * 5-1) + ","
+        s += "K1".ljust(4) + ","
+        s += "U4".ljust(len(self.u4) * 5-1) + ","
+        s += "Type".ljust(8) + ","
+        s += "U5".ljust(len(self.u5) * 5-1)
+        return s
+
+    def print(self, idx):
+        s = str(idx).ljust(3) + ","
+        s += FileStream.int_array_to_hex(self.u1) + ","
+        s += FileStream.int_to_hex(self.id) + ","
+        s += FileStream.int_array_to_hex(self.u2) + ","
+        # s += FileStream.float_to_hex(self.x) + ","
+        # s += FileStream.float_to_hex(self.y) + ","
+        s += FileStream.int_array_to_hex(self.u3) + ","
+        s += FileStream.int_to_hex(self.k1) + ","
+        s += FileStream.int_array_to_hex(self.u4) + ","
+        s += self.type.rjust(8) + ","
+        s += FileStream.int_array_to_hex(self.u5) + ","
+        print(s)
+
+
+class SetFile:
+    def __init__(self, path=None):
+        self.enemies = []
+        if path is not None:
+            self.path = path
+            self.__load_from_file__(path)
+
+    def __load_from_file__(self, spath):
+        with open(spath, 'rb') as file:
+            reader = FileStream(file)
+
+            # Header (0x40 bytes)
+            num_enemies = reader.read_int()
+            rest_of_header = reader.read_string(0x3E)
+
+            # Enemy Data (0x50=80 bytes each)
+            for i in range(num_enemies):
+                enemy = SetEnemy.from_reader(reader)
+                self.enemies.append(enemy)
+
+    def save(self, spath=None):
+        if spath is None:
+            spath = self.path
+
+        with open(spath, 'wb') as file:
+            writer = FileStream(file)
+
+            writer.write_int(len(self.enemies))
+            writer.write_int_array([0] * 31)
+
+            for enemy in self.enemies:
+                enemy.write_to_stream(writer)
+
+    def print(self):
+        print(self.enemies[0].get_header())
+        for idx, enemy in enumerate(self.enemies):
+            enemy.print(idx)
 
 
 class MCBFile:
