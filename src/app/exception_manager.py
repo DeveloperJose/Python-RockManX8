@@ -1,5 +1,4 @@
 import traceback
-import sentry_sdk
 import sys
 from PyQt5.QtWidgets import QMessageBox, QApplication
 
@@ -8,10 +7,6 @@ window = None
 
 
 def handle_exception(type, value, tb):
-    # Send exception to my Sentry dashboard (only on live release, not debug)
-    if getattr(sys, 'frozen', True):
-        sentry_sdk.capture_exception(value)
-
     # Print exception traceback on console
     traceback.print_tb(tb)
 
