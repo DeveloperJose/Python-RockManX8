@@ -134,7 +134,7 @@ class EditorWindow(QMainWindow):
 
     def evt_clicked_dialog_insert(self, checked):
         char_byte = self.char_map_dialog.get_selected_char_byte()
-        insert_str = '[{}]'.format(char_byte)
+        insert_str = f'[{char_byte}]'
         self.ui.textEditor.insertPlainText(insert_str)
 
     def evt_clicked_opencharmap(self, checked):
@@ -269,7 +269,7 @@ class EditorWindow(QMainWindow):
         if idx > total_texts:
             idx = 0
         self.ui.spinCurrentText.setValue(idx)
-        self.ui.lblTotalTexts.setText('<span style=" color:#aa0000;">{}</span>'.format(total_texts))
+        self.ui.lblTotalTexts.setText(f'<span style=" color:#aa0000;">{total_texts}</span>')
 
         # Current Text
         text = MCBFile.convert_bytes_to_text(self.mcb.texts_raw[idx])

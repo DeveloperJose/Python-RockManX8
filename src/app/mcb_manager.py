@@ -23,7 +23,7 @@ class __Resources__:
     @property
     def glob_filter(self):
         if config.is_valid_collection:
-            return '*/X8/data/mes/{}/*.0589CBA3'.format(config.language)
+            return f'*/X8/data/mes/{config.language}/*.0589CBA3'
         return '*.mcb'
 
 

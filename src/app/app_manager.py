@@ -16,11 +16,10 @@ class AppManager:
         self.editor_window.setWindowTitle(config.window_title)
         self.editor_window.show()
 
-    def log_ui(self, message, *format_args):
+    def log_ui(self, message):
         if self.editor_window is None:
             return
 
-        message = message.format(*format_args)
         self.editor_window.ui.statusbar.showMessage(message, 5000)
 
     def run(self):
