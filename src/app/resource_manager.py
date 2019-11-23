@@ -1,19 +1,23 @@
 import subprocess
-import numpy as np
+import pickle
 from pathlib import Path
-from typing import List
 
 from core.wpg import Font
 from app import config
 
 # Manager Settings
-default_font_path = Path('resources//font.wpg')
+default_font_path = Path('resources//default_font.wpg')
 arctool_path = Path('resources//ARCtool.exe')
-mugshots_path = Path('resources//mugshots.npz')
+mugshots_path = Path('resources//mugshots.pkl')
 
-if not arctool_path.exists() or not default_font_path.exists() or not mugshots_path.exists():
-    raise Exception('Could not load resources from resources folder')
+if not arctool_path.exists():
+    raise Exception(f'Could not find resource: {arctool_path}')
 
+if not default_font_path.exists():
+    raise Exception(f'Could not find resource: {default_font_path}')
+
+if not mugshots_path.exists():
+    raise Exception(f'Could not find resource: {mugshots_path}')
 
 class __Resources__:
     @property
@@ -27,8 +31,8 @@ class __Resources__:
         return Font(self.font_path)
 
     @property
-    def mugshots(self) -> List[np.ndarray]:
-        return np.load(str(mugshots_path), allow_pickle=True)['mugshots']
+    def mugshots(self):
+        return pickle.load(open(mugshots_path, 'rb'))
 
 
 resources = __Resources__()
