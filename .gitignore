@@ -8,6 +8,9 @@ log.txt
 *.ini
 workspace.xml
 
+# PyInstaller
+*.spec
+
 # Workspace
 .idea
 .vscode
