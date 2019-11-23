@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QTimer, QRegExp
-from PyQt5.QtGui import QPixmap, QSyntaxHighlighter, QTextCharFormat, QColor
+from PyQt5.QtGui import QPixmap, QSyntaxHighlighter, QTextCharFormat, QColor, QIcon
 from PyQt5.QtWidgets import QMainWindow
 
 from PIL import Image
@@ -42,6 +42,7 @@ class EditorWindow(QMainWindow):
         super(EditorWindow, self).__init__(None)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setWindowIcon(QIcon(resource_manager.resources.icon_path))
         self.__init_ui__()
 
     def __init_ui__(self):
