@@ -1,4 +1,4 @@
-from core.file_stream import FileStream
+from core.io import FileStream
 
 
 class SetEnemy:

@@ -3,7 +3,7 @@ from enum import IntEnum
 from typing import List
 
 from core import constants as Const
-from core.file_stream import FileStream
+from core.io import FileStream
 
 
 class MCBExtra:

@@ -1,13 +1,60 @@
-import numpy as np
 from PIL import Image
-
+from PIL.ImageQt import ImageQt
 
 class Font:
     def __init__(self, path):
-        self.wpg = WPGFile(path)
+        textures =  self.__load_textures_from_file__(path)
+        characters = self.__load_characters_from_textures__(textures)
 
+        self.textures = textures
+        self.characters = characters
+
+    def text_bytes_to_imageqt(self, raw_bytes):
+        # Reduce gaps between characters by 5px
+        COL_WIDTH = 15
+        ROW_WIDTH = 20
+        sentences, max_sentence_len = self.__split_bytes_to_sentences__(raw_bytes)
+        cols = COL_WIDTH * max_sentence_len
+        rows = ROW_WIDTH * len(sentences)
+        im = Image.new('L', (cols, rows))
+        for row_idx, sentence in enumerate(sentences):
+            row_offset = row_idx * ROW_WIDTH
+            for col_idx, char_byte in enumerate(sentence):
+                col_offset = col_idx * COL_WIDTH
+                # Get character image from list
+                if char_byte >= len(self.characters):
+                    im_curr_char = self.characters[0]
+                else:
+                    im_curr_char = self.characters[char_byte]
+
+                # Paste into canvas
+                im.paste(im_curr_char, (col_offset, row_offset))
+        return ImageQt(im)
+
+    @staticmethod
+    def __load_textures_from_file__(path):
+        textures = []
+        with open(path, 'rb') as file:
+            file.seek(0)
+            wpg_header = file.read(32)
+            while True:
+                texture_data = file.read(262162)
+                # Check for end of file
+                if len(texture_data) != 262162:
+                    break
+
+                # Read texture
+                im_raw = Image.frombytes('RGBA', (256, 256), texture_data)
+                im_raw_gray = im_raw.convert("L")
+                im_texture = im_raw_gray.crop((0, 0, 240, 240))
+                textures.append(im_texture)
+
+        return textures
+
+    @staticmethod
+    def __load_characters_from_textures__(textures):
         characters = []
-        for texture in self.wpg.textures:
+        for texture in textures:
             # Extract all 144 characters from the texture
             for row in range(12):
                 for col in range(12):
@@ -15,32 +62,12 @@ class Font:
                     rend = rstart + 20
                     cstart = col * 20
                     cend = cstart + 20
-                    im_char = texture[rstart:rend, cstart:cend]
+                    im_char = texture.crop((cstart, rstart, cend, rend))
                     characters.append(im_char)
-
-        self.characters = np.array(characters)
-
-    def text_bytes_to_array(self, raw_bytes):
-        sentences, max_sentence_len = self.__split_to_sentences__(raw_bytes)
-        cols = 20 * max_sentence_len
-        rows = 20 * len(sentences)
-        im = np.zeros((rows, cols))
-        for row_idx, sentence in enumerate(sentences):
-            row_start = row_idx * 20
-            row_end = row_start + 20
-            for col_idx, char_byte in enumerate(sentence):
-                if char_byte >= len(self.characters):
-                    im_curr_char = self.characters[0]
-                else:
-                    im_curr_char = self.characters[char_byte]
-                col_start = col_idx * 20
-                col_end = col_start + 20
-                im[row_start:row_end, col_start:col_end] = im_curr_char
-
-        return im
+        return characters
 
     @staticmethod
-    def __split_to_sentences__(raw_bytes):
+    def __split_bytes_to_sentences__(raw_bytes):
         split_indices = [0]
         split_indices.extend([idx + 1 for idx, char_byte in enumerate(raw_bytes) if char_byte == 65533])
         split_indices.append(len(raw_bytes) + 1)
@@ -55,31 +82,8 @@ class Font:
             sentences.append(sentence)
         return sentences, max_sentence_len
 
-
-class WPGFile:
-    def __init__(self, path=None):
-        self.textures = None
-        self.path = None
-
-        if path is not None:
-            self.path = path
-            self.__load_from_file__(path)
-
-    def __load_from_file__(self, path):
-        textures = []
-        with open(path, 'rb') as file:
-            file.seek(0)
-            wpg_header = file.read(32)
-            while True:
-                texture_data = file.read(262162)
-                # Check for end of file
-                if len(texture_data) != 262162:
-                    break
-
-                # Read texture
-                im_raw = Image.frombytes('RGBA', (256, 256), texture_data)
-                im_raw_gray = im_raw.convert("L")
-                im_texture = np.array(im_raw_gray)[:240, :240]
-                textures.append(im_texture)
-
-        self.textures = textures
+# from core.mcb import MCBFile
+# import pylab as plt
+# font = Font(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\resources\font.wpg')
+# raw_bytes = MCBFile.convert_text_to_bytes("Example Text")
+# plt.imshow(font.text_bytes_to_imageqt(raw_bytes))
