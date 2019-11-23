@@ -1,5 +1,5 @@
 from core.io import FileStream
-
+import core.constants as Const
 
 class SetEnemy:
     def __init__(self):
@@ -86,6 +86,18 @@ class SetFile:
         if path is not None:
             self.path = path
             self.__load_from_file__(path)
+
+    @property
+    def stage_name(self):
+        if self.path is None:
+            return "Unknown Stage"
+
+        for stage_id in Const.STAGE_NAMES.keys():
+            set_id = "Set" + stage_id
+            if set_id in self.path:
+                return Const.STAGE_NAMES[stage_id]
+
+        return "Unknown Stage"
 
     def __load_from_file__(self, spath):
         with open(spath, 'rb') as file:

@@ -15,7 +15,7 @@ BLUE = (0, 0, 255)
 PURPLE = (128,0,128)
 
 # Screen dimensions
-SCREEN_WIDTH = 800
+SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
 SCALE = 5
 
@@ -116,8 +116,8 @@ if __name__ == '__main__':
 
     enemy_idx = 0
 
-    font = pygame.font.SysFont('Verdana', 30)
-    text_level_name = font.render('', False, WHITE)
+    font = pygame.font.SysFont('Verdana', 20)
+    text_level_name = font.render(set_file.stage_name, False, WHITE)
     text_enemy_info = font.render('Use [ and ] keys to step through the enemy list.', False, WHITE)
 
     # -------- Main Program Loop -----------
@@ -174,8 +174,8 @@ if __name__ == '__main__':
 
         # == Draw UI on top of level
         current_level.draw(screen)
-        screen.blit(text_enemy_info, (0, 0))
-
+        screen.blit(text_level_name, (0, 0))
+        screen.blit(text_enemy_info, (0, 30))
         clock.tick(60)
         pygame.display.flip()
 
