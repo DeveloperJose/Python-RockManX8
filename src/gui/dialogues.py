@@ -26,8 +26,8 @@ class CharacterMapDialog(QDialog):
         self.ui.btnInsertChar.clicked.connect(btn_callback)
 
         for idx, im_char in enumerate(chars):
-            row_idx = idx % row_count
-            col_idx = idx // col_count
+            row_idx = idx // row_count
+            col_idx = idx % col_count
 
             qt_im = ImageQt(im_char)
             pixmap = QPixmap.fromImage(qt_im).scaled(40, 40)
