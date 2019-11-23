@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QMainWindow
 
 from core.mcb import MCBFile, MCBExtra
 import core.constants as Const
+
 from gui.design.ui_editor_window import Ui_MainWindow
 from gui.dialogues import CharacterMapDialog
 from app import mcb_manager, resource_manager
@@ -231,7 +232,7 @@ class EditorWindow(QMainWindow):
         self.ui.spinMugshot.setValue(mug_idx)
         self.ui.textMugshotDesc.setText(MCBExtra.get_mugshot_description(char_idx, mug_idx))
 
-        im = self.get_mugshot_np(char_idx, mug_idx)
+        im = self.get_mugshot_im(char_idx, mug_idx)
         q_im = qimage2ndarray.array2qimage(im)
         pixmap = QPixmap(q_im)
         self.ui.graphicsMugshot.setPixmap(pixmap)
@@ -249,9 +250,8 @@ class EditorWindow(QMainWindow):
         curr_text = self.ui.textEditor.toPlainText()
         curr_bytes = MCBFile.convert_text_to_bytes(curr_text)
 
-        im_text = resource_manager.resources.font.text_bytes_to_array(curr_bytes)
-        q_im = qimage2ndarray.array2qimage(im_text)
-        pixmap = QPixmap(q_im)
+        qt_im = resource_manager.resources.font.text_bytes_to_imageqt(curr_bytes)
+        pixmap = QPixmap.fromImage(qt_im)
         if pixmap is not None:
             self.ui.graphicsPreview.setPixmap(pixmap)
 
@@ -311,12 +311,14 @@ class EditorWindow(QMainWindow):
 
         self.disable_save()
 
-    def get_mugshot_np(self, char_idx, mug_idx):
+    @staticmethod
+    def get_mugshot_im(char_idx, mug_idx):
         if not MCBExtra.is_valid_char(char_idx):
-            return np.zeros((128, 128))
+            return None
 
         curr_mugshots = resource_manager.resources.mugshots[char_idx]
         is_valid_mugshot = (0 <= mug_idx < len(curr_mugshots))
         if not is_valid_mugshot:
-            return np.zeros((128, 128))
+            return None
+
         return curr_mugshots[mug_idx]
