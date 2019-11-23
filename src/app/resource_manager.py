@@ -3,7 +3,7 @@ import numpy as np
 from pathlib import Path
 from typing import List
 
-from core.x8_utils import Font
+from core.wpg import Font
 from app import config
 
 # Manager Settings

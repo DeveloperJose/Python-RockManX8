@@ -2,7 +2,7 @@ import shutil
 from pathlib import Path
 from PyQt5.QtWidgets import QProgressDialog
 
-from core.x8_utils import MCBFile
+from core.mcb import MCBFile
 from app import config, resource_manager
 
 # Manager Settings

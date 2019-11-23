@@ -1,4 +1,4 @@
-from src.main.python.x8_utils import MCBFile
+from src.main_mcb_editor.python.x8_utils import MCBFile
 import os
 import subprocess
 
