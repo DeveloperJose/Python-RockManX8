@@ -1,5 +1,4 @@
 from PIL import Image
-from PIL.ImageQt import ImageQt
 
 class Font:
     def __init__(self, path):
@@ -9,7 +8,7 @@ class Font:
         self.textures = textures
         self.characters = characters
 
-    def text_bytes_to_imageqt(self, raw_bytes):
+    def text_bytes_to_im(self, raw_bytes):
         # Reduce gaps between characters by 5px
         COL_WIDTH = 15
         ROW_WIDTH = 20
@@ -29,7 +28,7 @@ class Font:
 
                 # Paste into canvas
                 im.paste(im_curr_char, (col_offset, row_offset))
-        return ImageQt(im)
+        return im
 
     @staticmethod
     def __load_textures_from_file__(path):
@@ -81,9 +80,3 @@ class Font:
             max_sentence_len = max(max_sentence_len, len(sentence))
             sentences.append(sentence)
         return sentences, max_sentence_len
-
-# from core.mcb import MCBFile
-# import pylab as plt
-# font = Font(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\resources\font.wpg')
-# raw_bytes = MCBFile.convert_text_to_bytes("Example Text")
-# plt.imshow(font.text_bytes_to_imageqt(raw_bytes))

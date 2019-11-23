@@ -1,8 +1,9 @@
-import numpy as np
-import qimage2ndarray
 from PyQt5.QtCore import QTimer, QRegExp
 from PyQt5.QtGui import QPixmap, QSyntaxHighlighter, QTextCharFormat, QColor
 from PyQt5.QtWidgets import QMainWindow
+
+from PIL import Image
+from PIL.ImageQt import ImageQt
 
 from core.mcb import MCBFile, MCBExtra
 import core.constants as Const
@@ -233,8 +234,8 @@ class EditorWindow(QMainWindow):
         self.ui.textMugshotDesc.setText(MCBExtra.get_mugshot_description(char_idx, mug_idx))
 
         im = self.get_mugshot_im(char_idx, mug_idx)
-        q_im = qimage2ndarray.array2qimage(im)
-        pixmap = QPixmap(q_im)
+        qt_im = ImageQt(im)
+        pixmap = QPixmap.fromImage(qt_im)
         self.ui.graphicsMugshot.setPixmap(pixmap)
 
     def ui_update_character(self, char_idx):
@@ -250,7 +251,8 @@ class EditorWindow(QMainWindow):
         curr_text = self.ui.textEditor.toPlainText()
         curr_bytes = MCBFile.convert_text_to_bytes(curr_text)
 
-        qt_im = resource_manager.resources.font.text_bytes_to_imageqt(curr_bytes)
+        im = resource_manager.resources.font.text_bytes_to_im(curr_bytes)
+        qt_im = ImageQt(im)
         pixmap = QPixmap.fromImage(qt_im)
         if pixmap is not None:
             self.ui.graphicsPreview.setPixmap(pixmap)
@@ -314,11 +316,11 @@ class EditorWindow(QMainWindow):
     @staticmethod
     def get_mugshot_im(char_idx, mug_idx):
         if not MCBExtra.is_valid_char(char_idx):
-            return None
+            return Image.new("RGB", (128, 128))
 
         curr_mugshots = resource_manager.resources.mugshots[char_idx]
         is_valid_mugshot = (0 <= mug_idx < len(curr_mugshots))
         if not is_valid_mugshot:
-            return None
+            return Image.new("RGB", (128, 128))
 
         return curr_mugshots[mug_idx]
