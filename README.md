@@ -5,8 +5,9 @@ Currently, only **text editing** is fully supported.
 
 ## Mega Man X8 Text Editor
 ![Image of the user interface](/screen_text_editor.jpg)
-![Image of an edit on X Legacy Collection 2 for PC](/screen_legacy.jpg=640x360)
-![Image of an edit on the 2004 PC edition](/screen_regular.jpg=640x360)
+<img src="/screen_legacy.jpg" width=640 height=360>
+<img src="/screen_regular.jpg" width=640 height=360>
+
 Edit all dialog and text in the game!
 
 [![Download the Text Editor](https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://api.github.com/repos/rainfallpianist/Python-RockManX8/releases/latest&query=$.assets%5B0%5D.name)]
