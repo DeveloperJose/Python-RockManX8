@@ -7,7 +7,7 @@ author = 'RainfallPianist'
 version = 'v1.5-beta'
 
 # Application Variables
-window_title = 'MegaManX8 Text Editor by {} [{}]'.format(author, version)
+window_title = f'MegaManX8 Text Editor by {author} [{version}]'
 languages = ['SPA - [Spanish]', 'USA - [English (USA)]', 'ENG - [English (Europe)]', 'CHI - [Chinese]', 'FRE - [French]', 'GER - [German]', 'ITA - [Italian]', 'JPN - [Japanese]', 'KOR - [Korean]']
 
 # INI File Settings

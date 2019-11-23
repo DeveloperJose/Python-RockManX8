@@ -17,11 +17,11 @@ def handle_exception(type, value, tb):
     mbox.setWindowTitle('An error has occurred! [uh-oh?]')
 
     if isinstance(value, PermissionError):
-        msg = 'Permission denied while trying to write to file: {}'.format(value.filename)
+        msg = f'Permission denied while trying to write to file: {value.filename}'
         info = 'That file is most likely read-only. Please make sure to disable that on the file/folder properties and trying again!'
     else:
-        msg = 'Error: {}'.format(value)
-        info = 'An unknown error has occured. RainfallPianist has been sent the error information and may be able to provide assistance.'
+        msg = f'Error: {value}'
+        info = 'An exception has occurred in the code. The details are provided below.'
 
     mbox.setText(msg)
     mbox.setInformativeText(info)
