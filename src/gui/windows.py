@@ -4,7 +4,8 @@ from PyQt5.QtCore import QTimer, QRegExp
 from PyQt5.QtGui import QPixmap, QSyntaxHighlighter, QTextCharFormat, QColor
 from PyQt5.QtWidgets import QMainWindow
 
-from core.x8_utils import Const, MCBFile, MCBExtra
+from core.mcb import MCBFile, MCBExtra
+import core.constants as Const
 from gui.design.ui_editor_window import Ui_MainWindow
 from gui.dialogues import CharacterMapDialog
 from app import mcb_manager, resource_manager
