@@ -252,7 +252,7 @@ class EditorWindow(QMainWindow):
         curr_text = self.ui.textEditor.toPlainText()
         curr_bytes = MCBFile.convert_text_to_bytes(curr_text)
 
-        im = resource_manager.resources.font.text_bytes_to_im(curr_bytes)
+        im = resource_manager.resources.font.text_bytes_to_image(curr_bytes)
         qt_im = ImageQt(im)
         pixmap = QPixmap.fromImage(qt_im)
         if pixmap is not None:
