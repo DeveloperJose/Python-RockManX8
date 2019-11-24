@@ -236,28 +236,24 @@
         <CheatEntry>
           <ID>47</ID>
           <Description>"Player 2 X"</Description>
-          <ShowAsHex>1</ShowAsHex>
           <VariableType>Float</VariableType>
           <Address>NOCD.EXE+41A60D0</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>48</ID>
           <Description>"Player 2 Y"</Description>
-          <ShowAsHex>1</ShowAsHex>
           <VariableType>Float</VariableType>
           <Address>45A60D4</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>43</ID>
           <Description>"Player1 X"</Description>
-          <ShowAsHex>1</ShowAsHex>
           <VariableType>Float</VariableType>
           <Address>NOCD.EXE+41A61F8</Address>
         </CheatEntry>
         <CheatEntry>
           <ID>44</ID>
           <Description>"Player1 Y"</Description>
-          <ShowAsHex>1</ShowAsHex>
           <VariableType>Float</VariableType>
           <Address>NOCD.EXE+41A61FC</Address>
         </CheatEntry>
@@ -390,64 +386,6 @@
           <Description>"RealLevelID"</Description>
           <VariableType>4 Bytes</VariableType>
           <Address>48CB7DC</Address>
-        </CheatEntry>
-      </CheatEntries>
-    </CheatEntry>
-    <CheatEntry>
-      <ID>60</ID>
-      <Description>"Troia Base"</Description>
-      <Options moManualExpandCollapse="1"/>
-      <LastState Value="" RealAddress="00000000"/>
-      <Color>000080</Color>
-      <GroupHeader>1</GroupHeader>
-      <CheatEntries>
-        <CheatEntry>
-          <ID>72</ID>
-          <Description>"Timer2"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>0428D794</Address>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>70</ID>
-          <Description>"Timer"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>043EB564</Address>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>65</ID>
-          <Description>"Timer Milleseconds Display"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>NOCD.EXE+3FEB568</Address>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>64</ID>
-          <Description>"Timer Seconds Display"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>NOCD.EXE+3FEB56C</Address>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>66</ID>
-          <Description>"Timer Minute Display"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>NOCD.EXE+3FEB570</Address>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>61</ID>
-          <Description>"Enemies Killed 1"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>NOCD.EXE+3FEB584</Address>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>62</ID>
-          <Description>"Enemies Killed 2"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>NOCD.EXE+3FEB588</Address>
-        </CheatEntry>
-        <CheatEntry>
-          <ID>63</ID>
-          <Description>"Enemies Killed 3"</Description>
-          <VariableType>4 Bytes</VariableType>
-          <Address>NOCD.EXE+44CB734</Address>
         </CheatEntry>
       </CheatEntries>
     </CheatEntry>
@@ -728,10 +666,62 @@
       </CheatEntries>
     </CheatEntry>
     <CheatEntry>
-      <ID>125</ID>
-      <Description>"No description"</Description>
-      <VariableType>Byte</VariableType>
-      <Address>NOCD.EXE+3E8D460</Address>
+      <ID>60</ID>
+      <Description>"Troia Base"</Description>
+      <Options moManualExpandCollapse="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <Color>000080</Color>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>72</ID>
+          <Description>"Timer2"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>0428D794</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>70</ID>
+          <Description>"Timer"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>043EB564</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>65</ID>
+          <Description>"Timer Milleseconds Display"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB568</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>64</ID>
+          <Description>"Timer Seconds Display"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB56C</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>66</ID>
+          <Description>"Timer Minute Display"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB570</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>61</ID>
+          <Description>"Enemies Killed 1"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB584</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>62</ID>
+          <Description>"Enemies Killed 2"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+3FEB588</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>63</ID>
+          <Description>"Enemies Killed 3"</Description>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+44CB734</Address>
+        </CheatEntry>
+      </CheatEntries>
     </CheatEntry>
     <CheatEntry>
       <ID>128</ID>
@@ -764,6 +754,60 @@
       <Description>"out of map"</Description>
       <VariableType>4 Bytes</VariableType>
       <Address>48573FE</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>182</ID>
+      <Description>"Enemy X"</Description>
+      <VariableType>Float</VariableType>
+      <Address>NOCD.EXE+41C3144</Address>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>188</ID>
+          <Description>"No description"</Description>
+          <ShowAsHex>1</ShowAsHex>
+          <VariableType>4 Bytes</VariableType>
+          <Address>NOCD.EXE+41C2710</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>183</ID>
+      <Description>"P1 Health"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>NOCD.EXE+3E8F348</Address>
+      <Offsets>
+        <Offset>2C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>184</ID>
+      <Description>"P2 Health"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>NOCD.EXE+3E8F360</Address>
+      <Offsets>
+        <Offset>2C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>189</ID>
+      <Description>"P1 X"</Description>
+      <VariableType>Float</VariableType>
+      <Address>NOCD.EXE+3FF0558</Address>
+      <Offsets>
+        <Offset>70</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>190</ID>
+      <Description>"Navigator"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>NOCD.EXE+3E8E990</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>191</ID>
+      <Description>"Boss Health"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>NOCD.EXE+3E8F94C</Address>
     </CheatEntry>
   </CheatEntries>
   <CheatCodes>
