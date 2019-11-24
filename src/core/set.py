@@ -1,4 +1,4 @@
-from core.io import FileStream
+from core.io_util import FileStream
 import core.constants as Const
 
 class SetEnemy:

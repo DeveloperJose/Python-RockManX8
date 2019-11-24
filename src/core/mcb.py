@@ -3,7 +3,7 @@ from enum import IntEnum
 from typing import List
 
 from core import constants as Const
-from core.io import FileStream
+from core.io_util import FileStream
 
 
 class MCBExtra:
@@ -276,8 +276,8 @@ class MCBFile:
         self.seek_offset_end = 0
         self.seek_text_start = 0
 
+        self.path = path
         if path is not None:
-            self.path = path
             self.__load_from_file__(path)
 
     def save(self, spath=None):
@@ -285,41 +285,36 @@ class MCBFile:
         if spath is None:
             spath = self.path
 
-        file = open(spath, 'wb')
-        writer = FileStream(file)
+        with open(spath, 'wb') as file:
+            writer = FileStream(file)
 
-        if len(self.omcb_header) > 0:
-            writer.write_string(self.omcb_header)
+            if len(self.omcb_header) > 0:
+                writer.write_string(self.omcb_header)
+                writer.write_int(self.size)
+                writer.write_int(0)
+
+            writer.write_string(self.header)
             writer.write_int(self.size)
-            writer.write_int(0)
+            writer.write_int(self.text_count)
+            writer.write_int_array(self.offsets)
+            writer.write_string_array(self.files)
 
-        writer.write_string(self.header)
-        writer.write_int(self.size)
-        writer.write_int(self.text_count)
-        writer.write_int_array(self.offsets)
-        writer.write_string_array(self.files)
-
-        for idx, text_bytes in enumerate(self.texts_raw):
-            if self.has_extras():
-                extra_bytes = self.extras[idx].to_byte_array()
-                writer.write_int_array(extra_bytes)
-            writer.write_int_array(text_bytes)
-            writer.write_int(0xFFFF)
-
-        file.close()
+            for idx, text_bytes in enumerate(self.texts_raw):
+                if self.has_extras():
+                    extra_bytes = self.extras[idx].to_byte_array()
+                    writer.write_int_array(extra_bytes)
+                writer.write_int_array(text_bytes)
+                writer.write_int(0xFFFF)
 
     def has_extras(self):
         return len(self.files) != 0
 
     def __load_from_file__(self, path):
-        file = open(path, 'rb')
-        reader = FileStream(file)
-
-        self.__load_header__(reader)
-        self.__load_files__(reader)
-        self.__load_texts__(reader)
-
-        file.close()
+        with open(path, 'rb') as file:
+            reader = FileStream(file)
+            self.__load_header__(reader)
+            self.__load_files__(reader)
+            self.__load_texts__(reader)
 
     def __recalculate__(self):
         # Recalculate size (Header (16) + Size (2) + Text Count (2)
