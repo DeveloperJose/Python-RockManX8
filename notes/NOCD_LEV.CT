@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="27">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"BYTE"</Description>
+      <LastState Value="D0" RealAddress="0428E098"/>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>Byte</VariableType>
+      <Address>428E098</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Cutscene IDX"</Description>
+      <LastState Value="1" RealAddress="0428D6B4"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>428D6B4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"Cutscene Playing"</Description>
+      <LastState Value="1" RealAddress="04617C30"/>
+      <VariableType>Byte</VariableType>
+      <Address>04617C30</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"Hide Top"</Description>
+      <LastState Value="0" RealAddress="046147C8"/>
+      <VariableType>2 Bytes</VariableType>
+      <Address>046147C8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"Cut Word2"</Description>
+      <LastState Value="0" RealAddress="046147E4"/>
+      <VariableType>2 Bytes</VariableType>
+      <Address>046147E4</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"Level"</Description>
+      <LastState Value="11" RealAddress="0428D734"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>NOCD.EXE+3E8D734</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"Current Dialog No"</Description>
+      <LastState Value="00700000" RealAddress="04617C1C"/>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>4 Bytes</VariableType>
+      <Address>NOCD.EXE+4217C1C</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"No description"</Description>
+      <LastState Value="046147B8" RealAddress="68C59000"/>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>4 Bytes</VariableType>
+      <Address>OverlayDLL.dll+19000</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>8</ID>
+      <Description>"X"</Description>
+      <LastState Value="0" RealAddress="0096B4D8"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>428E098</Address>
+      <Offsets>
+        <Offset>2208</Offset>
+      </Offsets>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>Info about this table:
+</Comments>
+</CheatTable>
