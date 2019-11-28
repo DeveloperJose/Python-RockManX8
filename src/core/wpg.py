@@ -1,20 +1,70 @@
 from PIL import Image
 from core.io_util import FileStream
 from typing import List
+from pathlib import Path
+import io
+
+WPG_HEADER_SIZE = 32
+RGBA_HEADER_SIZE = 18
+P_HEADER_SIZE = 786
+RGBA_BYTES_PER_PIXEL = 4
+P_BYTES_PER_PIXEL = 1
 
 
 class WPGFile:
-    path: str
+    path: Path
     header: List[int]
     textures: List[Image.Image]
 
-    def __init__(self, path):
+    def __init__(self, path: Path):
         self.path = path
         self.header = []
         self.textures = []
+        self.unparsed_bytes = b''
         self.__load_from_file__(path)
 
-    def save(self, spath=None):
+    def __load_from_file__(self, path: Path):
+        with open(path, 'rb') as file:
+            reader = FileStream(file)
+            self.__load_header__(reader)
+            self.__load_textures__(reader)
+
+    def __load_header__(self, reader: FileStream):
+        self.header = reader.read_byte_array(WPG_HEADER_SIZE)
+
+    def __load_textures__(self, reader: FileStream):
+        while True:
+            if reader.finished_reading():
+                break
+
+            offset = reader.tell()
+            im_data = io.BytesIO(reader.read_remaining_bytes())
+            try:
+                # Load image, flip it, and store it
+                im: Image.Image = Image.open(im_data)
+                im = im.transpose(Image.FLIP_TOP_BOTTOM)
+                self.textures.append(im)
+
+                # Figure out where exactly the next image begins
+                if im.mode == "RGBA":
+                    bytes_per_pixel = RGBA_BYTES_PER_PIXEL
+                    im_header_size = RGBA_HEADER_SIZE
+                elif im.mode == "P":
+                    bytes_per_pixel = P_BYTES_PER_PIXEL
+                    im_header_size = P_HEADER_SIZE
+
+                size = (im.width * im.height * bytes_per_pixel) + im_header_size
+                reader.seek(offset + size)
+                print("Size: ", size, " and Mode:", im.mode)
+            except IOError:
+                print("Couldn't read image")
+                break
+
+        if not reader.finished_reading():
+            self.unparsed_bytes = reader.read_remaining_bytes()
+            print("Unparsed Bytes", len(self.unparsed_bytes))
+
+    def save(self, spath: Path = None):
         if spath is None:
             spath = self.path
 
@@ -23,52 +73,29 @@ class WPGFile:
             writer.write_byte_array(self.header)
 
             for im_texture in self.textures:
-                writer.write_byte_array([b'\x00', b'\x00', b'\x02', b'\x00', b'\x00', b'\x00', b'\x00', b'\x00', b'\x00', b'\x00', b'\x00', b'\x00'])
-                writer.write_int(im_texture.width)
-                writer.write_int(im_texture.height)
-                writer.write_int(2080)
+                orig_im = im_texture.transpose(Image.FLIP_TOP_BOTTOM)
+                with io.BytesIO() as io_bytes:
+                    orig_im.save(io_bytes, format="TGA")
+                    im_bytes = io_bytes.getvalue()[:-26]
+                    writer.write(im_bytes)
 
-                im_bgr: Image.Image = WPGFile.rgba_to_bgra(im_texture)
-                im_bytes = im_bgr.tobytes('raw')
-                writer.write(im_bytes)
+            writer.write(self.unparsed_bytes)
+        print("Saved to", spath)
 
-    def __load_from_file__(self, path):
-        with open(path, 'rb') as file:
-            reader = FileStream(file)
-            self.__load_header__(reader)
-            self.__load_textures__(reader)
+    def export_to_folder(self, folder_path: Path):
+        if not folder_path.exists():
+            folder_path.mkdir(parents=True)
+        for idx, texture in enumerate(self.textures):
+            texture_filename = f'{idx}.tga'
+            texture.save(folder_path / texture_filename)
 
-    def __load_header__(self, reader):
-        self.header = reader.read_byte_array(0x20)
-
-    def __load_textures__(self, reader):
-        while True:
-            im_header = reader.read_byte_array(12)
-            if len(im_header) != 12:
-                break
-            im_width = reader.read_int()
-            im_height = reader.read_int()
-            im_extra_int = reader.read_int()
-            im_data = reader.read(im_width * im_height * 4)
-
-            print(f"im_h{im_header},im_hh={im_extra_int}")
-
-            # Create BGR image from data, then convert to RGB
-            im_bgra = Image.frombytes('RGBA', (im_width, im_height), im_data)
-            im = WPGFile.bgra_to_rgba(im_bgra)
-
-            self.textures.append(im)
-
-    @staticmethod
-    def bgra_to_rgba(im_bgra: Image.Image):
-        blue, green, red, alpha = im_bgra.split()
-        return Image.merge("RGBA", (red, green, blue, alpha))
-
-    @staticmethod
-    def rgba_to_bgra(im_rgba: Image.Image):
-        red, green, blue, alpha = im_rgba.split()
-        return Image.merge("RGBA", (blue, green, red, alpha))
-
+    def import_from_folder(self, folder_path: Path):
+        textures = []
+        for texture_path in folder_path.glob("*.tga"):
+            im_texture = Image.open(texture_path)
+            textures.append(im_texture)
+        print("Imported", len(textures), "from", folder_path)
+        self.textures = textures
 
 class Font(WPGFile):
     characters: List[Image.Image]
