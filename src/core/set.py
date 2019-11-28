@@ -3,6 +3,7 @@ from typing import List
 from core.io_util import FileStream
 import core.constants as constants
 
+
 class SetEnemy:
     def __init__(self):
         self.u1 = None
@@ -81,9 +82,19 @@ class SetEnemy:
         s += FileStream.int_array_to_hex(self.u5) + ","
         print(s)
 
+    def __lt__(self, other):
+        return self.prm_number() < other.prm_number()
+
+    def prm_number(self):
+        return int(self.type[3:])
+
+    def __repr__(self):
+        return self.type
+
 
 class SetFile:
     enemies: List[SetEnemy]
+
     def __init__(self, path=None):
         self.enemies = []
         if path is not None:

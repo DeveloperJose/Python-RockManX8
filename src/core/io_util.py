@@ -24,10 +24,12 @@ class FileStream():
 
     def read(self, n_bytes):
         r_byte = self.__file__.read(n_bytes)
+        if len(r_byte) != n_bytes:
+            return False
         return r_byte
 
     def read_remaining_bytes(self):
-        return self.read(self.total_bytes())
+        return self.__file__.read(self.total_bytes())
 
     def read_byte(self):
         raw = self.__file__.read(1)
@@ -43,8 +45,6 @@ class FileStream():
 
     def read_float(self, size_bytes=4):
         raw = self.__file__.read(size_bytes)
-        if len(raw) != size_bytes:
-            return False
         return struct.unpack('<f', raw)[0]
 
     def read_string(self, size_bytes=16):
@@ -57,7 +57,7 @@ class FileStream():
         arr = []
         for i in range(num_bytes):
             raw_byte = self.read_byte()
-            if raw_byte:
+            if raw_byte is not False:
                 arr.append(raw_byte)
         return arr
 
@@ -65,7 +65,7 @@ class FileStream():
         arr = []
         for i in range(num_ints):
             int_byte = self.read_int()
-            if int_byte:
+            if int_byte is not False:
                 arr.append(int_byte)
         return arr
 
