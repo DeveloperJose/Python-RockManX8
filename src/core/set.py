@@ -1,5 +1,7 @@
+from typing import List
+
 from core.io_util import FileStream
-import core.constants as Const
+import core.constants as constants
 
 class SetEnemy:
     def __init__(self):
@@ -81,6 +83,7 @@ class SetEnemy:
 
 
 class SetFile:
+    enemies: List[SetEnemy]
     def __init__(self, path=None):
         self.enemies = []
         if path is not None:
@@ -92,10 +95,10 @@ class SetFile:
         if self.path is None:
             return "Unknown Stage"
 
-        for stage_id in Const.STAGE_NAMES.keys():
+        for stage_id in constants.STAGE_NAMES.keys():
             set_id = "Set" + stage_id
             if set_id in self.path:
-                return Const.STAGE_NAMES[stage_id]
+                return constants.STAGE_NAMES[stage_id]
 
         return "Unknown Stage"
 
