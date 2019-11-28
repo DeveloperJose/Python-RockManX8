@@ -1,6 +1,7 @@
 import re
 import struct
 
+
 class FileStream():
     def __init__(self, file):
         self.__file__ = file
@@ -8,14 +9,25 @@ class FileStream():
     def tell(self):
         return self.__file__.tell()
 
+    def total_bytes(self):
+        prev_pos = self.tell()
+        self.__file__.seek(0, 2)
+        buf_size = self.tell()
+        self.seek(prev_pos)
+        return buf_size
+
+    def finished_reading(self):
+        return self.tell() >= self.total_bytes()
+
     def seek(self, offset):
         self.__file__.seek(offset)
 
     def read(self, n_bytes):
         r_byte = self.__file__.read(n_bytes)
-        if len(r_byte) != n_bytes:
-            return False
         return r_byte
+
+    def read_remaining_bytes(self):
+        return self.read(self.total_bytes())
 
     def read_byte(self):
         raw = self.__file__.read(1)
