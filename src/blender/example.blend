@@ -1,0 +1,7 @@
+import bpy
+import os
+import sys
+ 
+sys.path.append(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\src')
+filename = os.path.join(r"C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\src\blender", "script.py")
+exec(compile(open(filename).read(), filename, 'exec'))

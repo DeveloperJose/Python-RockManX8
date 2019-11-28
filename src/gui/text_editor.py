@@ -1,5 +1,5 @@
-from PyQt5.QtCore import QTimer, QRegExp
-from PyQt5.QtGui import QPixmap, QSyntaxHighlighter, QTextCharFormat, QColor, QIcon
+from PyQt5.QtCore import QTimer
+from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QMainWindow
 
 from PIL import Image
@@ -8,33 +8,10 @@ from PIL.ImageQt import ImageQt
 from core.mcb import MCBFile, MCBExtra
 import core.constants as Const
 
-from gui.design.ui_editor_window import Ui_MainWindow
+from gui.design.ui_text_editor import Ui_MainWindow
 from gui.dialogues import CharacterMapDialog
 from app import mcb_manager, resource_manager
-
-
-class SyntaxHighligher(QSyntaxHighlighter):
-    def __init__(self, parent):
-        QSyntaxHighlighter.__init__(self, parent)
-        self.parent = parent
-
-        symbol_format = QTextCharFormat()
-        symbol_format.setForeground(QColor(19, 150, 250))
-        symbol_pattern = QRegExp(r"\[[0-9]+\]")
-        symbol_pattern.setMinimal(True)
-
-        self.formats = [symbol_format]
-        self.patterns = [symbol_pattern]
-
-    def highlightBlock(self, text):
-        for frmt, pattern in zip(self.formats, self.patterns):
-            idx = pattern.indexIn(text)
-
-            while idx >= 0:
-                length = pattern.matchedLength()
-                self.setFormat(idx, length, frmt)
-                idx = pattern.indexIn(text, idx + length)
-        self.setCurrentBlockState(0)
+from gui.helpers import SyntaxHighligher
 
 
 class EditorWindow(QMainWindow):

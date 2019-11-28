@@ -1,4 +1,6 @@
 # ************************************************************ main gitignore
+__blender_autocomplete__/
+
 # MCB/ARC/Settings
 *.mcb
 *.0589CBA3

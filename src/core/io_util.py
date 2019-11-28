@@ -1,7 +1,6 @@
 import re
 import struct
 
-
 class FileStream():
     def __init__(self, file):
         self.__file__ = file
