@@ -6,7 +6,7 @@ from PIL import Image
 from PIL.ImageQt import ImageQt
 
 from core.mcb import MCBFile, MCBExtra
-import core.constants as Const
+import core.constants as constants
 
 from gui.design.ui_text_editor import Ui_MainWindow
 from gui.dialogues import CharacterMapDialog
@@ -14,9 +14,9 @@ from app import mcb_manager, resource_manager
 from gui.helpers import SyntaxHighligher
 
 
-class EditorWindow(QMainWindow):
+class TextEditorWindow(QMainWindow):
     def __init__(self):
-        super(EditorWindow, self).__init__(None)
+        super(TextEditorWindow, self).__init__(None)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setWindowIcon(QIcon(resource_manager.resources.icon_path))
@@ -63,7 +63,7 @@ class EditorWindow(QMainWindow):
 
         self.ui.spinCameraAngle.setRange(0, 3)
 
-        self.ui.comboCharacter.addItems(Const.CHARACTERS)
+        self.ui.comboCharacter.addItems(constants.CHARACTERS)
         self.ui.comboCharacter.currentIndexChanged.connect(self.ui_update_character)
         self.ui.spinMugshot.valueChanged.connect(self.ui_update_mugshot)
 
@@ -217,7 +217,7 @@ class EditorWindow(QMainWindow):
         self.ui.graphicsMugshot.setPixmap(pixmap)
 
     def ui_update_character(self, char_idx):
-        mugshots = Const.MUGSHOT_DESCRIPTIONS[char_idx]
+        mugshots = constants.MUGSHOT_DESCRIPTIONS[char_idx]
         num_mugshots = len(mugshots)
 
         self.ui.comboCharacter.setCurrentIndex(char_idx)

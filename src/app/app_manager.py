@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication
 
-from gui.windows import EditorWindow
+from gui.text_editor import TextEditorWindow
 from app import config, mcb_manager, exception_manager
 
 class AppManager:
@@ -12,7 +12,7 @@ class AppManager:
 
     def __init_editor__(self):
         mcb_manager.extract_collection_arcs()
-        self.editor_window = EditorWindow()
+        self.editor_window = TextEditorWindow()
         self.editor_window.setWindowTitle(config.window_title)
         self.editor_window.show()
 
