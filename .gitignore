@@ -2,6 +2,9 @@
 __blender_autocomplete__/
 textures/
 
+# Ghidra
+ghidra/RockManX8.rep/idata/
+
 # MCB/ARC/Settings
 *.mcb
 *.0589CBA3
