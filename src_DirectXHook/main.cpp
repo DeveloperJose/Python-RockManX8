@@ -3,19 +3,28 @@
 #include "myIDirect3DDevice8.h"
 #include "hooks.h"
 
-typedef IDirect3D8 *(WINAPI *FND3DC8)(UINT);
-FND3DC8 Direct3DCreate8_out;
+#pragma data_seg (".d3d8_shared")
+myIDirect3DDevice8* gl_pmyIDirect3DDevice8 = NULL;
+//myIDirect3D8*       gl_pmyIDirect3D8;
+//HINSTANCE           gl_hOriginalDll;
+//HINSTANCE           gl_hThisInstance;
+#pragma data_seg ()
 
+Function_Direct3DCreate8 Original_Direct3DCreate8;
 
 IDirect3D8* WINAPI Direct3DCreate8(UINT SDKVersion) {
-	return new myIDirect3D8(Direct3DCreate8_out(SDKVersion));
+	return new myIDirect3D8(Original_Direct3DCreate8(SDKVersion));
 }
 
 void Startup(HINSTANCE hInstance)
 {
-	MessageBoxA(0, "DirectX Hook Started!", "Information", MB_ICONINFORMATION | MB_OK);
-	TCHAR szDllPath[MAX_PATH] = { 0 };
+	// MessageBoxA(0, "DirectX Hook Started!", "Information", MB_ICONINFORMATION | MB_OK);
+	AllocConsole();
+	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	printf("==Starting up DLL==\n");
 
+	// Load original D3D8 if possible
+	TCHAR szDllPath[MAX_PATH] = { 0 };
 	GetSystemDirectory(szDllPath, MAX_PATH);
 
 	// We have to specify the full path to avoid the search order
@@ -26,9 +35,9 @@ void Startup(HINSTANCE hInstance)
 		return;
 
 	// Pointer to the original function
-	Direct3DCreate8_out = (FND3DC8)GetProcAddress(hDll, "Direct3DCreate8");
+	Original_Direct3DCreate8 = (Function_Direct3DCreate8)GetProcAddress(hDll, "Direct3DCreate8");
 
-	if (Direct3DCreate8_out == NULL)
+	if (Original_Direct3DCreate8 == NULL)
 	{
 		FreeLibrary(hDll);
 		return;
