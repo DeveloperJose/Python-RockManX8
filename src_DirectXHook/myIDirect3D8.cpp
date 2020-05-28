@@ -1,5 +1,6 @@
 #include "myIDirect3D8.h"
 #include "myIDirect3DDevice8.h"
+#include "hooks.h"
 
 myIDirect3D8::myIDirect3D8(IDirect3D8 *pOriginal)
 {
@@ -8,17 +9,18 @@ myIDirect3D8::myIDirect3D8(IDirect3D8 *pOriginal)
 
 HRESULT __stdcall myIDirect3D8::CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags, D3DPRESENT_PARAMETERS* pPresentationParameters, IDirect3DDevice8** ppReturnedDeviceInterface)
 {
-	myIDirect3DDevice8* temp;
+	extern myIDirect3DDevice8* gl_pmyIDirect3DDevice8;
+	HookCreateDevice(pPresentationParameters);
 
 	// we intercept this call and provide our own "fake" Device Object
 	HRESULT hres = pD3D->CreateDevice(Adapter, DeviceType, hFocusWindow, BehaviorFlags, pPresentationParameters, ppReturnedDeviceInterface);
 
 	// Create our own Device object and strore it in global pointer
 	// note: the object will delete itself once Ref count is zero (similar to COM objects)
-	temp = new myIDirect3DDevice8(*ppReturnedDeviceInterface);
+	gl_pmyIDirect3DDevice8 = new myIDirect3DDevice8(*ppReturnedDeviceInterface);
 
 	// store our pointer (the fake one) for returning it to the calling progam
-	*ppReturnedDeviceInterface = temp;
+	*ppReturnedDeviceInterface = gl_pmyIDirect3DDevice8;
 
 	return(hres);
 }
