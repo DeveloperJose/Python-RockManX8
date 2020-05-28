@@ -1,4 +1,4 @@
-@ECHO ON
+@ECHO OFF
 CALL activate pyqt5
 
 echo y | pyinstaller src/main_mcb_editor.py ^
@@ -6,9 +6,9 @@ echo y | pyinstaller src/main_mcb_editor.py ^
         --add-data resources/mugshots.pkl;resources ^
         --add-data resources/ARCtool.exe;resources ^
         --add-data resources/icon.png;resources ^
-        --name "MegaManX8_Text_Editor" ^
         --icon resources/icon.ico ^
+        --name "MegaManX8_Text_Editor" ^
         --onefile
         REM -w ^
-        
+PAUSE        
 @ECHO ON

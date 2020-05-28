@@ -16,14 +16,14 @@ def __resource_path__(relative_path):
     except Exception:
         base_path = os.path.abspath(".")
 
-    return os.path.join(base_path, relative_path)
+    return Path(os.path.join(base_path, relative_path))
 
 
 # Manager Settings
-__default_font_path__ = Path(__resource_path__('resources//default_font.wpg'))
-__arctool_path__ = Path(__resource_path__('resources//ARCtool.exe'))
-__mugshots_path__ = Path(__resource_path__('resources//mugshots.pkl'))
-__icon_path__ = Path(__resource_path__('resources//icon.png'))
+__default_font_path__ = __resource_path__('resources//default_font.wpg')
+__arctool_path__ = __resource_path__('resources//ARCtool.exe')
+__mugshots_path__ = __resource_path__('resources//mugshots.pkl')
+__icon_path__ = __resource_path__('resources//icon.png')
 
 if not __arctool_path__.exists():
     raise Exception(f'Could not find resource: {__arctool_path__}')
@@ -36,6 +36,7 @@ if not __mugshots_path__.exists():
 
 if not __icon_path__.exists():
     raise Exception(f'Could not find resource: {__icon_path__}')
+
 
 class __Resources__:
     @property

@@ -96,7 +96,7 @@ class Level():
 
 if __name__ == '__main__':
     # Load SET
-    set_file = SetFile(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\set\Set06_00.set')
+    set_file = SetFile(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\set\Set11_00.set')
 
     pygame.init()
     pygame.font.init()
