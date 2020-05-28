@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>RainfallPianist</author>
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>200</width>
+    <height>100</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>2000</width>
+    <height>2000</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Title Will Be Set In Code</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+	background: rgb(255, 255, 255);
+}
+
+QLabel, QCheckBox { 
+	background: rgb(255, 255, 255);
+	font: 12pt &quot;Calibri&quot;;
+}
+
+QGroupBox {
+	background: rgb(255, 255, 255);
+	font: 15pt &quot;Calibri&quot;;
+}
+
+QComboBox {
+	background: white;
+	color: black;
+}
+
+QPushButton:enabled {
+	background: rgb(236, 236, 236);
+	color: black;
+}
+
+QPushButton:disabled, QLineEdit:disabled, QComboBox:disabled{
+	background: rgb(191, 191, 191);
+	color: rgb(85, 85, 85);
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
+     <widget class="QPushButton" name="uxBtnTextEditor">
+      <property name="text">
+       <string>Open Text Editor</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="uxBtnTextureEditor">
+      <property name="text">
+       <string>Open Texture Editor</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="uxBtnLevelEditor">
+      <property name="text">
+       <string>Open Level Editor (Enemy Placement Only)</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
