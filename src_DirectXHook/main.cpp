@@ -1,19 +1,18 @@
 #include "stdafx.h"
-#include "myIDirect3D8.h"
-#include "myIDirect3DDevice8.h"
+#include "w_d3d9.h"
 #include "hooks.h"
 
 #pragma data_seg (".d3d8_shared")
-myIDirect3DDevice8* gl_pmyIDirect3DDevice8 = NULL;
+//myIDirect3DDevice8* gl_pmyIDirect3DDevice8 = NULL;
 //myIDirect3D8*       gl_pmyIDirect3D8;
 //HINSTANCE           gl_hOriginalDll;
 //HINSTANCE           gl_hThisInstance;
 #pragma data_seg ()
 
-Function_Direct3DCreate8 Original_Direct3DCreate8;
+Function_Direct3DCreate9 Original_Direct3DCreate9;
 
-IDirect3D8* WINAPI Direct3DCreate8(UINT SDKVersion) {
-	return new myIDirect3D8(Original_Direct3DCreate8(SDKVersion));
+IDirect3D9* WINAPI Direct3DCreate9(UINT SDKVersion) {
+	return new f_iD3D9(Original_Direct3DCreate9(SDKVersion));
 }
 
 void Startup(HINSTANCE hInstance)
@@ -28,16 +27,16 @@ void Startup(HINSTANCE hInstance)
 	GetSystemDirectory(szDllPath, MAX_PATH);
 
 	// We have to specify the full path to avoid the search order
-	lstrcat(szDllPath, "\\d3d8.dll");
+	lstrcat(szDllPath, "\\d3d9.dll");
 	HMODULE hDll = LoadLibrary(szDllPath);
 
 	if (hDll == NULL)
 		return;
 
 	// Pointer to the original function
-	Original_Direct3DCreate8 = (Function_Direct3DCreate8)GetProcAddress(hDll, "Direct3DCreate8");
+	Original_Direct3DCreate9 = (Function_Direct3DCreate9)GetProcAddress(hDll, "Direct3DCreate9");
 
-	if (Original_Direct3DCreate8 == NULL)
+	if (Original_Direct3DCreate9 == NULL)
 	{
 		FreeLibrary(hDll);
 		return;

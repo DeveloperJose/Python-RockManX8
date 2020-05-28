@@ -70,9 +70,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>d3d8</TargetName>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)packages\DirectX8.1.0.0\content</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(ProjectDir)packages\DirectX8.1.0.0\lib</LibraryPath>
+    <TargetName>d3d9</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)packages\DirectX8.1.0.0\content;$(DXSDK_DIR)include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(ProjectDir)packages\DirectX8.1.0.0\lib;$(DXSDK_DIR)lib\x86</LibraryPath>
     <OutDir>C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -131,10 +131,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="d3d9.cpp" />
     <ClCompile Include="hooks.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="myIDirect3D8.cpp" />
-    <ClCompile Include="myIDirect3DDevice8.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -142,8 +141,7 @@
     <None Include="Source.def" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="myIDirect3D8.h" />
-    <ClInclude Include="myIDirect3DDevice8.h" />
+    <ClInclude Include="w_d3d9.h" />
     <ClInclude Include="hooks.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
