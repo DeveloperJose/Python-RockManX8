@@ -43,6 +43,34 @@ bool WorldToScreen(LPDIRECT3DDEVICE9 pDevice, D3DXVECTOR3* pos, D3DXVECTOR3* out
 	return false;
 }
 
+void DrawBone(IDirect3DDevice9 *pDevice, ID3DXFont *pFont, int ptr, char * name) {
+	float* x = (float*)ptr;
+	float* y = (float*)(ptr + 4);
+	float* z = (float*)(ptr + 8);
+
+	D3DXVECTOR3 boneVector = { *x, *y, *z };
+	D3DXVECTOR3 boneScreenPos;
+
+	// printf("[DrawBone] X=%f, Y=%f, Z=%f\n", *x, *y, *z);
+
+	if (WorldToScreen(pDevice, &boneVector, &boneScreenPos)) {
+		RECT x = { boneScreenPos.x, boneScreenPos.y, boneScreenPos.x + 0.1, boneScreenPos.y + 0.1 };
+		pFont->DrawText(NULL, name, -1, &x, DT_LEFT | DT_NOCLIP, D3DCOLOR_XRGB(0, 158, 255));
+	}
+}
+
+bool ValidBone(int ptr) {
+	float* xptr = (float*)ptr;
+	float* yptr = (float*)(ptr + 4);
+	float* zptr = (float*)(ptr + 8);
+
+	float x = *xptr;
+	float y = *yptr;
+	float z = *zptr;
+
+	return x + y + z > 1;
+}
+
 float* GetCurrObjectXPtr() {
 	int xAddress = coordBaseAddress + (currentObjectID * cordStructLength);
 	return (float *)(xAddress);
@@ -176,7 +204,7 @@ void HookEndScene(IDirect3DDevice9 *pDevice) {
 
 	// Create the D3DX Font
 	ID3DXFont *pFont;
-	r = D3DXCreateFont(pDevice, 36 /*Font size*/, 0 /*Font width*/, FW_BOLD, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, 0, DEFAULT_PITCH | FF_DONTCARE, "Comic Sans MS", &pFont);
+	r = D3DXCreateFont(pDevice, 24 /*Font size*/, 0 /*Font width*/, FW_BOLD, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, 0, DEFAULT_PITCH | FF_DONTCARE, "Comic Sans MS", &pFont);
 
 	if (FAILED(r)) {
 		MessageBoxA(0, "Font failure", "Info", MB_ICONINFORMATION | MB_OK);
@@ -205,16 +233,29 @@ void HookEndScene(IDirect3DDevice9 *pDevice) {
 		D3DXVECTOR3 pos = { *GetCurrObjectXPtr(), *GetCurrObjectYPtr(), *GetCurrObjectZPtr() };
 		D3DXVECTOR3 screenPos;
 		if (WorldToScreen(pDevice, &pos, &screenPos)) {
-			//do stuff here
-			//screenPos.x , screenPos.y
-			RECT x = { screenPos.x, screenPos.y, screenPos.x + 5, screenPos.y + 5};
-			pFont->DrawTextA(NULL, "YYY", -1, &x, DT_LEFT | DT_NOCLIP, D3DCOLOR_XRGB(0, 158, 255));
+			RECT x = { screenPos.x, screenPos.y, screenPos.x + 0.1, screenPos.y + 0.1};
+			pFont->DrawText(NULL, "Entity", -1, &x, DT_LEFT | DT_NOCLIP, D3DCOLOR_XRGB(0, 158, 255));
+		}
+
+		int baseAddress = 0x04408D84;
+		int size = 0xB8;
+		for (int i = 0; i < 32; i++) {
+			int addr = (baseAddress)+(i * size);
+			if (ValidBone(addr)) {
+				float* x = (float*)addr;
+				float* y = (float*)(addr + 4);
+				float* z = (float*)(addr + 8);
+				char bone_name[100];
+				sprintf_s(bone_name, "B%d,X=%f,Y=%f,Z=%f", i, *x, *y, *z);
+				DrawBone(pDevice, pFont, addr, bone_name);
+			}
 		}
 	}
 
 	// Release the font
 	pFont->Release();
 }
+
 void HookPreCreateDevice(D3DPRESENT_PARAMETERS *pPresentParams) {
 	//pPresentParams->BackBufferWidth = 1920;
 	//pPresentParams->BackBufferHeight = 1080;
