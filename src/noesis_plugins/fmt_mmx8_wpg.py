@@ -1,5 +1,6 @@
 # Mega Man X8 WPG plugin by Zheneq (https://github.com/Zheneq/Noesis-Plugins)
 # Modified by RainfallPianist
+#   * Added support for 1BPP TGA
 # Made for Noesis 4.428
 
 import noesis
