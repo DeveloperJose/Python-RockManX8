@@ -1,4 +1,3 @@
-# 537 files different -> 29 files different
 import io
 from pathlib import Path
 from typing import List
@@ -13,16 +12,17 @@ P_HEADER_SIZE = 786
 RGBA_BYTES_PER_PIXEL = 4
 P_BYTES_PER_PIXEL = 1
 
-
 class WPGFile:
     path: Path
     header: List[int]
     textures: List[Image.Image]
+    flags: List[int]
 
     def __init__(self, path: Path):
         self.path = path
         self.header = []
         self.textures = []
+        self.flags = []
         self.unparsed_bytes = b''
         self.__load_from_file__(path)
 
@@ -45,8 +45,11 @@ class WPGFile:
             try:
                 # Load image, flip it, and store it
                 im: Image.Image = Image.open(im_data)
-                # im = im.transpose(Image.FLIP_TOP_BOTTOM)
+                im = im.transpose(Image.FLIP_TOP_BOTTOM)
                 self.textures.append(im)
+
+                # For some reason the TGA header flag is not being set correctly for some files so let's save it from the raw TGA header bytes
+                self.flags.append(im_data.getbuffer()[17])
 
                 # Figure out where exactly the next image begins
                 if im.mode == "RGBA":
@@ -58,17 +61,18 @@ class WPGFile:
 
                 size = (im.width * im.height * bytes_per_pixel) + im_header_size
                 reader.seek(offset + size)
-                print("Size: ", size, " and Mode:", im.mode)
-                print("Current Offset: ", reader.tell(), ", File Size: ", reader.total_bytes())
+                print(f"[Reading] IDX: {len(self.flags)-1}, Offset: {offset}, Size: {size}, Mode: {im.mode}")
             except IOError:
                 print("Couldn't read image")
                 break
 
+        print("READ  ", [im.mode for idx, im in enumerate(self.textures)])
         if not reader.finished_reading():
             self.unparsed_bytes = reader.read_remaining_bytes()
-            print("Unparsed Bytes", len(self.unparsed_bytes))
+            print("Could not parse all the bytes of the WPG. Unparsed byte count: ", len(self.unparsed_bytes))
 
     def save(self, spath: Path = None):
+        print("SAVE  ", [im.mode for idx, im in enumerate(self.textures)])
         if spath is None:
             spath = self.path
 
@@ -76,24 +80,27 @@ class WPGFile:
             writer = FileStream(file)
             writer.write_byte_array(self.header)
 
-            for im_texture in self.textures:
-                # orig_im = im_texture.transpose(Image.FLIP_TOP_BOTTOM)
-                orig_im = im_texture
+            for idx, im_texture in enumerate(self.textures):
+                offset = writer.tell()
+                orig_im = im_texture.transpose(Image.FLIP_TOP_BOTTOM)
                 with io.BytesIO() as io_bytes:
                     orig_im.save(io_bytes, format="TGA")
-                    io_bytes.getbuffer()[17] = 8
+
+                    # For some reason the TGA header flag is not being set correctly, so load our local copy of it
+                    io_bytes.getbuffer()[17] = self.flags[idx]
                     im_bytes = io_bytes.getvalue()[:-26]
                     writer.write(im_bytes)
-                    print("Flag: ", io_bytes.getvalue()[17])
+                    print(f"[Writing] IDX: {idx}, Offset: {offset}, Size: {len(im_bytes)}, Mode: {orig_im.mode}")
 
             writer.write(self.unparsed_bytes)
         print("Saved to", spath)
 
     def export_to_folder(self, folder_path: Path):
+        print("EXPORT", [im.mode for idx, im in enumerate(self.textures)])
         if not folder_path.exists():
             folder_path.mkdir(parents=True)
         for idx, texture in enumerate(self.textures):
-            texture_filename = f'{idx}.tga'
+            texture_filename = f'{idx: 04}.tga'
             texture.save(folder_path / texture_filename)
 
     def import_from_folder(self, folder_path: Path):
@@ -102,8 +109,9 @@ class WPGFile:
             im_texture: Image.Image = Image.open(texture_path)
             textures.append(im_texture)
 
-        print("Imported", len(textures), "from", folder_path)
         self.textures = textures
+        print("Imported", len(textures), "from", folder_path)
+        print("IMPORT", [im.mode for idx, im in enumerate(self.textures)])
 
     def close(self):
         for tex in self.textures:
@@ -182,7 +190,7 @@ if __name__ == '__main__':
     import filecmp
     import shutil
 
-    #%%
+    #%% Check all of the WPGs to see if exporting and re-importing produces the same WPG files
     wpg_dir = Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk')
     temp_path = Path('temp')
     shutil.rmtree(temp_path, ignore_errors=True)
@@ -209,11 +217,11 @@ if __name__ == '__main__':
     for filename in diff_files:
         print(filename)
 
-    #%%
-    w = WPGFile(Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk\title\wpg\2D_LOAD_ATARI00_ID_2D_100.wpg'))
+    #%% Check an individual file to see if exporting and re-importing produces the same WPG file
+    w = WPGFile(Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk\pl\wpg\PL_E_ID_PL_027.wpg'))
     testing_path = Path(r'C:\Users\xeroj\Desktop\Programs\noesisv4428\x8_testing')
     w.export_to_folder(testing_path / 'testing')
     w.import_from_folder(testing_path / 'testing')
-    shutil.rmtree(testing_path / 'testing', ignore_errors=True)
     w.save(testing_path / "test.wpg")
+    w.close()
     print('Same file: ', filecmp.cmp(testing_path / "test.wpg",  w.path, shallow=False))
