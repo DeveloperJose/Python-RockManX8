@@ -12,6 +12,7 @@ P_HEADER_SIZE = 786
 RGBA_BYTES_PER_PIXEL = 4
 P_BYTES_PER_PIXEL = 1
 
+
 class WPGFile:
     path: Path
     header: List[int]
@@ -61,18 +62,18 @@ class WPGFile:
 
                 size = (im.width * im.height * bytes_per_pixel) + im_header_size
                 reader.seek(offset + size)
-                print(f"[Reading] IDX: {len(self.flags)-1}, Offset: {offset}, Size: {size}, Mode: {im.mode}")
+                # print(f"[Reading] IDX: {len(self.flags)-1}, Offset: {offset}, Size: {size}, Mode: {im.mode}")
             except IOError:
                 print("Couldn't read image")
                 break
 
-        print("READ  ", [im.mode for idx, im in enumerate(self.textures)])
+        # print("READ  ", [im.mode for idx, im in enumerate(self.textures)])
         if not reader.finished_reading():
             self.unparsed_bytes = reader.read_remaining_bytes()
             print("Could not parse all the bytes of the WPG. Unparsed byte count: ", len(self.unparsed_bytes))
 
     def save(self, spath: Path = None):
-        print("SAVE  ", [im.mode for idx, im in enumerate(self.textures)])
+        # print("SAVE  ", [im.mode for idx, im in enumerate(self.textures)])
         if spath is None:
             spath = self.path
 
@@ -90,17 +91,17 @@ class WPGFile:
                     io_bytes.getbuffer()[17] = self.flags[idx]
                     im_bytes = io_bytes.getvalue()[:-26]
                     writer.write(im_bytes)
-                    print(f"[Writing] IDX: {idx}, Offset: {offset}, Size: {len(im_bytes)}, Mode: {orig_im.mode}")
+                    # print(f"[Writing] IDX: {idx}, Offset: {offset}, Size: {len(im_bytes)}, Mode: {orig_im.mode}")
 
             writer.write(self.unparsed_bytes)
         print("Saved to", spath)
 
     def export_to_folder(self, folder_path: Path):
-        print("EXPORT", [im.mode for idx, im in enumerate(self.textures)])
+        # print("EXPORT", [im.mode for idx, im in enumerate(self.textures)])
         if not folder_path.exists():
             folder_path.mkdir(parents=True)
         for idx, texture in enumerate(self.textures):
-            texture_filename = f'{idx: 04}.tga'
+            texture_filename = f'{idx:04}.tga'
             texture.save(folder_path / texture_filename)
 
     def import_from_folder(self, folder_path: Path):
@@ -110,8 +111,8 @@ class WPGFile:
             textures.append(im_texture)
 
         self.textures = textures
-        print("Imported", len(textures), "from", folder_path)
-        print("IMPORT", [im.mode for idx, im in enumerate(self.textures)])
+        # print("Imported", len(textures), "from", folder_path)
+        # print("IMPORT", [im.mode for idx, im in enumerate(self.textures)])
 
     def close(self):
         for tex in self.textures:
@@ -189,39 +190,38 @@ class Font(WPGFile):
 if __name__ == '__main__':
     import filecmp
     import shutil
-
     #%% Check all of the WPGs to see if exporting and re-importing produces the same WPG files
-    wpg_dir = Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk')
-    temp_path = Path('temp')
-    shutil.rmtree(temp_path, ignore_errors=True)
-    diff_files = []
-    for filepath in wpg_dir.rglob("*.wpg"):
-        if 'temp' in filepath.name:
-            continue
-        test_wpg = WPGFile(filepath)
-        test_wpg.export_to_folder(temp_path)
-        test_wpg.import_from_folder(temp_path)
-        test_wpg.save('temp.wpg')
-        test_wpg.close()
-
-        # Compare binaries to see if they are different
-        if not filecmp.cmp(filepath,  'temp.wpg', shallow=False):
-            print('************************* Different File: ', filepath)
-            diff_files.append(str(filepath))
-
-        # Clean-up temp folder
-        shutil.rmtree(temp_path)
-
-    print("********** All Different Files **********")
-    print("Length: ", len(diff_files))
-    for filename in diff_files:
-        print(filename)
+    # wpg_dir = Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk')
+    # temp_path = Path('temp')
+    # shutil.rmtree(temp_path, ignore_errors=True)
+    # diff_files = []
+    # for filepath in wpg_dir.rglob("*.wpg"):
+    #     if 'temp' in filepath.name:
+    #         continue
+    #     test_wpg = WPGFile(filepath)
+    #     test_wpg.export_to_folder(temp_path)
+    #     test_wpg.import_from_folder(temp_path)
+    #     test_wpg.save('temp.wpg')
+    #     test_wpg.close()
+    #
+    #     # Compare binaries to see if they are different
+    #     if not filecmp.cmp(filepath,  'temp.wpg', shallow=False):
+    #         print('************************* Different File: ', filepath)
+    #         diff_files.append(str(filepath))
+    #
+    #     # Clean-up temp folder
+    #     shutil.rmtree(temp_path)
+    #
+    # print("********** All Different Files **********")
+    # print("Length: ", len(diff_files))
+    # for filename in diff_files:
+    #     print(filename)
 
     #%% Check an individual file to see if exporting and re-importing produces the same WPG file
-    w = WPGFile(Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk\pl\wpg\PL_E_ID_PL_027.wpg'))
-    testing_path = Path(r'C:\Users\xeroj\Desktop\Programs\noesisv4428\x8_testing')
-    w.export_to_folder(testing_path / 'testing')
-    w.import_from_folder(testing_path / 'testing')
-    w.save(testing_path / "test.wpg")
-    w.close()
-    print('Same file: ', filecmp.cmp(testing_path / "test.wpg",  w.path, shallow=False))
+    # w = WPGFile(Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk\pl\wpg\PL_E_ID_PL_027.wpg'))
+    # testing_path = Path(r'C:\Users\xeroj\Desktop\Programs\noesisv4428\x8_testing')
+    # w.export_to_folder(testing_path / 'testing')
+    # w.import_from_folder(testing_path / 'testing')
+    # w.save(testing_path / "test.wpg")
+    # w.close()
+    # print('Same file: ', filecmp.cmp(testing_path / "test.wpg",  w.path, shallow=False))
