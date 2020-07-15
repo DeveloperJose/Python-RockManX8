@@ -1,8 +1,11 @@
-from PIL import Image
-from core.io_util import FileStream
-from typing import List
-from pathlib import Path
+# 537 files different -> 29 files different
 import io
+from pathlib import Path
+from typing import List
+
+from PIL import Image
+
+from core.io_util import FileStream
 
 WPG_HEADER_SIZE = 32
 RGBA_HEADER_SIZE = 18
@@ -42,7 +45,7 @@ class WPGFile:
             try:
                 # Load image, flip it, and store it
                 im: Image.Image = Image.open(im_data)
-                im = im.transpose(Image.FLIP_TOP_BOTTOM)
+                # im = im.transpose(Image.FLIP_TOP_BOTTOM)
                 self.textures.append(im)
 
                 # Figure out where exactly the next image begins
@@ -56,6 +59,7 @@ class WPGFile:
                 size = (im.width * im.height * bytes_per_pixel) + im_header_size
                 reader.seek(offset + size)
                 print("Size: ", size, " and Mode:", im.mode)
+                print("Current Offset: ", reader.tell(), ", File Size: ", reader.total_bytes())
             except IOError:
                 print("Couldn't read image")
                 break
@@ -73,11 +77,14 @@ class WPGFile:
             writer.write_byte_array(self.header)
 
             for im_texture in self.textures:
-                orig_im = im_texture.transpose(Image.FLIP_TOP_BOTTOM)
+                # orig_im = im_texture.transpose(Image.FLIP_TOP_BOTTOM)
+                orig_im = im_texture
                 with io.BytesIO() as io_bytes:
                     orig_im.save(io_bytes, format="TGA")
+                    io_bytes.getbuffer()[17] = 8
                     im_bytes = io_bytes.getvalue()[:-26]
                     writer.write(im_bytes)
+                    print("Flag: ", io_bytes.getvalue()[17])
 
             writer.write(self.unparsed_bytes)
         print("Saved to", spath)
@@ -92,10 +99,16 @@ class WPGFile:
     def import_from_folder(self, folder_path: Path):
         textures = []
         for texture_path in folder_path.glob("*.tga"):
-            im_texture = Image.open(texture_path)
+            im_texture: Image.Image = Image.open(texture_path)
             textures.append(im_texture)
+
         print("Imported", len(textures), "from", folder_path)
         self.textures = textures
+
+    def close(self):
+        for tex in self.textures:
+            tex.close()
+
 
 class Font(WPGFile):
     characters: List[Image.Image]
@@ -163,3 +176,44 @@ class Font(WPGFile):
             max_sentence_len = max(max_sentence_len, len(sentence))
             sentences.append(sentence)
         return sentences, max_sentence_len
+
+
+if __name__ == '__main__':
+    import filecmp
+    import shutil
+
+    #%%
+    wpg_dir = Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk')
+    temp_path = Path('temp')
+    shutil.rmtree(temp_path, ignore_errors=True)
+    diff_files = []
+    for filepath in wpg_dir.rglob("*.wpg"):
+        if 'temp' in filepath.name:
+            continue
+        test_wpg = WPGFile(filepath)
+        test_wpg.export_to_folder(temp_path)
+        test_wpg.import_from_folder(temp_path)
+        test_wpg.save('temp.wpg')
+        test_wpg.close()
+
+        # Compare binaries to see if they are different
+        if not filecmp.cmp(filepath,  'temp.wpg', shallow=False):
+            print('************************* Different File: ', filepath)
+            diff_files.append(str(filepath))
+
+        # Clean-up temp folder
+        shutil.rmtree(temp_path)
+
+    print("********** All Different Files **********")
+    print("Length: ", len(diff_files))
+    for filename in diff_files:
+        print(filename)
+
+    #%%
+    w = WPGFile(Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk\title\wpg\2D_LOAD_ATARI00_ID_2D_100.wpg'))
+    testing_path = Path(r'C:\Users\xeroj\Desktop\Programs\noesisv4428\x8_testing')
+    w.export_to_folder(testing_path / 'testing')
+    w.import_from_folder(testing_path / 'testing')
+    shutil.rmtree(testing_path / 'testing', ignore_errors=True)
+    w.save(testing_path / "test.wpg")
+    print('Same file: ', filecmp.cmp(testing_path / "test.wpg",  w.path, shallow=False))
