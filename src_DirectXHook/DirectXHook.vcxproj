@@ -141,6 +141,7 @@
     <None Include="Source.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="set.h" />
     <ClInclude Include="w_d3d9.h" />
     <ClInclude Include="hooks.h" />
     <ClInclude Include="stdafx.h" />

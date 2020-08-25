@@ -1,8 +1,10 @@
 #include "stdafx.h"
 
+#include "set.h"
 #include "w_d3d9.h"
 #include "hooks.h"
 
+// POINTERS
 uintptr_t pBase = (uintptr_t)GetModuleHandle(TEXT("NOCD.EXE"));
 uintptr_t pCoordinatesBase = 0x045C284C;
 unsigned int coordinatesLength = 0x47C;
@@ -19,20 +21,9 @@ int currentObjectID = 0;
 bool editingMode = false;
 bool debug = false;
 
-struct vec3_t {
-	float x, y, z;
-};
-
-struct vec2 {
-	float x, y;
-};
-
-struct vec4 {
-	float x, y, z, w;
-};
-
 vec3_t* p1Position = (vec3_t*)(pBase + 0x41A61F8);
 vec3_t* p2Position = (vec3_t*)(pBase + 0x3FFDF58 + 0x70);
+
 
 bool WorldToScreen(LPDIRECT3DDEVICE9 pDevice, D3DXVECTOR3* pos, D3DXVECTOR3* out) {
 	D3DVIEWPORT9 viewPort;
@@ -169,10 +160,15 @@ LRESULT CALLBACK SubclassWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 				printf("The set file has %d enemies, in memory %d enemies have valid coordinates\n", *setFileEnemyCount, validCount);
 			}
 			else if (wParam == VK_NUMPAD4) {
-				
+				p1Position->x = 1000;
+				p1Position->y = 1000;
+
+				p1Position->x = 5;
+				p1Position->y = 5;
 			}
 			else if (wParam == VK_NUMPAD6) {
-				p1Position->y = 10;
+				p1Position->x = 5;
+				p1Position->y = 5;
 			}
 			else if (wParam == VK_NUMPAD0) {
 				printf("P1 Position: x=%f\n", p1Position->x);
