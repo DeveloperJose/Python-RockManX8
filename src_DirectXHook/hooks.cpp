@@ -3,17 +3,21 @@
 #include "w_d3d9.h"
 #include "hooks.h"
 
-int playerPauseAddress = 0x0428DDB0;
-int enemyPauseAddress = 0x0428DB88;
-int coordBaseAddress = 0x045C284C;
-int cordStructLength = 0x47C;
+uintptr_t pBase = (uintptr_t)GetModuleHandle(TEXT("NOCD.EXE"));
+uintptr_t pCoordinatesBase = 0x045C284C;
+unsigned int coordinatesLength = 0x47C;
 
-int* enemyPause = (int*)enemyPauseAddress;
-int* playerPause = (int*)playerPauseAddress;
+bool* noCollision = (bool*)0x45A619C;
+
+float* p1ScreenPercent = (float*)0x44D28A4;
+int* setFileEnemyCount = (int*)0x047E37C6;
+
+bool* enemyPause = (bool*)0x0428DB88;
+bool* playerPause = (bool*)0x0428DDB0;
 
 int currentObjectID = 0;
-int editingMode = 0;
-int debug = 0;
+bool editingMode = false;
+bool debug = false;
 
 struct vec3_t {
 	float x, y, z;
@@ -26,6 +30,9 @@ struct vec2 {
 struct vec4 {
 	float x, y, z, w;
 };
+
+vec3_t* p1Position = (vec3_t*)(pBase + 0x41A61F8);
+vec3_t* p2Position = (vec3_t*)(pBase + 0x3FFDF58 + 0x70);
 
 bool WorldToScreen(LPDIRECT3DDEVICE9 pDevice, D3DXVECTOR3* pos, D3DXVECTOR3* out) {
 	D3DVIEWPORT9 viewPort;
@@ -59,7 +66,7 @@ void DrawBone(IDirect3DDevice9 *pDevice, ID3DXFont *pFont, int ptr, char * name)
 	}
 }
 
-bool ValidBone(int ptr) {
+bool IsValidVec3(int ptr) {
 	float* xptr = (float*)ptr;
 	float* yptr = (float*)(ptr + 4);
 	float* zptr = (float*)(ptr + 8);
@@ -71,59 +78,45 @@ bool ValidBone(int ptr) {
 	return x + y + z > 1;
 }
 
-float* GetCurrObjectXPtr() {
-	int xAddress = coordBaseAddress + (currentObjectID * cordStructLength);
-	return (float *)(xAddress);
-}
-
-float* GetCurrObjectYPtr() {
-	int xAddress = coordBaseAddress + (currentObjectID * cordStructLength);
-	int yAddress = xAddress + 4;
-	return (float *)(yAddress);
-}
-
-float * GetCurrObjectZPtr() {
-	int xAddress = coordBaseAddress + (currentObjectID * cordStructLength);
-	int yAddress = xAddress + 4;
-	int zAddress = yAddress + 4;
-	return (float *)(zAddress);
+vec3_t* GetCoordinatesForObject(int objectNumber) {
+	return (vec3_t*)(pCoordinatesBase + (objectNumber * coordinatesLength));
 }
 
 void ToggleEditingMode() {
+	printf("Engine located at %X\n", pBase);
 	if (editingMode) {
-		editingMode = 0;
-		*enemyPause = 0;
+		editingMode = false;
+		*enemyPause = false;
+		*noCollision = false;
+
+		DWORD oldProtect;
+		BYTE orig[] = { 0xD9, 0x9E, 0xD4, 0x60, 0x5A, 0x04 };
+		VirtualProtect((LPVOID)(pBase + 0xA1A80), sizeof(orig), PAGE_EXECUTE_READWRITE, &oldProtect);
+		memcpy((LPVOID)(pBase + 0xA1A80), orig, sizeof(orig));
+		VirtualProtect((LPVOID)(pBase + 0xA1A80), sizeof(orig), oldProtect, &oldProtect);
 	}
 	else {
-		editingMode = 1;
-		*enemyPause = 1;
+		editingMode = true;
+		*enemyPause = true;
+		*noCollision = true;
+
+		BYTE nop[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+		DWORD oldProtect;
+		VirtualProtect((LPVOID)(pBase + 0xA1A80), sizeof(nop), PAGE_EXECUTE_READWRITE, &oldProtect);
+		memset((LPVOID)(pBase + 0xA1A80), 0x90, sizeof(nop));
+		VirtualProtect((LPVOID)(pBase + 0xA1A80), sizeof(nop), oldProtect, &oldProtect);
+
+		printf("Nop: %u\n", sizeof(nop));
 	}
 }
 
 void SyncPlayer() {
 	if (currentObjectID > 1) {
-		float* objectXPtr = GetCurrObjectXPtr();
-		float* objectYPtr = GetCurrObjectYPtr();
-		float* objectZPtr = GetCurrObjectZPtr();
-		float x = *objectXPtr;
-		float y = *objectYPtr;
-		float z = *objectZPtr;
-		int oldObjectID = currentObjectID;
-
-		printf("Object: %f, %f, %f\n", x, y, z);
-
-		*playerPause = 1;
-		currentObjectID = 0;
-		*(GetCurrObjectXPtr()) = x;
-		*(GetCurrObjectYPtr()) = y;
-		*(GetCurrObjectZPtr()) = z;
-
-		currentObjectID = 1;
-		*(GetCurrObjectXPtr()) = x;
-		*(GetCurrObjectYPtr()) = y;
-		*(GetCurrObjectZPtr()) = z;
-
-		currentObjectID = oldObjectID;
+		vec3_t* objectCoords = GetCoordinatesForObject(currentObjectID);
+		p1Position->x = objectCoords->x;
+		p1Position->y = objectCoords->y;
+		p1Position->z = objectCoords->z;
+		
 	}
 }
 
@@ -142,11 +135,14 @@ LRESULT CALLBACK SubclassWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 		if (editingMode) {
 			if (wParam == VK_ADD) {
 				currentObjectID++;
+				SyncPlayer();
 			}
 			else if (wParam == VK_SUBTRACT) {
 				currentObjectID--;
 				if (currentObjectID < 0)
 					currentObjectID = 0;
+
+				SyncPlayer();
 			}
 			else if (wParam == VK_NUMPAD4)
 				xChange = -0.5;
@@ -161,6 +157,28 @@ LRESULT CALLBACK SubclassWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 			else if (wParam == VK_NUMPAD3)
 				zChange = 0.5;
 		}
+		else
+		{
+			if (wParam == VK_NUMPAD9) {
+				int validCount = 0;
+				for (int i = 0; i < *setFileEnemyCount; i++) {
+					uintptr_t coord_ptr = pCoordinatesBase + (i * coordinatesLength);
+					if (IsValidVec3(coord_ptr))
+						validCount++;
+				}
+				printf("The set file has %d enemies, in memory %d enemies have valid coordinates\n", *setFileEnemyCount, validCount);
+			}
+			else if (wParam == VK_NUMPAD4) {
+				
+			}
+			else if (wParam == VK_NUMPAD6) {
+				p1Position->y = 10;
+			}
+			else if (wParam == VK_NUMPAD0) {
+				printf("P1 Position: x=%f\n", p1Position->x);
+				printf("P1 Ptr at %x\n", pBase + 0x41A61F8);
+			}
+		}
 	}
 	break;
 
@@ -170,18 +188,26 @@ LRESULT CALLBACK SubclassWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 	break;
 	}
 
+	vec3_t* objectCoords;
+	if (currentObjectID == 0)
+		objectCoords = p1Position;
+	else if (currentObjectID == 1)
+		objectCoords = p2Position;
+	else
+		objectCoords = GetCoordinatesForObject(currentObjectID);
+
 	if (xChange != 0) {
-		*(GetCurrObjectXPtr()) += xChange;
+		objectCoords->x += xChange;
 		xChange = 0;
 	}
 
 	if (yChange != 0) {
-		*(GetCurrObjectYPtr()) += yChange;
+		objectCoords->y += yChange;
 		yChange = 0;
 	}
 
 	if (zChange != 0) {
-		*(GetCurrObjectZPtr()) += zChange;
+		objectCoords->z += zChange;
 		zChange = 0;
 	}
 
@@ -216,6 +242,8 @@ void HookEndScene(IDirect3DDevice9 *pDevice) {
 
 	// Calculate the rectangle the text will occupy
 	if (editingMode) {
+		vec3_t* objectCoords = GetCoordinatesForObject(currentObjectID);
+
 		char formatted_string[100];
 		const char * entityName = NULL;
 		if (currentObjectID == 0)
@@ -224,24 +252,24 @@ void HookEndScene(IDirect3DDevice9 *pDevice) {
 			entityName = "Player 2";
 
 		if (entityName == NULL)
-			sprintf_s(formatted_string, "Entity: %d,X=%f,Y=%f,Z=%f,ptr=%u", currentObjectID, *GetCurrObjectXPtr(), *GetCurrObjectYPtr(), *GetCurrObjectZPtr(), coordBaseAddress + (currentObjectID * cordStructLength));
+			sprintf_s(formatted_string, "Entity: %d,X=%f,Y=%f,Z=%f,ptr=%X", currentObjectID, objectCoords->x, objectCoords->y, objectCoords->z, pCoordinatesBase + (currentObjectID * coordinatesLength));
 		else
-			sprintf_s(formatted_string, "Entity: %s,X=%f,Y=%f,Z=%f,ptr=%u", entityName, *GetCurrObjectXPtr(), *GetCurrObjectYPtr(), *GetCurrObjectZPtr(), coordBaseAddress + (currentObjectID * cordStructLength));
+			sprintf_s(formatted_string, "Entity: %s,X=%f,Y=%f,Z=%f,ptr=%X", entityName, objectCoords->x, objectCoords->y, objectCoords->z, pCoordinatesBase + (currentObjectID * coordinatesLength));
 
-		pFont->DrawText(NULL, formatted_string, -1, &TextRect, DT_LEFT | DT_NOCLIP, D3DCOLOR_XRGB(0, 158, 255));
+		pFont->DrawText(NULL, formatted_string, -1, &TextRect, DT_LEFT | DT_NOCLIP, D3DCOLOR_XRGB(0, 0, 0));
 	
-		D3DXVECTOR3 pos = { *GetCurrObjectXPtr(), *GetCurrObjectYPtr(), *GetCurrObjectZPtr() };
+		D3DXVECTOR3 pos = { objectCoords->x, objectCoords->y, objectCoords->z };
 		D3DXVECTOR3 screenPos;
 		if (WorldToScreen(pDevice, &pos, &screenPos)) {
 			RECT x = { screenPos.x, screenPos.y, screenPos.x + 0.1, screenPos.y + 0.1};
-			pFont->DrawText(NULL, "Entity", -1, &x, DT_LEFT | DT_NOCLIP, D3DCOLOR_XRGB(0, 158, 255));
+			pFont->DrawText(NULL, "Entity", -1, &x, DT_LEFT | DT_NOCLIP, D3DCOLOR_XRGB(0, 0, 0));
 		}
 
 		int baseAddress = 0x04408D84;
 		int size = 0xB8;
 		for (int i = 0; i < 32; i++) {
 			int addr = (baseAddress)+(i * size);
-			if (ValidBone(addr)) {
+			if (IsValidVec3(addr)) {
 				float* x = (float*)addr;
 				float* y = (float*)(addr + 4);
 				float* z = (float*)(addr + 8);

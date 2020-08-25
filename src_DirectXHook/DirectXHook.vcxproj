@@ -22,13 +22,13 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{AF9122E0-0B60-4B8F-998C-30A93DF9CA86}</ProjectGuid>
     <RootNamespace>DirectXHook</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -73,7 +73,7 @@
     <TargetName>d3d9</TargetName>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)packages\DirectX8.1.0.0\content;$(DXSDK_DIR)include</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(ProjectDir)packages\DirectX8.1.0.0\lib;$(DXSDK_DIR)lib\x86</LibraryPath>
-    <OutDir>C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game</OutDir>
+    <OutDir>C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

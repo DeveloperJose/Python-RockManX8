@@ -2,7 +2,8 @@
 #include "w_d3d9.h"
 #include "hooks.h"
 
-#pragma data_seg (".d3d8_shared")
+#pragma data_seg (".shared")
+const char* example = "TEST";
 //myIDirect3DDevice8* gl_pmyIDirect3DDevice8 = NULL;
 //myIDirect3D8*       gl_pmyIDirect3D8;
 //HINSTANCE           gl_hOriginalDll;
