@@ -1,3 +1,11 @@
+/*
+	TODO:
+		-Virtual pausing is incomplete, not everything is paused
+		-Sync with SET files
+		-Make player model invisible
+		-Only allow set editor when a level is loaded
+		-Integrate with C# WinForms for easier GUI?
+*/
 #include "stdafx.h"
 
 #include "set.h"
@@ -73,13 +81,8 @@ vec3_t* GetCoordinatesForObject(int objectNumber) {
 	return (vec3_t*)(pCoordinatesBase + (objectNumber * coordinatesLength));
 }
 
-void ToggleEditingMode() {
-	printf("Engine located at %X\n", pBase);
-	if (editingMode) {
-		editingMode = false;
-		*enemyPause = false;
-		*noCollision = false;
-
+void SetGravity(bool gravity) {
+	if (gravity) {
 		DWORD oldProtect;
 		BYTE orig[] = { 0xD9, 0x9E, 0xD4, 0x60, 0x5A, 0x04 };
 		VirtualProtect((LPVOID)(pBase + 0xA1A80), sizeof(orig), PAGE_EXECUTE_READWRITE, &oldProtect);
@@ -87,17 +90,29 @@ void ToggleEditingMode() {
 		VirtualProtect((LPVOID)(pBase + 0xA1A80), sizeof(orig), oldProtect, &oldProtect);
 	}
 	else {
-		editingMode = true;
-		*enemyPause = true;
-		*noCollision = true;
-
 		BYTE nop[] = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
 		DWORD oldProtect;
 		VirtualProtect((LPVOID)(pBase + 0xA1A80), sizeof(nop), PAGE_EXECUTE_READWRITE, &oldProtect);
 		memset((LPVOID)(pBase + 0xA1A80), 0x90, sizeof(nop));
 		VirtualProtect((LPVOID)(pBase + 0xA1A80), sizeof(nop), oldProtect, &oldProtect);
+	}
+}
 
-		printf("Nop: %u\n", sizeof(nop));
+void ToggleEditingMode() {
+	printf("Engine located at %X\n", pBase);
+	if (editingMode) {
+		// Disable editing mode
+		editingMode = false;
+		*enemyPause = false;
+		*noCollision = false;
+		SetGravity(true);
+	}
+	else {
+		// Enable editing mode
+		editingMode = true;
+		*enemyPause = true;
+		*noCollision = true;
+		SetGravity(false);
 	}
 }
 
@@ -150,7 +165,7 @@ LRESULT CALLBACK SubclassWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 		}
 		else
 		{
-			if (wParam == VK_NUMPAD9) {
+			/*if (wParam == VK_NUMPAD9) {
 				int validCount = 0;
 				for (int i = 0; i < *setFileEnemyCount; i++) {
 					uintptr_t coord_ptr = pCoordinatesBase + (i * coordinatesLength);
@@ -173,7 +188,7 @@ LRESULT CALLBACK SubclassWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 			else if (wParam == VK_NUMPAD0) {
 				printf("P1 Position: x=%f\n", p1Position->x);
 				printf("P1 Ptr at %x\n", pBase + 0x41A61F8);
-			}
+			}*/
 		}
 	}
 	break;
