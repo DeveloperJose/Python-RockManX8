@@ -34,7 +34,8 @@ namespace src_GUI
         private Process GameProcess;
         private IntPtr GameHandle { get { if (GameProcess != null) return GameProcess.MainWindowHandle; return IntPtr.Zero; } }
 
-        private readonly Mem Mem = new Mem();
+        private Editor editor;
+
         private bool IsProcessOpen;
         public MainForm()
         {
@@ -49,7 +50,7 @@ namespace src_GUI
         }
         private void BGWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            IsProcessOpen = Mem.OpenProcess("NOCD");
+            IsProcessOpen = Editor.M.OpenProcess("NOCD");
             Thread.Sleep(100);
             BGWorker.ReportProgress(0);
         }
@@ -63,13 +64,14 @@ namespace src_GUI
         {
             if (IsProcessOpen)
             {
-                LblDebug.Text = "Game Loaded";
+                //LblDebug.Text = "Game Loaded";
                 LblDebug.ForeColor = Color.Green;
 
                 BtnDebug.Enabled = false;
                 TextP1X.Enabled = true;
 
-                TextP1X.Text = Mem.ReadFloat("NOCD.exe+0x41A61F8").ToString();
+                editor = new Editor();
+                editor.DisableOutOfFocus();
             }
             else
             {
@@ -122,5 +124,51 @@ namespace src_GUI
             GameProcess?.Close();
         }
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void NumericObjectID_ValueChanged(object sender, EventArgs e)
+        {
+            //UIntPtr objectDataPtr = UIntPtr.Add(Mem.GetCode("NOCD.exe+0x045C284C"), (int)NumericObjectID.Value * 0x47C);
+            int objectID = (int)NumericObjectID.Value;
+            //int offset = objectID * 0x47C;
+            //UIntPtr PCoordsBase = (UIntPtr)0x045C284C;
+            //UIntPtr ObjectBase = UIntPtr.Add(PCoordsBase, offset);
+            //float x1 = Mem.ReadPFloat(ObjectBase, "");
+            //float y1 = Mem.ReadPFloat(UIntPtr.Add(ObjectBase, 4), "");
+            //float z1 = Mem.ReadPFloat(UIntPtr.Add(ObjectBase, 8), "");
+
+            //Vec3 v1 = new Vec3(ObjectBase);
+            Vec3 v1 = editor.GetObjectVec(objectID);
+            TextP1X.Text = v1.ToString();
+
+            LblDebug.Text = editor.Player1Vec.ToString();
+            if (objectID > 1)
+                editor.Player1Vec.Set(v1);
+            //    MovePlayer1(x1, y1, z1);
+        }
+
+        private void NumericObjectX_ValueChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine("X CHANGED");
+        }
+
+        private void MovePlayer1(float x, float y, float z)
+        {
+            //Mem.WriteMemory("NOCD.exe+0x41A61F8", "float", x.ToString());
+        }
+
+        private void NumericObjectY_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NumericObjectZ_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
