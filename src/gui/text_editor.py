@@ -293,9 +293,10 @@ class TextEditorWindow(QMainWindow):
 
     @staticmethod
     def get_mugshot_im(char_idx, mug_idx):
-        if not MCBExtra.is_valid_char(char_idx):
+        # Character 22 is used for empty mugshots
+        if not MCBExtra.is_valid_char(char_idx) or char_idx == 22:
             return Image.new("RGB", (128, 128))
-
+        
         curr_mugshots = resource_manager.resources.mugshots[char_idx]
         is_valid_mugshot = (0 <= mug_idx < len(curr_mugshots))
         if not is_valid_mugshot:

@@ -11,37 +11,21 @@ namespace src_GUI
     {
         public float X
         {
-            get
-            {
-                return Editor.M.ReadPFloat(Ptr, "0");
-            }
-            set
-            {
-                Editor.M.WriteMemory(string.Format("{0:X}", (int)Ptr), "float", value.ToString());
-            }
+            get { return Editor.M.ReadPFloat(Ptr, "0"); }
+            set { Editor.M.WriteMemory(string.Format("{0:X}", (int)Ptr), "float", value.ToString()); }
         }
         public float Y
         {
-            get
-            {
-                return Editor.M.ReadPFloat(UIntPtr.Add(Ptr, 4), "0");
-            }
-            set
-            {
-                Editor.M.WriteMemory(string.Format("{0:X}", (int)UIntPtr.Add(Ptr, 4)), "float", value.ToString());
-            }
+            get { return Editor.M.ReadPFloat(UIntPtr.Add(Ptr, 4), "0"); }
+            set { Editor.M.WriteMemory(string.Format("{0:X}", (int)UIntPtr.Add(Ptr, 4)), "float", value.ToString()); }
         }
         public float Z
         {
-            get
-            {
-                return Editor.M.ReadPFloat(UIntPtr.Add(Ptr, 8), "0");
-            }
-            set
-            {
-                Editor.M.WriteMemory(string.Format("{0:X}", (int)UIntPtr.Add(Ptr, 8)), "float", value.ToString());
-            }
+            get { return Editor.M.ReadPFloat(UIntPtr.Add(Ptr, 8), "0"); }
+            set { Editor.M.WriteMemory(string.Format("{0:X}", (int)UIntPtr.Add(Ptr, 8)), "float", value.ToString()); }
         }
+
+        public bool IsValid => X + Y + Z > 1;
 
         private readonly UIntPtr Ptr;
         public Vec3(UIntPtr ptr)
@@ -59,6 +43,11 @@ namespace src_GUI
             X = x;
             Y = y;
             Z = z;
+        }
+
+        public bool Equals(float otherX, float otherY, float otherZ)
+        {
+            return Math.Abs(X - otherX) < 1 && Math.Abs(Y - otherY) < 1 && Math.Abs(Z - otherZ) < 1;
         }
 
         public override string ToString()

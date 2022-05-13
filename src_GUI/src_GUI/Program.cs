@@ -16,7 +16,13 @@ namespace src_GUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.ApplicationExit += Application_ApplicationExit;
             Application.Run(new MainForm());
+        }
+
+        private static void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            Editor.M.CloseProcess();
         }
     }
 }
