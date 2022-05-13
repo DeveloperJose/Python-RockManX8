@@ -1,5 +1,5 @@
 @ECHO OFF
-CALL activate pyqt5
+CALL activate base
 
 echo y | pyinstaller src/main.py ^
         --add-data resources/default_font.wpg;resources ^

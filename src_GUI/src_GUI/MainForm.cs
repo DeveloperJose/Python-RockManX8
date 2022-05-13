@@ -37,6 +37,7 @@ namespace src_GUI
         private Editor editor;
 
         private bool IsProcessOpen;
+        private bool IsEditModeActive;
         public MainForm()
         {
             InitializeComponent();
@@ -46,7 +47,6 @@ namespace src_GUI
         {
             BGWorker.RunWorkerAsync();
             GamePanel.Size = new Size(1024, 768);
-
         }
         private void BGWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -121,7 +121,6 @@ namespace src_GUI
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            GameProcess?.Close();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -132,28 +131,26 @@ namespace src_GUI
 
         private void NumericObjectID_ValueChanged(object sender, EventArgs e)
         {
-            //UIntPtr objectDataPtr = UIntPtr.Add(Mem.GetCode("NOCD.exe+0x045C284C"), (int)NumericObjectID.Value * 0x47C);
-            int objectID = (int)NumericObjectID.Value;
-            //int offset = objectID * 0x47C;
-            //UIntPtr PCoordsBase = (UIntPtr)0x045C284C;
-            //UIntPtr ObjectBase = UIntPtr.Add(PCoordsBase, offset);
-            //float x1 = Mem.ReadPFloat(ObjectBase, "");
-            //float y1 = Mem.ReadPFloat(UIntPtr.Add(ObjectBase, 4), "");
-            //float z1 = Mem.ReadPFloat(UIntPtr.Add(ObjectBase, 8), "");
+            /*
+            int objectID = (int)MemoryObjectID.Value;
 
-            //Vec3 v1 = new Vec3(ObjectBase);
             Vec3 v1 = editor.GetObjectVec(objectID);
             TextP1X.Text = v1.ToString();
 
             LblDebug.Text = editor.Player1Vec.ToString();
             if (objectID > 1)
+            {
                 editor.Player1Vec.Set(v1);
-            //    MovePlayer1(x1, y1, z1);
+            }
+            */
         }
 
         private void NumericObjectX_ValueChanged(object sender, EventArgs e)
         {
             Console.WriteLine("X CHANGED");
+            int objectID = (int)MemoryObjectID.Value;
+            Vec3 v1 = editor.GetObjectVec(objectID);
+            v1.X = (float)MemoryX.Value;
         }
 
         private void MovePlayer1(float x, float y, float z)
@@ -169,6 +166,62 @@ namespace src_GUI
         private void NumericObjectZ_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void BtnToggleEditMode_Click(object sender, EventArgs e)
+        {
+            IsEditModeActive = !IsEditModeActive;
+
+            if (IsEditModeActive)
+            {
+                editor.EnableEditMode();
+                BtnToggleEditMode.Text = "Stop Edit";
+            }
+            else
+            {
+                editor.DisableEditMode();
+                BtnToggleEditMode.Text = "Start Edit";
+            }
+        }
+
+        private void SetFileObjectID_ValueChanged(object sender, EventArgs e)
+        {
+            int setObjectID = (int)SetFileObjectID.Value;
+            SetEnemy currentEnemy = editor.CurrentLevelSetFile.Enemies[setObjectID];
+            SetFileX.Value = (decimal)currentEnemy.X;
+            SetFileY.Value = (decimal)currentEnemy.Y;
+            SetFileZ.Value = (decimal)currentEnemy.Z;
+            SetFilePrm.Text = currentEnemy.PrmStr;
+
+            editor.Player1Vec.Set(currentEnemy.X, currentEnemy.Y, editor.Player1Vec.Z);
+
+            // Disable controls for now
+            MemoryObjectID.Enabled = false;
+            MemoryX.Enabled = false;
+            MemoryY.Enabled = false;
+            MemoryZ.Enabled = false;
+
+            // Look inside the memory for this object?
+            Vec3 possibleVec = editor.GetObjectVec(2);
+            int i = 2;
+            while(possibleVec.IsValid || i < 15)
+            {
+                if (possibleVec.Equals(currentEnemy.X, currentEnemy.Y, currentEnemy.Z))
+                {
+                    MemoryObjectID.Enabled = true;
+                    MemoryX.Enabled = true;
+                    MemoryY.Enabled = true;
+                    MemoryZ.Enabled = true;
+
+                    MemoryObjectID.Value = i;
+                    MemoryX.Value = (decimal)possibleVec.X;
+                    MemoryY.Value = (decimal)possibleVec.Y;
+                    MemoryZ.Value = (decimal)possibleVec.Z;
+                    break;
+                }
+                i++;
+                possibleVec = editor.GetObjectVec(i);
+            };
         }
     }
 }
