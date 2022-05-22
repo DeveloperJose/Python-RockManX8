@@ -18,13 +18,13 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
+    <ClInclude Include="inc\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="detours.h">
+    <ClInclude Include="inc\detours.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="detver.h">
+    <ClInclude Include="inc\detver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="set.h">
@@ -40,6 +40,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="detours.lib" />
+    <Library Include="lib\detours.lib" />
   </ItemGroup>
 </Project>

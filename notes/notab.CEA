@@ -1,0 +1,21 @@
+alloc(newmem,2048)
+label(returnhere)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+//place your code here
+pop esi
+pop ebp
+xor eax, eax
+pop ebx
+ret 0x10
+
+exit:
+jmp returnhere
+
+01ddbc13:
+jmp newmem
+nop
+returnhere:
+
+

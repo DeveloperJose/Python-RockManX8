@@ -102,35 +102,42 @@ class FileStream():
             self.write_string(st)
 
     @staticmethod
-    def int_array_to_hex(arr):
-        hexes = []
-        # Little-Endian order is reversed
-        for n in arr:
-            hexes.append(FileStream.int_to_hex(n))
-        return ",".join(hexes)
+    def str_to_hex(s: str, pad_bytes=8, sep=' '):
+        arr = bytearray(s, 'utf-8')
+        missing_bytes = max(pad_bytes - len(s), 0)
+        for _ in range(missing_bytes):
+            arr.insert(len(s), 0)
+
+        return arr.hex(sep)
 
     @staticmethod
-    def int_to_hex(n):
-        # Convert to hex
-        hex_str = hex(n)
-        # Remove 0x
-        hex_str = hex_str[2:]
-        # Reverse
+    def int_array_to_hex(arr, sep=' '):
+        hexes = []
+        for n in arr:
+            hexes.append(FileStream.int_to_hex(n, sep))
+        return sep.join(hexes)
+
+    @staticmethod
+    def int_to_hex(n, sep=' '):
+        # Convert to hex and pad to 4 bytes
+        hex_str = f'{n:04x}'
+
+        # Convert to Little-Endian order
         p1 = hex_str[0:2]
         p2 = hex_str[2:4]
-        # Pad
-        return (p2 + p1).ljust(4, '_')
+        r = sep.join([p2, p1])
+        return r
 
     @staticmethod
-    def float_to_hex(f):
-        # Convert to hex
-        hex_str = hex(struct.unpack('<I', struct.pack('<f', f))[0])
-        # Remove 0x and e##
-        hex_str = hex_str[2:-3]
-        # Reverse
+    def float_to_hex(f, sep=' '):
+        # Convert to hex and pad to 8 bytes
+        h = struct.unpack('<I', struct.pack('<f', f))[0]
+        hex_str = f'{h:08x}'
+
+        # Convert to Little-Endian order
         p1 = hex_str[0:2]
         p2 = hex_str[2:4]
         p3 = hex_str[4:6]
         p4 = hex_str[6:8]
-        # Pad
-        return (p4 + p3 + p2 + p1).ljust(8, '_')
+        r = sep.join([p4, p3, p2, p1])
+        return r
