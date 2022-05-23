@@ -62,4 +62,14 @@ public:
 	float N00000425; //0x00E8
 	float N00000426; //0x00EC
 	char pad_00F0[64]; //0x00F0
+
 }; //Size: 0x0130
+
+// Disable warning about zero-sized arrays
+#pragma warning( push )
+#pragma warning( disable : 4200 )
+class EntityList {
+public:
+	class Entity entities[];
+};
+#pragma warning( pop )

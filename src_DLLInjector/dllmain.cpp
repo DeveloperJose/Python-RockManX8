@@ -38,8 +38,49 @@ const BYTE no_grav_original_asm[] = { 0xF3, 0x0F, 0x11, 0x87, 0x94, 0x18, 0x6E, 
 const uintptr_t no_grav_patch_ptr = 0x244E08D;
 bool has_nograv_patch = false;
 
-// *********************************************** Editor ***********************************************
+// *********************************************** Move Enemies Patch
+const BYTE move_enemies_patch_asm[] = { 0x90, 0x90, 0x90, 0x90, 0x90 };
+const BYTE move_enemies_orig_asm[] = { 0xF3, 0x0F, 0x11, 0x40, 0x70 };
+const uintptr_t move_enemies_patch_ptr = 0x2439989;
+
+// *********************************************** Entities
+Entity* entities = (Entity*)(base_addr + 0x42E1820);
 Entity* player1 = (Entity*)(base_addr + 0x42E21A0);
+Entity* player2 = (Entity*)(base_addr + 0x42E1950);
+
+int CountActiveEntities() {
+	int active = 0;
+	for (int i = 0; i <= 200; ++i) {
+		if (entities[i].Animations1 != 0)
+			++active;
+	}
+	return active;
+}
+
+int FindClosestEntity(SetEnemy* enemy) {
+	double best_distance = 1e10;
+	int best_id = 0;
+	//printf("Curr Enemy | X=%f\n", enemy->X);
+	for (int i = 0; i <= 200; i++) {
+		if (entities[i].Animations1 == 0 || &entities[i] == player1 || &entities[i] == player2)
+			continue;
+
+		double xdiff = (entities[i].X - enemy->X);
+		double ydiff = (entities[i].Y - enemy->Y);
+		double zdiff = (entities[i].Z - enemy->Z);
+		double xx = xdiff * xdiff;
+		double yy = ydiff * ydiff;
+		double zz = zdiff * zdiff;
+		double distance = xx + yy + zz;
+		if (distance < best_distance) {
+			best_distance = distance;
+			//printf("Curr Best Entity | X=%f\n", entities[i].X);
+			best_id = entities[i].ID;
+		}
+	}
+	return best_id;
+}
+// *********************************************** Editor ***********************************************
 SetFile* set_file = (SetFile*)(base_addr + 0x323F940);
 //vec3_t* camera = (vec3_t*)(base_addr + 0x332C6C0);
 //float* other = (float*)(base_addr + 0x332C6F0);
@@ -64,30 +105,24 @@ void MovePlayerToSelectedEnemy() {
 }
 
 void RefreshChanges() {
-	float old_x = player1->X;
-	float old_y = player1->Y;
-	float old_z = player1->Z;
 
-	player1->X -= 1000;
-	player1->Y -= 1000;
-	player1->Z -= 1000;
-
-	MovePlayerToSelectedEnemy();
+	//MovePlayerToSelectedEnemy();
 }
 
 void ToggleEditMode() {
 	is_editing = !is_editing;
 
 	*pause_enemies = is_editing;
-	pause_exploding_boxes = is_editing;
-	pause_anims_and_interacts1 = is_editing;
-	pause_anims_and_interacts2 = is_editing;
-	pause_metals = is_editing;
-	*pause_fog = 1;
-	hide_fog = is_editing;
-	hide_hp_ui = is_editing;
+	*pause_exploding_boxes = is_editing;
+	*pause_anims_and_interacts1 = is_editing;
+	*pause_anims_and_interacts2 = is_editing;
+	*pause_metals = is_editing;
+	*pause_fog = is_editing;
+	*hide_fog = is_editing;
+	*hide_hp_ui = is_editing;
 
 	Patch(no_grav_patch_ptr, is_editing ? no_grav_patch_asm : no_grav_original_asm, is_editing ? sizeof(no_grav_patch_asm) : sizeof(no_grav_original_asm));
+	Patch(move_enemies_patch_ptr, is_editing ? move_enemies_patch_asm : move_enemies_orig_asm, is_editing ? sizeof(move_enemies_patch_asm) : sizeof(move_enemies_orig_asm));
 }
 
 // *********************************************** Main DLL Stuff ***********************************************
@@ -130,6 +165,17 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 			
 			printf("Enemies = %i\n", set_file->enemy_count);
 			printf("E1 = %s\n", set_file->enemies[0].PrmType);
+			printf("Entity0 = %i\n", entities[0].ID);
+			printf("Entity5 = %i\n", entities[5].ID);
+			printf("There are %i active entities\n", CountActiveEntities());
+
+			
+			//Entity* closest_entity = FindClosestEntity(current_enemy);
+			//printf("Closest Entity = %x \n", &closest_entity);
+			//printf("Closest Entity = %i | Set(X=%f, Y=%f, Z=%f) | Entity(X=%f, Y=%f, Z=%f)\n", closest_entity->ID, current_enemy->X, current_enemy->Y, current_enemy->Z, closest_entity->X, closest_entity->Y, closest_entity->Z);
+			/*for (int i = 0; i <= 200; i++) {
+				printf("(%i|an=%x|prev=%x|next=%x)\n", entities[i].ID, entities[i].Animations1, entities[i].Prev, entities[i].Next);
+			}*/
 		}
 		else if (GetAsyncKeyState(VK_F5) & 1) {
 			if (!has_tab_patch) {
@@ -210,36 +256,41 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 					selected_enemy_idx = 0;
 				MovePlayerToSelectedEnemy();
 			}
+
+			SetEnemy* current_enemy = &set_file->enemies[selected_enemy_idx];
+			int entity_idx = FindClosestEntity(current_enemy);
+			float delta = 0.01f;
+
 			if (GetAsyncKeyState(VK_NUMPAD8) & 0x8000) {
-				set_file->enemies[selected_enemy_idx].Y += 0.001f;
+				entities[entity_idx].Y += delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD6) & 0x8000) {
-				set_file->enemies[selected_enemy_idx].X += 0.001f;
+				entities[entity_idx].X += delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD4) & 0x8000) {
-				set_file->enemies[selected_enemy_idx].X -= 0.001f;
+				entities[entity_idx].X -= delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD2) & 0x8000) {
-				set_file->enemies[selected_enemy_idx].Y -= 0.001f;
+				entities[entity_idx].Y -= delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD7) & 0x8000) {
-				set_file->enemies[selected_enemy_idx].Z -= 0.001f;
+				entities[entity_idx].Z -= delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD9) & 0x8000) {
-				set_file->enemies[selected_enemy_idx].Z += 0.001f;
+				entities[entity_idx].Z += delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD1) & 0x8000) {
-				set_file->enemies[selected_enemy_idx].Rotation -= 0.001f;
+				entities[entity_idx].Angle1 -= delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD3) & 0x8000) {
-				set_file->enemies[selected_enemy_idx].Rotation += 0.001f;
+				entities[entity_idx].Angle1 += delta;
 				RefreshChanges();
 			}
 		}
