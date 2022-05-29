@@ -145,6 +145,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\detours.h" />
+    <ClInclude Include="include\detver.h" />
+    <ClInclude Include="include\syelog.h" />
     <ClInclude Include="inc\detours.h" />
     <ClInclude Include="inc\detver.h" />
     <ClInclude Include="set.h" />

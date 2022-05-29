@@ -1,15 +1,53 @@
 #include <string>
 #include <iostream>
+#include <unordered_map>
 #include <windows.h>
+#include "include/detours.h"
 
 #include "stdafx.h"
 #include "set.h"
-// #include "detours.h"
 
 // *********************************************** DLL Stuff ***********************************************
 DWORD WINAPI MyThread(LPVOID);
 DWORD g_threadID;
 HMODULE g_hModule;
+
+// *********************************************** Detours ***********************************************
+typedef int(__stdcall* Enemy_Load)(int32_t param1, int32_t param2, int32_t param3, int32_t param4, int32_t* param5, int32_t param6);
+Enemy_Load TrueEnemyLoad = ((Enemy_Load)0x027e3d00);
+
+//int(__cdecl* TrueEnemyLoad)(int param1, int param2, int param3, int param4, int param5, int param6);
+int32_t dw_esi = 0;
+std::unordered_map<SetEnemyParent*, CEnemy*> enemy_map;
+int __stdcall Hooked_Enemy_Load_Fn(int32_t param1, int32_t param2, int32_t param3, int32_t param4, int32_t* param5, int32_t param6) {
+	// Save ESI to dw_esi
+	_asm {
+		mov dw_esi, esi;
+	}
+	
+	// Run original load function
+	int caddr = TrueEnemyLoad(param1, param2, param3, param4, param5, param6);
+	
+	// Capture enemy loads
+	CEnemy* c_enemy = (CEnemy*)caddr;
+	printf("ESI = %x and caddr = %x | c_enemy=%s\n", dw_esi, caddr, c_enemy->type); // p1=%x, p4=%x, p6=%x
+	if (strcmp(c_enemy->type, "CEnemy") == 0) {
+		printf("CEnemy Loaded\n");
+	}
+	// Link results for our editor
+	//if (caddr > 0x10000) {
+	//	
+	//	if (strcmp(c_enemy->type, "CEnemy") == 0) {
+	//		SetEnemyParent* set_enemy_parent = (SetEnemyParent*)dw_esi;
+	//		enemy_map[set_enemy_parent] = c_enemy;
+	//		printf("CEnemy Loaded\n");
+	//		//for (auto x : enemy_map)
+	//			//printf("(%x, %x), ", x.first, x.second);
+	//		//printf("]\n");
+	//	}
+	//}
+	return caddr;
+}
 
 // *********************************************** Patches ***********************************************
 void Patch(uintptr_t dst_ptr, const BYTE asm_bytes[], size_t size) {
@@ -43,10 +81,23 @@ const BYTE move_enemies_patch_asm[] = { 0x90, 0x90, 0x90, 0x90, 0x90 };
 const BYTE move_enemies_orig_asm[] = { 0xF3, 0x0F, 0x11, 0x40, 0x70 };
 const uintptr_t move_enemies_patch_ptr = 0x2439989;
 
+// *********************************************** Load Enemy Patch
+const BYTE load_patch_asm[] = { 0x90, 0x90, 0x90, 0x90, 0x90 };
+const BYTE load_orig_asm[] = { 0xE8, 0xC9, 0x9E, 0x12, 0x00 };
+const uintptr_t load_patch_ptr = 0x23FF7B2;
+
 // *********************************************** Entities
 Entity* entities = (Entity*)(base_addr + 0x42E1820);
 Entity* player1 = (Entity*)(base_addr + 0x42E21A0);
 Entity* player2 = (Entity*)(base_addr + 0x42E1950);
+
+// *********************************************** Camera
+float* camera_x = (float*)(base_addr + 0x43767C0);
+float* camera_y = (float*)(base_addr + 0x43767C4);
+float* camera_z = (float*)(base_addr + 0x43767C8);
+float* camera_xx = (float*)(base_addr + 0x43767E0);
+float* camera_yy = (float*)(base_addr + 0x43767E4);
+float* camera_zz = (float*)(base_addr + 0x43767E8);
 
 int CountActiveEntities() {
 	int active = 0;
@@ -65,9 +116,9 @@ int FindClosestEntity(SetEnemy* enemy) {
 		if (entities[i].Animations1 == 0 || &entities[i] == player1 || &entities[i] == player2)
 			continue;
 
-		double xdiff = (entities[i].X - enemy->X);
-		double ydiff = (entities[i].Y - enemy->Y);
-		double zdiff = (entities[i].Z - enemy->Z);
+		double xdiff = (entities[i].X - enemy->x);
+		double ydiff = (entities[i].Y - enemy->y);
+		double zdiff = (entities[i].Z - enemy->z);
 		double xx = xdiff * xdiff;
 		double yy = ydiff * ydiff;
 		double zz = zdiff * zdiff;
@@ -82,6 +133,7 @@ int FindClosestEntity(SetEnemy* enemy) {
 }
 // *********************************************** Editor ***********************************************
 SetFile* set_file = (SetFile*)(base_addr + 0x323F940);
+SetEnemyParent* set_parents = (SetEnemyParent*)(base_addr + 0x322B030);
 //vec3_t* camera = (vec3_t*)(base_addr + 0x332C6C0);
 //float* other = (float*)(base_addr + 0x332C6F0);
 //bool* invisible = (bool*)(base_addr + 0x42E21AC);
@@ -96,17 +148,54 @@ int32_t* hide_fog = (int32_t*)(base_addr + 0x420B6B4);
 int32_t* hide_hp_ui = (int32_t*)(base_addr + 0x420BE4C);
 
 bool is_editing = false;
-int selected_enemy_idx = 0;
+int selected_set_enemy_idx = 0;
 
-void MovePlayerToSelectedEnemy() {
-	player1->X = set_file->enemies[selected_enemy_idx].X;
-	player1->Y = set_file->enemies[selected_enemy_idx].Y;
-	player1->Z = set_file->enemies[selected_enemy_idx].Z;
-}
+CEnemy* selected_c_enemy = 0;
+int selected_entity_idx = 0;
 
-void RefreshChanges() {
+void MovePlayerToSetEnemy() {
+	// Move player close to the coordinates the SetEnemy is supposed to be at
+	SetEnemyParent* set_enemy_parent = &set_parents[selected_set_enemy_idx];
+	SetEnemy* set_enemy = set_enemy_parent->set_enemy;
+	for (int i = 0; i < 5; i++) {
+		player1->X = set_enemy->x;
+		player1->Y = set_enemy->y;
+		player1->Z = set_enemy->z;
+	}
+	if (set_enemy_parent->is_active == 64) {
+		printf("Trying to move player to an inactive enemy\n");
+		return;
+	}
+	// Get the CEnemy that was last loaded
+	selected_c_enemy = enemy_map[set_enemy_parent];
+	selected_entity_idx = selected_c_enemy->entity_idx;
+	//Sleep(250);
 
-	//MovePlayerToSelectedEnemy();
+	// Hopefully by now the enemy has been loaded as an Entity. Let's look for it
+	//selected_entity_idx = FindClosestEntity(set_enemy);
+	// Entity* entity = &entities[selected_entity_idx];
+
+	// Let's sync them a few times
+	/*for (int i = 0; i < 10; i++) {
+		player1->X = entities[selected_entity_idx].X;
+		player1->Y = entities[selected_entity_idx].Y;
+		player1->Z = entities[selected_entity_idx].Z;
+		player1->Angle1 = entities[selected_entity_idx].Angle1;
+		player1->Angle2 = entities[selected_entity_idx].Angle2;
+		player1->Angle3 = entities[selected_entity_idx].Angle3;
+		player1->Angle4 = entities[selected_entity_idx].Angle4;
+		player1->Angle5 = entities[selected_entity_idx].Angle5;
+		Sleep(5);
+		//player1->Angle_BC = entities[selected_entity_idx].Angle_BC;
+	}
+
+	Sleep(5);*/
+	printf("Current Entity = %x with ID = %i and coords (X=%f, Y=%f, Z=%f) | SetEnemy %s with IDX = %i and coords (X=%f, Y=%f, Z=%f, Angle=%f) | Player with coords (X=%f, Y=%f, Z=%f) | SetEnemyParent = %x, CEnemy = %x\n",
+		(uintptr_t)(&entities[selected_entity_idx]), entities[selected_entity_idx].ID, entities[selected_entity_idx].X, entities[selected_entity_idx].Y, entities[selected_entity_idx].Z,
+		set_enemy->prm_type, selected_set_enemy_idx, set_enemy->x, set_enemy->y, set_enemy->z, set_enemy->angle,
+		player1->X, player1->Y, player1->Z,
+		(uintptr_t)(&set_enemy_parent), (uintptr_t)(&selected_c_enemy)
+	);
 }
 
 void ToggleEditMode() {
@@ -123,6 +212,24 @@ void ToggleEditMode() {
 
 	Patch(no_grav_patch_ptr, is_editing ? no_grav_patch_asm : no_grav_original_asm, is_editing ? sizeof(no_grav_patch_asm) : sizeof(no_grav_original_asm));
 	Patch(move_enemies_patch_ptr, is_editing ? move_enemies_patch_asm : move_enemies_orig_asm, is_editing ? sizeof(move_enemies_patch_asm) : sizeof(move_enemies_orig_asm));
+}
+
+void RefreshChanges() {
+	/*player1->Y = 1000000000000.0f;
+	ToggleEditMode();
+	Sleep(15);
+	ToggleEditMode();
+	MovePlayerToSetEnemy();*/
+	//Patch(load_patch_ptr, load_patch_asm, sizeof(load_patch_asm));
+	/*SetEnemy* set_enemy = &set_file->enemies[selected_set_enemy_idx];
+	selected_entity_idx = FindClosestEntity(set_enemy);
+	Entity* entity = &entities[selected_entity_idx];
+	entity->X = -1e10f;
+	entity->Y = -1e10f;
+	entity->Z = -1e10f;
+	entity->NoCollision = 1;
+	Sleep(10);*/
+	//Patch(load_patch_ptr, load_orig_asm, sizeof(load_orig_asm));
 }
 
 // *********************************************** Main DLL Stuff ***********************************************
@@ -157,19 +264,35 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 	printf("F8 - Editing Mode\n");
 	printf("F9 - Apply Cam Patch\n");
 
+	Patch(tab_patch_ptr, tab_patch_asm, sizeof(tab_patch_asm));
+	printf("NoTab patch applied\n");
+
+	LONG lError;
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+	DetourAttach(&(PVOID&)TrueEnemyLoad, Hooked_Enemy_Load_Fn);
+	lError = DetourTransactionCommit();
+
+	if (lError != NO_ERROR) {
+		MessageBox(HWND_DESKTOP, L"Failed to detour enemy_load_fn", L"Error", MB_OK);
+		return FALSE;
+	}
+
 	while (true)
 	{
 		if (GetAsyncKeyState(VK_F1) & 1)
 			break;
 		else if (GetAsyncKeyState(VK_F4) & 1) {
-			
+
 			printf("Enemies = %i\n", set_file->enemy_count);
-			printf("E1 = %s\n", set_file->enemies[0].PrmType);
+			printf("E1 = %s\n", set_file->enemies[0].prm_type);
 			printf("Entity0 = %i\n", entities[0].ID);
 			printf("Entity5 = %i\n", entities[5].ID);
 			printf("There are %i active entities\n", CountActiveEntities());
 
-			
+			/*SetEnemy* current_enemy = &set_file->enemies[selected_enemy_idx];
+			int entity_idx = FindClosestEntity(current_enemy);
+			printf("Closest Entity = %x\n", entities[entity_idx]);*/
 			//Entity* closest_entity = FindClosestEntity(current_enemy);
 			//printf("Closest Entity = %x \n", &closest_entity);
 			//printf("Closest Entity = %i | Set(X=%f, Y=%f, Z=%f) | Entity(X=%f, Y=%f, Z=%f)\n", closest_entity->ID, current_enemy->X, current_enemy->Y, current_enemy->Z, closest_entity->X, closest_entity->Y, closest_entity->Z);
@@ -185,25 +308,40 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 			}
 		}
 		else if (GetAsyncKeyState(VK_F7) & 1) {
-			if (!has_nograv_patch) {
+			// Deactivate enemy entity
+			selected_c_enemy->activated = 5;
+			//Sleep(5);
+
+			// Reload SetEnemy to create a new entity
+			SetEnemyParent* set_enemy_parent = &set_parents[selected_set_enemy_idx];
+			set_enemy_parent->is_active = 0;
+			//Sleep(5);
+			//MovePlayerToSetEnemy();
+			/*if (!has_nograv_patch) {
 				printf("size before %i\n", sizeof(no_grav_patch_asm));
 				Patch(no_grav_patch_ptr, no_grav_patch_asm, sizeof(no_grav_patch_asm));
 				has_nograv_patch = true;
 				printf("NoGrav Patch Applied\n");
 			}
+			*/
 		}
 		else if (GetAsyncKeyState(VK_F8) & 1) {
 			ToggleEditMode();
 			printf("Edit Mode = %d\n", is_editing);
 		}
 		else if (GetAsyncKeyState(VK_F9) & 1) {
-			if (!has_cam_patch) {
+			/*if (!has_cam_patch) {
 				Patch(cam_patch_x_ptr, cam_patch_asm, sizeof(cam_patch_asm));
 				Patch(cam_patch_y_ptr, cam_patch_asm, sizeof(cam_patch_asm));
 				Patch(cam_patch_z_ptr, cam_patch_asm, sizeof(cam_patch_asm));
 				has_cam_patch = true;
 				printf("Cam Patch Applied\n");
-			}
+			}*/
+			/*SetEnemyParent* set_enemy_parent = &set_parents[selected_set_enemy_idx];
+			char part[4];
+			memcpy(part, set_enemy_parent->set_enemy->prm_type + 4, 4);
+			part[3] = 0; // string terminator
+			printf("%s", part);*/
 		}
 		else if (GetAsyncKeyState(VK_F6) & 1) {
 			Entity* player2_ptr = (Entity*)0x046E1950;
@@ -247,51 +385,90 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 
 		if (is_editing) {
 			if (GetAsyncKeyState(VK_ADD) & 1) {
-				if (++selected_enemy_idx > set_file->enemy_count)
-					selected_enemy_idx = set_file->enemy_count;
-				MovePlayerToSelectedEnemy();
+				if (++selected_set_enemy_idx > set_file->enemy_count)
+					selected_set_enemy_idx = set_file->enemy_count;
+
+				MovePlayerToSetEnemy();
 			}
 			else if (GetAsyncKeyState(VK_SUBTRACT) & 1) {
-				if (--selected_enemy_idx < 0)
-					selected_enemy_idx = 0;
-				MovePlayerToSelectedEnemy();
+				if (--selected_set_enemy_idx < 0)
+					selected_set_enemy_idx = 0;
+
+				MovePlayerToSetEnemy();
 			}
 
-			SetEnemy* current_enemy = &set_file->enemies[selected_enemy_idx];
-			int entity_idx = FindClosestEntity(current_enemy);
 			float delta = 0.01f;
 
 			if (GetAsyncKeyState(VK_NUMPAD8) & 0x8000) {
-				entities[entity_idx].Y += delta;
+				entities[selected_entity_idx].Y += delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD6) & 0x8000) {
-				entities[entity_idx].X += delta;
+				entities[selected_entity_idx].X += delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD4) & 0x8000) {
-				entities[entity_idx].X -= delta;
+				entities[selected_entity_idx].X -= delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD2) & 0x8000) {
-				entities[entity_idx].Y -= delta;
+				entities[selected_entity_idx].Y -= delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD7) & 0x8000) {
-				entities[entity_idx].Z -= delta;
+				entities[selected_entity_idx].Z -= delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD9) & 0x8000) {
-				entities[entity_idx].Z += delta;
+				entities[selected_entity_idx].Z += delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD1) & 0x8000) {
-				entities[entity_idx].Angle1 -= delta;
+				//set_file->enemies[selected_set_enemy_idx].x -= delta;
 				RefreshChanges();
 			}
 			if (GetAsyncKeyState(VK_NUMPAD3) & 0x8000) {
-				entities[entity_idx].Angle1 += delta;
+				//set_file->enemies[selected_set_enemy_idx].x += delta;
 				RefreshChanges();
+			}
+		}
+		else {
+			float delta = 0.01f;
+			if (GetAsyncKeyState(VK_NUMPAD8) & 0x8000) {
+				*camera_y += delta;
+			}
+			if (GetAsyncKeyState(VK_NUMPAD6) & 0x8000) {
+				*camera_x += delta;
+			}
+			if (GetAsyncKeyState(VK_NUMPAD4) & 0x8000) {
+				*camera_x -= delta;
+			}
+			if (GetAsyncKeyState(VK_NUMPAD2) & 0x8000) {
+				*camera_y -= delta;
+			}
+			if (GetAsyncKeyState(VK_NUMPAD7) & 0x8000) {
+				*camera_z -= delta;
+			}
+			if (GetAsyncKeyState(VK_NUMPAD9) & 0x8000) {
+				*camera_z += delta;
+			}
+			if (GetAsyncKeyState(VK_NUMPAD1) & 0x8000) {
+				*camera_xx -= delta;
+			}
+			if (GetAsyncKeyState(VK_NUMPAD3) & 0x8000) {
+				*camera_xx += delta;
+			}
+			if (GetAsyncKeyState(VK_OEM_4) & 0x8000) {
+				*camera_yy -= delta;
+			}
+			if (GetAsyncKeyState(VK_OEM_6) & 0x8000) {
+				*camera_yy += delta;
+			}
+			if (GetAsyncKeyState(VK_OEM_1) & 0x8000) {
+				*camera_zz -= delta;
+			}
+			if (GetAsyncKeyState(VK_OEM_7) & 0x8000) {
+				*camera_zz += delta;
 			}
 		}
 		// else if (GetAsyncKeyState(VK_F2) & 1) {
@@ -319,6 +496,16 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 		// 	printf("new x = %d, new y = %d, new type = %s\n", newX, newY, newName);
 		// }
 		Sleep(5);
+	}
+
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+	DetourDetach(&(PVOID&)TrueEnemyLoad, Hooked_Enemy_Load_Fn);
+	lError = DetourTransactionCommit();
+
+	if (lError != NO_ERROR) {
+		MessageBox(HWND_DESKTOP, L"Failed to detach enemy_load_fn", L"Error", MB_OK);
+		return FALSE;
 	}
 
 	printf("== Injector DLL has been liberated ==\n");
