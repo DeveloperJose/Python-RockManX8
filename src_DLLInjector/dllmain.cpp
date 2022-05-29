@@ -1,16 +1,406 @@
+// Standard
 #include <string>
 #include <iostream>
 #include <unordered_map>
 #include <windows.h>
-#include "include/detours.h"
 
+// DX9
+#include <d3d9.h>
+//#include <Psapi.h>
+#pragma comment(lib, "d3d9.lib")
+//#pragma comment(lib, "Psapi.lib")
+
+// DX10
+#include "include/kiero/kiero.h"
+//#include <d3d10.h>
+
+// DX11
+//#include <d3d11.h>
+//#include <d3dcompiler.h>
+//#pragma comment(lib, "d3dcompiler.lib")
+//#pragma comment(lib, "d3d11.lib")
+
+// ImGUI
+#include "include/imgui/imgui.h"
+#include "include/imgui/backends/imgui_impl_win32.h"
+#include "include/imgui/backends/imgui_impl_dx9.h"
+
+// MinHook
+#include "include/minhook/MinHook.h"
+#pragma comment(lib, "libMinHook.x86.lib")
+
+// Detours
+#include <detours.h>
+#pragma comment(lib, "detours.lib")
+
+// Project
 #include "stdafx.h"
 #include "set.h"
 
-// *********************************************** DLL Stuff ***********************************************
-DWORD WINAPI MyThread(LPVOID);
+// *********************************************** DLL stuff ***********************************************
+DWORD WINAPI Main(LPVOID);
 DWORD g_threadID;
 HMODULE g_hModule;
+
+static WNDPROC oWndProc = NULL;
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+LRESULT CALLBACK hkWindowProc(
+	_In_ HWND   hwnd,
+	_In_ UINT   uMsg,
+	_In_ WPARAM wParam,
+	_In_ LPARAM lParam
+)
+{
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam) > 0)
+		return 1L;
+	return ::CallWindowProcA(oWndProc, hwnd, uMsg, wParam, lParam);
+}
+
+void showExampleWindow(const char* comment)
+{
+	char buffer[128];
+	::memset(buffer, 0, 128);
+	::sprintf_s(buffer, "Kiero Dear ImGui Example (%s)", comment);
+
+	ImGui::Begin(buffer);
+
+	ImGui::Text("Hello");
+	ImGui::Button("World!");
+
+	ImGui::End();
+}
+
+typedef long(__stdcall* EndScene)(LPDIRECT3DDEVICE9);
+static EndScene oEndScene = NULL;
+
+long __stdcall hkEndScene(LPDIRECT3DDEVICE9 pDevice)
+{
+	static bool init = false;
+
+	if (!init)
+	{
+		D3DDEVICE_CREATION_PARAMETERS params;
+		pDevice->GetCreationParameters(&params);
+
+		oWndProc = (WNDPROC)::SetWindowLongPtr((HWND)params.hFocusWindow, GWLP_WNDPROC, (LONG)hkWindowProc);
+
+		ImGui::CreateContext();
+		ImGui_ImplWin32_Init(params.hFocusWindow);
+		ImGui_ImplDX9_Init(pDevice);
+
+		init = true;
+	}
+
+	ImGui_ImplDX9_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	showExampleWindow("D3D9");
+
+	ImGui::EndFrame();
+	ImGui::Render();
+	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+
+	return oEndScene(pDevice);
+}
+
+
+// *********************************************** d3d10 ***********************************************
+//typedef long(__stdcall* Present)(IDXGISwapChain*, UINT, UINT);
+//static Present OriginalD3D10Present = NULL;
+//
+//long __stdcall MyD3D10Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
+//{
+//	return OriginalD3D10Present(pSwapChain, SyncInterval, Flags);
+//}
+
+// *********************************************** d3d11 hooking ***********************************************
+// https://niemand.com.ar/2019/01/01/how-to-hook-directx-11-imgui/
+// https://www.mpgh.net/forum/showthread.php?t=1313252
+//typedef HRESULT(__stdcall* D3D11PresentHook) (IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
+//D3D11PresentHook OriginalSwapChainPresent = NULL;
+//
+//ID3D11Device* pDevice = NULL;
+//ID3D11DeviceContext* pContext = NULL;
+//
+//DWORD_PTR* pSwapChainVtable = NULL;
+//DWORD_PTR* pContextVTable = NULL;
+//DWORD_PTR* pDeviceVTable = NULL;
+//
+//ID3D11Texture2D* RenderTargetTexture;
+//ID3D11RenderTargetView* RenderTargetView = NULL;
+//
+//LRESULT CALLBACK DXGIMsgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) { return DefWindowProc(hwnd, uMsg, wParam, lParam); }
+//const int MultisampleCount = 1; // Set to 1 to disable multisampling
+//// Definition of WndProc Hook. Its here to avoid dragging dependencies on <windows.h> types.
+//extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+//BOOL first_time = true;
+//bool g_ShowMenu = false;
+////static IDXGISwapChain* pSwapChain = NULL;
+//static WNDPROC OriginalWndProcHandler = nullptr;
+//HWND window = nullptr;
+//
+//
+//LRESULT CALLBACK hWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+//{
+//	ImGuiIO& io = ImGui::GetIO();
+//	POINT mPos;
+//	GetCursorPos(&mPos);
+//	ScreenToClient(window, &mPos);
+//	ImGui::GetIO().MousePos.x = mPos.x;
+//	ImGui::GetIO().MousePos.y = mPos.y;
+//
+//	if (uMsg == WM_KEYUP)
+//	{
+//		if (wParam == VK_DELETE)
+//		{
+//			g_ShowMenu = !g_ShowMenu;
+//		}
+//
+//	}
+//
+//	if (g_ShowMenu)
+//	{
+//		ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
+//		return true;
+//	}
+//
+//	return CallWindowProc(OriginalWndProcHandler, hWnd, uMsg, wParam, lParam);
+//}
+//
+//
+//HRESULT __stdcall MyPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
+//{
+//	/*if (first_time) {
+//		printf("Present hook set-up\n");
+//		if (SUCCEEDED(pSwapChain->GetDevice(__uuidof(ID3D11Device), (void**)&pDevice)))
+//		{
+//			printf("Inside\n");
+//			pSwapChain->GetDevice(__uuidof(pDevice), (void**)&pDevice);
+//			pDevice->GetImmediateContext(&pContext);
+//
+//			// use the back buffer address to create the render target
+//			//if (SUCCEEDED(pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<LPVOID*>(&RenderTargetTexture))))
+//			if (SUCCEEDED(pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&RenderTargetTexture)))
+//			{
+//				printf("Target\n");
+//				pDevice->CreateRenderTargetView(RenderTargetTexture, NULL, &RenderTargetView);
+//				RenderTargetTexture->Release();
+//			}
+//
+//			printf("Completed\n");
+//		}
+//		else {
+//			printf("Failed?\n");
+//		}
+//		first_time = false;
+//	}*/
+//	
+//	return OriginalSwapChainPresent(pSwapChain, SyncInterval, Flags);
+//	//if (!g_bInitialised) {
+//	//	
+//
+//	//	printf("swap1\n");
+//	//	DXGI_SWAP_CHAIN_DESC sd;
+//	//	pSwapChain->GetDesc(&sd);
+//
+//	//	printf("imgui1\n");
+//	//	ImGui::CreateContext();
+//	//	ImGuiIO& io = ImGui::GetIO(); (void)io;
+//	//	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+//	//	window = sd.OutputWindow;
+//
+//	//	printf("orig\n");
+//	//	//Set OriginalWndProcHandler to the Address of the Original WndProc function
+//	//	OriginalWndProcHandler = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)hWndProc);
+//
+//	//	printf("imgui2\n");
+//	//	ImGui_ImplWin32_Init(window);
+//	//	ImGui_ImplDX11_Init(pDevice, pContext);
+//	//	ImGui::GetIO().ImeWindowHandle = window;
+//
+//	//	printf("buffer\n");
+//	//	ID3D11Texture2D* pBackBuffer;
+//	//	pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+//	//	pDevice->CreateRenderTargetView(pBackBuffer, NULL, &mainRenderTargetView);
+//	//	pBackBuffer->Release();
+//
+//	//	g_bInitialised = true;
+//	//}
+//	//ImGui_ImplWin32_NewFrame();
+//	//ImGui_ImplDX11_NewFrame();
+//
+//	//ImGui::NewFrame();
+//	////Menu is displayed when g_ShowMenu is TRUE
+//	//if (g_ShowMenu)
+//	//{
+//	//	bool bShow = true;
+//	//	ImGui::ShowDemoWindow(&bShow);
+//	//}
+//	//ImGui::EndFrame();
+//
+//	//ImGui::Render();
+//
+//	//pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
+//	//ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+//
+//	//return OriginalSwapChainPresent(pSwapChain, SyncInterval, Flags);
+//}
+//
+//
+//int HookD3D11() {
+//	printf("Hooking D3D11 \n");
+//	HMODULE hDXGIDLL = 0;
+//	do
+//	{
+//		hDXGIDLL = GetModuleHandleA("dxgi.dll");
+//		Sleep(10);
+//	} while (!hDXGIDLL);
+//
+//	IDXGISwapChain* pSwapChain;
+//
+//	WNDCLASSEXA wc = { sizeof(WNDCLASSEX), CS_CLASSDC, DXGIMsgProc, 0L, 0L, GetModuleHandleA(NULL), NULL, NULL, NULL, NULL, "DX", NULL };
+//	RegisterClassExA(&wc);
+//	HWND hWnd = CreateWindowA("DX", NULL, WS_OVERLAPPEDWINDOW, 100, 100, 300, 300, NULL, NULL, wc.hInstance, NULL);
+//
+//	D3D_FEATURE_LEVEL requestedLevels[] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_1 };
+//	D3D_FEATURE_LEVEL obtainedLevel;
+//	ID3D11Device* d3dDevice = nullptr;
+//	ID3D11DeviceContext* d3dContext = nullptr;
+//
+//	DXGI_SWAP_CHAIN_DESC scd;
+//	ZeroMemory(&scd, sizeof(scd));
+//	scd.BufferCount = 1;
+//	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+//	scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+//	scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+//	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+//
+//	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+//	scd.OutputWindow = hWnd;
+//	scd.SampleDesc.Count = MultisampleCount;
+//	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+//	scd.Windowed = ((GetWindowLongPtr(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? false : true;
+//
+//	// LibOVR 0.4.3 requires that the width and height for the backbuffer is set even if
+//	// you use windowed mode, despite being optional according to the D3D11 documentation.
+//	scd.BufferDesc.Width = 1;
+//	scd.BufferDesc.Height = 1;
+//	scd.BufferDesc.RefreshRate.Numerator = 0;
+//	scd.BufferDesc.RefreshRate.Denominator = 1;
+//
+//	UINT createFlags = 0;
+//	// This flag gives you some quite wonderful debug text. Not wonderful for performance, though!
+//	createFlags |= D3D11_CREATE_DEVICE_DEBUG;
+//
+//	printf("Creating swapchain\n");
+//	IDXGISwapChain* d3dSwapChain = 0;
+//	if (FAILED(D3D11CreateDeviceAndSwapChain(
+//		nullptr,
+//		D3D_DRIVER_TYPE_HARDWARE,
+//		nullptr,
+//		createFlags,
+//		requestedLevels,
+//		sizeof(requestedLevels) / sizeof(D3D_FEATURE_LEVEL),
+//		D3D11_SDK_VERSION,
+//		&scd,
+//		&pSwapChain,
+//		&pDevice,
+//		&obtainedLevel,
+//		&pContext)))
+//	{
+//		MessageBoxA(hWnd, "Failed to create directX device and swapchain!", "Error", MB_ICONERROR);
+//		return 1;
+//	}
+//
+//	pSwapChainVtable = (DWORD_PTR*)pSwapChain;
+//	pSwapChainVtable = (DWORD_PTR*)pSwapChainVtable[0];
+//
+//	pContextVTable = (DWORD_PTR*)pContext;
+//	pContextVTable = (DWORD_PTR*)pContextVTable[0];
+//
+//	pDeviceVTable = (DWORD_PTR*)pDevice;
+//	pDeviceVTable = (DWORD_PTR*)pDeviceVTable[0];
+//
+//	/*OriginalSwapChainPresent = (DWORD_PTR*)pSwapChainVtable[8]; //(HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT))pSwapChainVtable[8];
+//
+//	printf("Detouring... %x\n", (uintptr_t)pSwapChainVtable[8]);
+//	DetourTransactionBegin();
+//	DetourUpdateThread(GetCurrentThread());
+//	DetourAttach(&(PVOID&)OriginalSwapChainPresent, MyPresent);
+//	DetourTransactionCommit();*/
+//
+//	if (MH_Initialize() != MH_OK) { return 1; }
+//	if (MH_CreateHook((DWORD_PTR*)pSwapChainVtable[8], MyPresent, reinterpret_cast<void**>(&OriginalSwapChainPresent)) != MH_OK) { return 1; }
+//	if (MH_EnableHook((DWORD_PTR*)pSwapChainVtable[8]) != MH_OK) { return 1; }
+//
+//	printf("VirtualProtect\n");
+//	DWORD dwOld;
+//	//VirtualProtect(OriginalSwapChainPresent, 2, PAGE_EXECUTE_READWRITE, &dwOld);
+//	return 0;
+//}
+//
+//// *********************************************** d3d9 hooking ***********************************************
+//// https://www.unknowncheats.me/forum/direct3d/336201-help-hooking-endscene.html
+//signed int __stdcall hkEndScene(LPDIRECT3DDEVICE9 Device);
+//typedef HRESULT(__stdcall* EndScene_t)(LPDIRECT3DDEVICE9);
+//EndScene_t OrigEndScene;
+//
+//HRESULT __stdcall myEndScene(LPDIRECT3DDEVICE9 Device)
+//{
+//	/* endscene  here */
+//	return OrigEndScene(Device);
+//}
+//
+//
+//bool bCompare(const BYTE* pData, const BYTE* bMask, const char* szMask)
+//{
+//	for (; *szMask; ++szMask, ++pData, ++bMask)
+//		if (*szMask == 'x' && *pData != *bMask)
+//			return false;
+//
+//	return (*szMask) == NULL;
+//}
+//
+//DWORD FindPattern(DWORD dwAddress, DWORD dwLen, BYTE* bMask, const char* szMask)
+//{
+//	for (DWORD i = 0; i < dwLen; i++)
+//		if (bCompare((BYTE*)(dwAddress + i), bMask, szMask))
+//			return (DWORD)(dwAddress + i);
+//
+//	return 0;
+//}
+//
+//void HookD3D9()
+//{
+//	DWORD* vtbl;
+//
+//	// wait for the d3dx dll
+//	DWORD hD3D = 0;
+//	do {
+//		hD3D = (DWORD)GetModuleHandleA("d3d9.dll");
+//		Sleep(10);
+//	} while (!hD3D);
+//	DWORD adre = FindPattern(hD3D, 0x128000, (PBYTE)"\xC7\x06\x00\x00\x00\x00\x89\x86\x00\x00\x00\x00\x89\x86", "xx????xx????xx");
+//
+//	if (adre)
+//	{
+//		memcpy(&vtbl, (void*)(adre + 2), 4);
+//
+//		//ms detours 1.5
+//		//OrigEndScene = (EndScene_t)DetourFunction((BYTE*)vtbl[42], (BYTE*)myEndScene);
+//
+//		//ms detours 3.0
+//		OrigEndScene = (HRESULT(__stdcall*)(LPDIRECT3DDEVICE9))vtbl[42];
+//
+//		DetourTransactionBegin();
+//		DetourUpdateThread(GetCurrentThread());
+//		DetourAttach(&(PVOID&)OrigEndScene, myEndScene);
+//		DetourTransactionCommit();
+//	}
+//}
 
 // *********************************************** Detours ***********************************************
 typedef int(__stdcall* Enemy_Load)(int32_t param1, int32_t param2, int32_t param3, int32_t param4, int32_t* param5, int32_t param6);
@@ -31,7 +421,7 @@ int __stdcall Hooked_Enemy_Load_Fn(int32_t param1, int32_t param2, int32_t param
 	// Check if an enemy was loaded
 	CEnemy* c_enemy = (CEnemy*)caddr;
 	printf("ESI = %x and caddr = %x | c_enemy=%s\n", dw_esi, caddr, c_enemy->type); // p1=%x, p4=%x, p6=%x
-	if (strcmp(c_enemy->type, "CEnemy") == 0 && dw_esi > base_addr) {
+	if (strcmp(c_enemy->type, "CEnemy") == 0 && dw_esi > (int32_t)base_addr) {
 		// Map the SetEnemy parent to this CEnemy
 		SetEnemyParent* set_enemy_parent = (SetEnemyParent*)dw_esi;
 		enemy_map[set_enemy_parent] = c_enemy;
@@ -233,17 +623,30 @@ BOOL WINAPI DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved
 	case DLL_PROCESS_ATTACH:
 		g_hModule = hModule;
 		DisableThreadLibraryCalls(hModule);
-		CreateThread(NULL, NULL, &MyThread, NULL, NULL, &g_threadID);
+		CreateThread(NULL, NULL, &Main, NULL, NULL, &g_threadID);
 		break;
 	}
 	return TRUE;
 }
 
-DWORD WINAPI MyThread(LPVOID lpParam)
+DWORD WINAPI Main(LPVOID lpParam)
 {
 	AllocConsole();
 	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
 	freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
+
+	kiero::Status::Enum kiero_status = kiero::init(kiero::RenderType::D3D10);
+	if (kiero_status == kiero::Status::Success) {
+		printf("<Main> [Info] kiero was succesfully initialized, hooking\n");
+		//assert(kiero::bind(8, (void**)&oPresent, hkPresent10) == kiero::Status::Success);
+		assert(kiero::bind(42, (void**)&oEndScene, hkEndScene) == kiero::Status::Success);
+	}
+	else {
+		printf("<Main> [Error] kiero could not initialize, error code = %i\n", kiero_status);
+		return EXIT_FAILURE;
+	}
+
+	//int r = HookD3D11();
 
 	// Menu
 	printf("== Starting up Injector DLL3 ==\n");
@@ -263,6 +666,16 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 	DetourUpdateThread(GetCurrentThread());
 	DetourAttach(&(PVOID&)TrueEnemyLoad, Hooked_Enemy_Load_Fn);
 	lError = DetourTransactionCommit();
+
+	// Detour DX11
+	/*DWORD_PTR hDxgi = (DWORD_PTR)GetModuleHandle((LPCWSTR)"dxgi.dll");
+	fnIDXGISwapChainPresent = (IDXGISwapChainPresent)((DWORD_PTR)hDxgi + 0x5070);
+	std::cout << "[+] Present Addr: " << std::hex << fnIDXGISwapChainPresent << std::endl;
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+	// Detours the original fnIDXGISwapChainPresent with our Present
+	DetourAttach(&(LPVOID&)fnIDXGISwapChainPresent, (PBYTE)Present);
+	DetourTransactionCommit();*/
 
 	if (lError != NO_ERROR) {
 		MessageBox(HWND_DESKTOP, L"Failed to detour enemy_load_fn", L"Error", MB_OK);
@@ -502,6 +915,7 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 	}
 
 	printf("== Injector DLL has been liberated ==\n");
+
 	FreeConsole();
 	FreeLibraryAndExitThread(g_hModule, 0);
 	return 0;

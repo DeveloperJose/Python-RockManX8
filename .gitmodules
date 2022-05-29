@@ -1,0 +1,9 @@
+[submodule "src_DLLInjector/include/imgui"]
+	path = src_DLLInjector/include/imgui
+	url = https://github.com/ocornut/imgui/
+[submodule "src_DLLInjector/include/minhook/github"]
+	path = src_DLLInjector/include/minhook/github
+	url = https://github.com/TsudaKageyu/minhook
+[submodule "src_DLLInjector/include/kiero"]
+	path = src_DLLInjector/include/kiero
+	url = https://github.com/Rebzzel/kiero
