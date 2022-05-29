@@ -28,24 +28,17 @@ int __stdcall Hooked_Enemy_Load_Fn(int32_t param1, int32_t param2, int32_t param
 	// Run original load function
 	int caddr = TrueEnemyLoad(param1, param2, param3, param4, param5, param6);
 	
-	// Capture enemy loads
+	// Check if an enemy was loaded
 	CEnemy* c_enemy = (CEnemy*)caddr;
 	printf("ESI = %x and caddr = %x | c_enemy=%s\n", dw_esi, caddr, c_enemy->type); // p1=%x, p4=%x, p6=%x
-	if (strcmp(c_enemy->type, "CEnemy") == 0) {
-		printf("CEnemy Loaded\n");
+	if (strcmp(c_enemy->type, "CEnemy") == 0 && dw_esi > base_addr) {
+		// Map the SetEnemy parent to this CEnemy
+		SetEnemyParent* set_enemy_parent = (SetEnemyParent*)dw_esi;
+		enemy_map[set_enemy_parent] = c_enemy;
+		
+		// Debugging
+		printf("CEnemy Loaded | %i enemies in map \n", enemy_map.size());
 	}
-	// Link results for our editor
-	//if (caddr > 0x10000) {
-	//	
-	//	if (strcmp(c_enemy->type, "CEnemy") == 0) {
-	//		SetEnemyParent* set_enemy_parent = (SetEnemyParent*)dw_esi;
-	//		enemy_map[set_enemy_parent] = c_enemy;
-	//		printf("CEnemy Loaded\n");
-	//		//for (auto x : enemy_map)
-	//			//printf("(%x, %x), ", x.first, x.second);
-	//		//printf("]\n");
-	//	}
-	//}
 	return caddr;
 }
 
