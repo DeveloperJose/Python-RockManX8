@@ -155,7 +155,7 @@ void MovePlayerToSetEnemy() {
 		player1->Y = set_enemy->y;
 		player1->Z = set_enemy->z;
 	}
-	if (set_enemy_parent->is_active == 64) {
+	if (set_enemy_parent->is_active != 1) {
 		printf("Trying to move player to an inactive enemy\n");
 		return;
 	}
@@ -245,21 +245,19 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
 	freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
 
+	// Menu
 	printf("== Starting up Injector DLL3 ==\n");
 	printf("Base Addr: %x\n", base_addr);
 
 	printf("HotKeys:\n");
 	printf("F1 - Exit\n");
-	printf("F4 - Set Debug\n");
-	printf("F5 - Apply Tab Patch\n");
-	printf("F6 - Find starting ptr\n");
-	printf("F7 - Apply NoGrav Patch\n");
-	printf("F8 - Editing Mode\n");
-	printf("F9 - Apply Cam Patch\n");
 
+	// Apply NoTab patch
 	Patch(tab_patch_ptr, tab_patch_asm, sizeof(tab_patch_asm));
+	has_tab_patch = true;
 	printf("NoTab patch applied\n");
 
+	// Detour enemy loading function
 	LONG lError;
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
@@ -276,12 +274,17 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 		if (GetAsyncKeyState(VK_F1) & 1)
 			break;
 		else if (GetAsyncKeyState(VK_F4) & 1) {
-
-			printf("Enemies = %i\n", set_file->enemy_count);
+			/*printf("Enemies = %i\n", set_file->enemy_count);
 			printf("E1 = %s\n", set_file->enemies[0].prm_type);
 			printf("Entity0 = %i\n", entities[0].ID);
 			printf("Entity5 = %i\n", entities[5].ID);
-			printf("There are %i active entities\n", CountActiveEntities());
+			printf("There are %i active entities\n", CountActiveEntities());*/
+
+			SetEnemyParent* set_enemy_parent = &set_parents[selected_set_enemy_idx];
+			char part[5];
+			memcpy(part, set_enemy_parent->set_enemy->prm_type + 3, 4);
+			part[4] = 0; // string terminator
+			printf("%s", part);
 
 			/*SetEnemy* current_enemy = &set_file->enemies[selected_enemy_idx];
 			int entity_idx = FindClosestEntity(current_enemy);
@@ -294,86 +297,37 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 			}*/
 		}
 		else if (GetAsyncKeyState(VK_F5) & 1) {
-			if (!has_tab_patch) {
-				Patch(tab_patch_ptr, tab_patch_asm, sizeof(tab_patch_asm));
-				has_tab_patch = true;
-				printf("Tab Patch Applied\n");
-			}
+			char newName[8];
+			printf("Set the new prm_type\n");
+			std::cin >> newName;
+			SetEnemyParent* set_enemy_parent = &set_parents[selected_set_enemy_idx];
+			strcpy_s(set_enemy_parent->set_enemy->prm_type, 8, newName);
 		}
 		else if (GetAsyncKeyState(VK_F7) & 1) {
 			// Deactivate enemy entity
 			selected_c_enemy->activated = 5;
-			//Sleep(5);
-
+			
 			// Reload SetEnemy to create a new entity
 			SetEnemyParent* set_enemy_parent = &set_parents[selected_set_enemy_idx];
 			set_enemy_parent->is_active = 0;
-			//Sleep(5);
-			//MovePlayerToSetEnemy();
-			/*if (!has_nograv_patch) {
-				printf("size before %i\n", sizeof(no_grav_patch_asm));
-				Patch(no_grav_patch_ptr, no_grav_patch_asm, sizeof(no_grav_patch_asm));
-				has_nograv_patch = true;
-				printf("NoGrav Patch Applied\n");
+
+			// Move player to re-create pointers when the enemy is re-loaded
+			// TODO: Timer to avoid infinite loop
+			while (set_enemy_parent->is_active != 1) {
+				Sleep(5);
 			}
-			*/
+			printf("Enemy finally re-loaded xd\n");
+			MovePlayerToSetEnemy();
 		}
 		else if (GetAsyncKeyState(VK_F8) & 1) {
 			ToggleEditMode();
 			printf("Edit Mode = %d\n", is_editing);
 		}
 		else if (GetAsyncKeyState(VK_F9) & 1) {
-			/*if (!has_cam_patch) {
-				Patch(cam_patch_x_ptr, cam_patch_asm, sizeof(cam_patch_asm));
-				Patch(cam_patch_y_ptr, cam_patch_asm, sizeof(cam_patch_asm));
-				Patch(cam_patch_z_ptr, cam_patch_asm, sizeof(cam_patch_asm));
-				has_cam_patch = true;
-				printf("Cam Patch Applied\n");
-			}*/
-			/*SetEnemyParent* set_enemy_parent = &set_parents[selected_set_enemy_idx];
-			char part[4];
-			memcpy(part, set_enemy_parent->set_enemy->prm_type + 4, 4);
-			part[3] = 0; // string terminator
-			printf("%s", part);*/
+			
 		}
 		else if (GetAsyncKeyState(VK_F6) & 1) {
-			Entity* player2_ptr = (Entity*)0x046E1950;
-
-			// Look for prev
-			Entity* prev = player2_ptr->Prev;
-			Entity* prev_cpy = prev;
-			printf("1st Prev Addr = %x\n", (uintptr_t)prev);
-			int prev_count = 0;
-			while ((uintptr_t)prev > 0) {
-				prev_cpy = prev;
-				prev = prev->Prev;
-				++prev_count;
-
-				if (prev_count > 300) {
-					printf("Counted more than 300 prevs, stopping just in case.\n");
-					break;
-				}
-			}
-
-			// Look for next
-			Entity* next = player2_ptr->Next;
-			Entity* next_cpy = next;
-			printf("1st Next Addr = %x\n", (uintptr_t)next);
-			int next_count = 0;
-			while ((uintptr_t)next > 0) {
-				next_cpy = next;
-				next = next->Next;
-				++next_count;
-
-				if (next_count > 300) {
-					printf("Counted more than 300 prevs, stopping just in case.\n");
-					break;
-				}
-			}
-
-			printf("Prev Addr: %x | Total Prev Count = %i\n", (uintptr_t)prev, prev_count);
-			printf("Next Addr: %x | Total Next Count = %i\n", (uintptr_t)next, next_count);
-			printf("First Addr: %x | Last Addr: %x\n", (uintptr_t)prev_cpy, (uintptr_t)next_cpy);
+			
 		}
 
 		if (is_editing) {
@@ -488,6 +442,52 @@ DWORD WINAPI MyThread(LPVOID lpParam)
 
 		// 	printf("new x = %d, new y = %d, new type = %s\n", newX, newY, newName);
 		// }
+
+		/*if (!has_cam_patch) {
+				Patch(cam_patch_x_ptr, cam_patch_asm, sizeof(cam_patch_asm));
+				Patch(cam_patch_y_ptr, cam_patch_asm, sizeof(cam_patch_asm));
+				Patch(cam_patch_z_ptr, cam_patch_asm, sizeof(cam_patch_asm));
+				has_cam_patch = true;
+				printf("Cam Patch Applied\n");
+			}*/
+			
+		//Entity* player2_ptr = (Entity*)0x046E1950;
+
+		//// Look for prev
+		//Entity* prev = player2_ptr->Prev;
+		//Entity* prev_cpy = prev;
+		//printf("1st Prev Addr = %x\n", (uintptr_t)prev);
+		//int prev_count = 0;
+		//while ((uintptr_t)prev > 0) {
+		//	prev_cpy = prev;
+		//	prev = prev->Prev;
+		//	++prev_count;
+
+		//	if (prev_count > 300) {
+		//		printf("Counted more than 300 prevs, stopping just in case.\n");
+		//		break;
+		//	}
+		//}
+
+		//// Look for next
+		//Entity* next = player2_ptr->Next;
+		//Entity* next_cpy = next;
+		//printf("1st Next Addr = %x\n", (uintptr_t)next);
+		//int next_count = 0;
+		//while ((uintptr_t)next > 0) {
+		//	next_cpy = next;
+		//	next = next->Next;
+		//	++next_count;
+
+		//	if (next_count > 300) {
+		//		printf("Counted more than 300 prevs, stopping just in case.\n");
+		//		break;
+		//	}
+		//}
+
+		//printf("Prev Addr: %x | Total Prev Count = %i\n", (uintptr_t)prev, prev_count);
+		//printf("Next Addr: %x | Total Next Count = %i\n", (uintptr_t)next, next_count);
+		//printf("First Addr: %x | Last Addr: %x\n", (uintptr_t)prev_cpy, (uintptr_t)next_cpy);
 		Sleep(5);
 	}
 
