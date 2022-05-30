@@ -1,3 +1,0 @@
-C:/Users/DevJ/Desktop/Local_Storage/Python-RockManX8/src_DLLInjector2/CMakeFiles/editor.dir
-C:/Users/DevJ/Desktop/Local_Storage/Python-RockManX8/src_DLLInjector2/CMakeFiles/edit_cache.dir
-C:/Users/DevJ/Desktop/Local_Storage/Python-RockManX8/src_DLLInjector2/CMakeFiles/rebuild_cache.dir

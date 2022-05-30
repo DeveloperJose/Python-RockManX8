@@ -1,0 +1,173 @@
+For every problem you were graded on:
+
+
+Correctness (70%) - How close you were to the correct answer
+
+0 = No effort was put in the problem
+
+20 = The answer provided is incorrect and the approach/main idea is also incorrect but an attempt was made at solving the problem
+
+40 = The answer provided is incorrect but the approach/main idea is correct, there are just some errors or issues that make it incomplete
+
+65 = The answer provided matches the output but has a worse running time than the expected solution thus being more inefficient
+
+70 = The answer provided matches the output and running time of the expected solution
+
+Running Time Correctness (10%) - How close your run-time analysis of the function was to the real Big-O solution
+
+0 = No effort was put in attempting to compute Big-O for the problem
+
+7 = An attempt was made to compute Big-O but the answer is incorrect
+
+10 = The computed Big-O is correct
+
+Design (5%) - How well did you break down the problem into functions and classes. Most problems provided for the starting labs have already been broken down into functions by the TAs but sometimes it may be beneficial to write extra functions or classes.
+
+0 = No effort was put into breaking down the problem
+
+5 = The student used the TA provided function placeholders
+
+Extra Credit = The student found a place where they had duplicate code and wrote extra functions to reduce code duplicates
+
+Extra Credit = The student noticed a function was very large and hard to read and decided to break it down further by writing extra functions
+
+Style (5%) - How meaningful are the fuction and variable names and how readable is your code
+
+0 = No effort was put in naming things and making your code readable
+
+5 = Some effort was put in naming things and making your code readable
+
+Robustness (5%) - How well can your program handle erroneous or unexpected inputs. Not applicable for labs 1, 2, and 3.
+
+0 = No effort was put into handling erroneous or unexpected inputs so the program crashes
+
+5 = Some effort was put into handling erroneous or unexpected inputs and gracefully handling them like by guiding the user on possible valid inputs
+
+Documentation (5%) - For non-obvious code segments, how well did you explain your thoughts and ideas? Remember that it is not necessary to comment everything in a program, just parts you feel are not obvious to grasp from a quick glance.
+
+0 = No effort was put in documenting non-obvious code segments
+
+5 = Non-obvious code segments have some comments explaining the idea and thought behind them
+
+# Disable tab
+replace 01ddbc13 with 
+	XOR EAX, EAX
+	POP EBX
+	POP EBP
+	POP ESI
+	RET 0x10
+	
+from core.set import SetFile
+set = SetFile(r'C:/Users/DevJ/Downloads/Set_08.set')
+print(set.enemies[0].id_bytes())
+
+00 00 00 00 00 00 
+b4 c2 00 00 00 00 00 00 00 00 00 00 a8 41 00 00 00 00 
+00 00 00 00 00 00 00 00 
+45 00 
+00 00 00 00 00 00 
+50 72 6d 30 35 30 36 00
+01 01 01 01 0a 12 02 02 02 02 09 14 01 00 01 00 03 00 ff 00 c8 00 01 00 00 00 00 00 00 00 b2 fd
+
+B4 C2 00 00 00 00 00 00 00 00 00 00 A8 41 00 00 00 00 
+00 00 00 00 00 00 80 3F 45
+00 00 00 00 00 00 00 50 72 6D 30 35 30 36 00 01 01 01 01 0A 12 02 02 02 02 09 14 01 00 01 00 03 00 FF 00 C8 00 01 00 00 00 00 00 00 00 B2 FD
+
+00 00 00 00 00 00 B4 C2 00 00 00 00 00 00 00 00 00 00 A8 41 00 00 00 00 
+u3 = 00 00 00 00 00 00 80 3F 
+45 00 
+00 00 00 00 00 00 
+50 72 6D 30 35 30 36 00
+01 01 01 01 0A 12 02 02 02 02 09 14 01 00 01 00 03 00 FF 00 C8 00 01 00 00 00 00 00 00 00 B2 FD
+
+02929783 - F3 0F10 52 10  - movss xmm2,[edx+10]
+02929A13 - 0F10 41 10  - movups xmm0,[ecx+10]
+
+Entity: (0x130 length)
+	Player 1 = 046E21A0
+	Player 2 = 046E1950
+	E1 = 046E4410
+	starts at 46E1820
+	
+PlayerEntity: (0x270 length)
+	Player 1 = 0465B470 = Entity 05
+	Player 2 = 465B6E0
+	Enemy 1 = 465B950
+	0465CF40 = Enemy 11
+
+SetEnemyParent (length 0xD0): 0362B030 -> 0362B100
+
+CEnemy 0493AB40 (length 0x530)
+	Break at 0298e640 to get ECX when unloading an enemy
+	idx 89 = 0493AB40
+	idx 90 = 0493A610
+	
+	g2 = 4939BB0 and 493A0E0
+
+SetSomething:
+	362B034
+Some type of enemy structure at 362B020 (+0x10) = 362B030, size 0x10 -> 362B100
+
+	Offset 0x4: Enemy # (0 to max)
+	Offset 0x8: SetEnemy Ptr
+	Offset 0xC: Activation something
+	Used as parameter (ECX) for Load_Enemy()
+
+SetFile
+	
+
+SetEnemy
+	0363F980 + (0x50) = 0363F9D0 -> 363FA20 -> 363FA70
+	
+
+	
+Buster does 2 damage
+Enemy Mech Health = 32
+
+HP Related
+	02A6B38C - 6B 41 40 64 - imul eax,[ecx+40],64
+	02858B6A - 89 50 40  - mov [eax+40],edx
+
+1 -> 64
+2 -> 1
+1 -> 0
+increments
+
+param_1=esp+4=44C5FEC4+4 (load)
+44C5FE2C (unload)
+param_2=8
+
+ECX Enemy_Unload4 = 0493A610
+
+74,326,432 - 74,324,304 = 2,128
+
+EntityLister1:
+	Length = 0x720
+	Starts at 046E1A80? / 046E4080 / variable length
+	First Addr: 46e4080 | Last Addr: 46e1820
+	First Addr: 46e3830 | Last Addr: 46e21a0
+	
+Enemy Unloading:
+	ECX 47CA750 -> 47CA894
+	Size 0x144
+	
+	We care about 047CB170
+	
+	UnloadStruct2
+	047ca750 and 047CB680
+	
+Enemy_EntityLoadMem:
+[1df205a0]	2968E68, 6, 3, 1, FFFFFFFF, 4422FC80, 0
+[4734910]	2962A7F, 10, 3, 1, FFFFFFF, 4422FC70, 0
+[4731890]   294EE84, 22, 5, 7, FFFFFF, 4422FDF0, 0
+[468D9B0]   27EDEC2, 23, 6, 6, 0, 4422FD70, 0
+
+Prm0506 / Prm0227 / - Metool
+Prm0541 - Enemy Ride Armor
+Prm0017 - Floating Cannon
+Prm0139 - Flamethrower Dude
+Prm0025 - Floor Turret
+Prm0089 - Axl Rolling Ball Dude
+
+72029F00 - 71FF0000 = 0x39F00
+7205E270 -> 0x6E270

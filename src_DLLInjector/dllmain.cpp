@@ -5,14 +5,15 @@
 #include <windows.h>
 
 // DX9
-#include <d3d9.h>
+//#include <d3d9.h>
 //#include <Psapi.h>
-#pragma comment(lib, "d3d9.lib")
+//#pragma comment(lib, "d3d9.lib")
 //#pragma comment(lib, "Psapi.lib")
 
 // DX10
 #include "include/kiero/kiero.h"
-//#include <d3d10.h>
+#include <d3d10.h>
+#pragma comment(lib, "d3d10.lib")
 
 // DX11
 //#include <d3d11.h>
@@ -42,79 +43,81 @@ DWORD WINAPI Main(LPVOID);
 DWORD g_threadID;
 HMODULE g_hModule;
 
-static WNDPROC oWndProc = NULL;
-
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-LRESULT CALLBACK hkWindowProc(
-	_In_ HWND   hwnd,
-	_In_ UINT   uMsg,
-	_In_ WPARAM wParam,
-	_In_ LPARAM lParam
-)
-{
-	if (ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam) > 0)
-		return 1L;
-	return ::CallWindowProcA(oWndProc, hwnd, uMsg, wParam, lParam);
-}
-
-void showExampleWindow(const char* comment)
-{
-	char buffer[128];
-	::memset(buffer, 0, 128);
-	::sprintf_s(buffer, "Kiero Dear ImGui Example (%s)", comment);
-
-	ImGui::Begin(buffer);
-
-	ImGui::Text("Hello");
-	ImGui::Button("World!");
-
-	ImGui::End();
-}
-
-typedef long(__stdcall* EndScene)(LPDIRECT3DDEVICE9);
-static EndScene oEndScene = NULL;
-
-long __stdcall hkEndScene(LPDIRECT3DDEVICE9 pDevice)
-{
-	static bool init = false;
-
-	if (!init)
-	{
-		D3DDEVICE_CREATION_PARAMETERS params;
-		pDevice->GetCreationParameters(&params);
-
-		oWndProc = (WNDPROC)::SetWindowLongPtr((HWND)params.hFocusWindow, GWLP_WNDPROC, (LONG)hkWindowProc);
-
-		ImGui::CreateContext();
-		ImGui_ImplWin32_Init(params.hFocusWindow);
-		ImGui_ImplDX9_Init(pDevice);
-
-		init = true;
-	}
-
-	ImGui_ImplDX9_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-
-	showExampleWindow("D3D9");
-
-	ImGui::EndFrame();
-	ImGui::Render();
-	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-
-	return oEndScene(pDevice);
-}
+//static WNDPROC oWndProc = NULL;
+//
+//extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+//
+//LRESULT CALLBACK hkWindowProc(
+//	_In_ HWND   hwnd,
+//	_In_ UINT   uMsg,
+//	_In_ WPARAM wParam,
+//	_In_ LPARAM lParam
+//)
+//{
+//	if (ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam) > 0)
+//		return 1L;
+//	return ::CallWindowProcA(oWndProc, hwnd, uMsg, wParam, lParam);
+//}
+//
+//void showExampleWindow(const char* comment)
+//{
+//	char buffer[128];
+//	::memset(buffer, 0, 128);
+//	::sprintf_s(buffer, "Kiero Dear ImGui Example (%s)", comment);
+//
+//	ImGui::Begin(buffer);
+//
+//	ImGui::Text("Hello");
+//	ImGui::Button("World!");
+//
+//	ImGui::End();
+//}
+//
+//typedef long(__stdcall* EndScene)(LPDIRECT3DDEVICE9);
+//static EndScene oEndScene = NULL;
+//
+//long __stdcall hkEndScene(LPDIRECT3DDEVICE9 pDevice)
+//{
+//	static bool init = false;
+//
+//	if (!init)
+//	{
+//		printf("Initializing\n");
+//		D3DDEVICE_CREATION_PARAMETERS params;
+//		pDevice->GetCreationParameters(&params);
+//
+//		oWndProc = (WNDPROC)::SetWindowLongPtr((HWND)params.hFocusWindow, GWLP_WNDPROC, (LONG)hkWindowProc);
+//
+//		ImGui::CreateContext();
+//		ImGui_ImplWin32_Init(params.hFocusWindow);
+//		ImGui_ImplDX9_Init(pDevice);
+//
+//		init = true;
+//	}
+//
+//	ImGui_ImplDX9_NewFrame();
+//	ImGui_ImplWin32_NewFrame();
+//	ImGui::NewFrame();
+//
+//	showExampleWindow("D3D9");
+//
+//	ImGui::EndFrame();
+//	ImGui::Render();
+//	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+//
+//	return oEndScene(pDevice);
+//}
 
 
 // *********************************************** d3d10 ***********************************************
-//typedef long(__stdcall* Present)(IDXGISwapChain*, UINT, UINT);
-//static Present OriginalD3D10Present = NULL;
-//
-//long __stdcall MyD3D10Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
-//{
-//	return OriginalD3D10Present(pSwapChain, SyncInterval, Flags);
-//}
+typedef long(__stdcall* Present)(IDXGISwapChain*, UINT, UINT);
+static Present OriginalD3D10Present = NULL;
+
+long __stdcall MyD3D10Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
+{
+	printf("MyPresent\n");
+	return OriginalD3D10Present(pSwapChain, SyncInterval, Flags);
+}
 
 // *********************************************** d3d11 hooking ***********************************************
 // https://niemand.com.ar/2019/01/01/how-to-hook-directx-11-imgui/
@@ -633,18 +636,34 @@ DWORD WINAPI Main(LPVOID lpParam)
 {
 	AllocConsole();
 	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	freopen_s((FILE**)stderr, "CONOUT$", "w", stderr);
 	freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
 
-	kiero::Status::Enum kiero_status = kiero::init(kiero::RenderType::D3D10);
-	if (kiero_status == kiero::Status::Success) {
-		printf("<Main> [Info] kiero was succesfully initialized, hooking\n");
-		//assert(kiero::bind(8, (void**)&oPresent, hkPresent10) == kiero::Status::Success);
-		assert(kiero::bind(42, (void**)&oEndScene, hkEndScene) == kiero::Status::Success);
+	const auto renderer_handle = reinterpret_cast<uintptr_t>(GetModuleHandleA("gameoverlayrenderer.dll"));
+	const auto function_to_hook = renderer_handle + 0x00073b70;
+
+	printf("Initializing MH\n");
+	if (MH_Initialize() != MH_OK) { return 1; }
+	//	if (MH_CreateHook((DWORD_PTR*)pSwapChainVtable[8], MyPresent, reinterpret_cast<void**>(&OriginalSwapChainPresent)) != MH_OK) { return 1; }
+	//	if (MH_EnableHook((DWORD_PTR*)pSwapChainVtable[8]) != MH_OK) { return 1; }
+
+	// then we're ready to hook
+	printf("Hooking present\n");
+	if (MH_CreateHook(reinterpret_cast<DWORD_PTR*>(function_to_hook), MyD3D10Present, reinterpret_cast<void**>(&OriginalD3D10Present)) != MH_OK) {
+		printf("Failed to create hook for D3D11Present! %x\n", function_to_hook);
+		return FALSE;
 	}
-	else {
-		printf("<Main> [Error] kiero could not initialize, error code = %i\n", kiero_status);
-		return EXIT_FAILURE;
-	}
+
+	//kiero::Status::Enum kiero_status = kiero::init(kiero::RenderType::D3D10);
+	//if (kiero_status == kiero::Status::Success) {
+	//	printf("<Main> [Info] kiero was succesfully initialized, hooking\n");
+	//	//assert(kiero::bind(8, (void**)&oPresent, hkPresent10) == kiero::Status::Success);
+	//	assert(kiero::bind(42, (void**)&oEndScene, hkEndScene) == kiero::Status::Success);
+	//}
+	//else {
+	//	printf("<Main> [Error] kiero could not initialize, error code = %i\n", kiero_status);
+	//	return EXIT_FAILURE;
+	//}
 
 	//int r = HookD3D11();
 

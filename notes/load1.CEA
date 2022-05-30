@@ -1,0 +1,16 @@
+[ENABLE]
+
+alloc(thread,2048)
+label(struct_HelloMsg)
+createthread(thread)
+
+thread:
+
+//push seconds Parameter
+mov ecx, 362B030
+
+//then call the application function
+call RXC2.exe+2529680
+ret
+
+[DISABLE]
