@@ -8,8 +8,7 @@ Currently, only **text editing** is fully supported.
 ![Edits on the 2004 version and the X Legacy Collection 2 version](/screen_usage.jpg)
 Edit all dialog and text in the game!
 
-[![Download](https://img.shields.io/github/downloads/developerjose/Python-RockManX8/latest/total?url=https://github.com/DeveloperJose/Python-RockManX8/releases/)]
-If you have a 64-bit Windows machine, you can download the pre-bundled package from the releases tab or the button above.
+If you have a 64-bit Windows machine, you can download the pre-bundled package from the releases tab.
 
 Supports both the 2004 PC Version and the X Legacy Collection 2 Version!
 
