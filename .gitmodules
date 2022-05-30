@@ -7,3 +7,6 @@
 [submodule "src_DLLInjector/include/kiero"]
 	path = src_DLLInjector/include/kiero
 	url = https://github.com/Rebzzel/kiero
+[submodule "src_D3D11_DLL"]
+	path = src_D3D11_DLL
+	url = https://github.com/CasperTheCat/D3D11Wrapper
