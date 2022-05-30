@@ -1,20 +1,11 @@
-#include "d3d11Device.h"
-#include "Globals.h"
 #include <iostream>
 #include <string>
 #include <vector>
-//#include "lodepng.h"
-
 #include <atomic>
 
-//extern int lastBufferByteWidth;
-//int iBufsCapd = 0;
-//bool doingBufferCap = false;
-//std::vector<IVBuffer*> bufList;
-//uint64_t bufferNumber = 0;
-//std::atomic<uint64_t> t2dNumber = 0;
+#include "stdafx.h"
+#include "d3d11Device.h"
 
-//extern std::string DirectoryPrefix;
 
 std::atomic<uint32_t> badAtomicBufferCounter;
 
@@ -64,10 +55,12 @@ void D3D11CustomDevice::PostInitialise()
 	//m_log = std::ofstream("Device" + std::to_string(uint64_t(this)) + ".log", std::ofstream::binary);
 }
 
-void D3D11CustomDevice::Notify_Present()
+
+void D3D11CustomDevice::Notify_Present(IDXGISwapChain4* p_swap_chain, UINT sync_interval, UINT present_flags, const DXGI_PRESENT_PARAMETERS* p_present_params)
 {
-	m_pGLOM->Notify_Present();
-	if(CustomContext) CustomContext->Notify_Present();
+	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("Notify_Present Parent1"));
+	m_pGLOM->Notify_Present(p_swap_chain, sync_interval, present_flags, p_present_params, nullptr);
+	if(CustomContext) CustomContext->Notify_Present(p_swap_chain, sync_interval, present_flags, p_present_params);
 	else std::cout << "NotifyPresent Called on nullptr" << std::endl;
 }
 
@@ -95,6 +88,9 @@ ID3D11Device* D3D11CustomDevice::RealDevice()
 
 ID3D11DeviceContext* D3D11CustomDevice::RealContext()
 {
+	char cBuf[64];
+	sprintf_s(cBuf, "context=%x\n", (uintptr_t)CustomContext);
+	DEBUG_LOGLINE(m_pGLOM->Event, LOG(cBuf));
 	return CustomContext->m_devContext;
 }
 
@@ -154,11 +150,11 @@ HRESULT D3D11CustomDevice::CreateBuffer(const D3D11_BUFFER_DESC* pDesc, const D3
 		if (CanCaptureImmediate)
 		{
 			// Do immediate copy
-			m_pGLOM->AddBuffer(*ppBuffer, pInitialData->pSysMem, pDesc->ByteWidth, pDesc->BindFlags, this);
+			//m_pGLOM->AddBuffer(*ppBuffer, pInitialData->pSysMem, pDesc->ByteWidth, pDesc->BindFlags, this);
 		}
 		else
 		{
-			m_pGLOM->AddBuffer(*ppBuffer, nullptr, 0, pDesc->BindFlags, this);
+			//m_pGLOM->AddBuffer(*ppBuffer, nullptr, 0, pDesc->BindFlags, this);
 		}
 
 		//if (pInitialData && pInitialData->pSysMem && pDesc->BindFlags & D3D11_BIND_VERTEX_BUFFER)
@@ -278,27 +274,27 @@ HRESULT D3D11CustomDevice::CreateTexture1D(const D3D11_TEXTURE1D_DESC* pDesc, co
 	auto ret = m_d3dDevice->CreateTexture1D(pDesc, pInitialData, ppTexture1D);
 
 	// Only on success
-	if (ret == S_OK && pDesc->BindFlags == D3D11_BIND_SHADER_RESOURCE)
-	{
-		// Our texture information
-		FTextureInfo fTexInfo{};
+	//if (ret == S_OK && pDesc->BindFlags == D3D11_BIND_SHADER_RESOURCE)
+	//{
+	//	// Our texture information
+	//	FTextureInfo fTexInfo{};
 
-		bool CanCaptureImmediate = false;
-		if (pDesc->Usage == D3D11_USAGE_IMMUTABLE)
-		{
-			CanCaptureImmediate = true;
-			if (!pInitialData) { DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("NULLPTR in immut. Texture")); }
-		}
+	//	bool CanCaptureImmediate = false;
+	//	if (pDesc->Usage == D3D11_USAGE_IMMUTABLE)
+	//	{
+	//		CanCaptureImmediate = true;
+	//		if (!pInitialData) { DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("NULLPTR in immut. Texture")); }
+	//	}
 
-		// Mip handling?
-		// No, not yet, only 1 mip is assumed
+	//	// Mip handling?
+	//	// No, not yet, only 1 mip is assumed
 
-		fTexInfo.uWidth = pDesc->Width;
-		fTexInfo.uFormat = pDesc->Format;
-		fTexInfo.uCount = pDesc->ArraySize;
+	//	fTexInfo.uWidth = pDesc->Width;
+	//	fTexInfo.uFormat = pDesc->Format;
+	//	fTexInfo.uCount = pDesc->ArraySize;
 
-		m_pGLOM->AddTexture(*ppTexture1D, pInitialData, fTexInfo, this, CanCaptureImmediate);
-	}
+	//	m_pGLOM->AddTexture(*ppTexture1D, pInitialData, fTexInfo, this, CanCaptureImmediate);
+	//}
 
 	return ret;
 }
@@ -308,28 +304,28 @@ HRESULT D3D11CustomDevice::CreateTexture2D(const D3D11_TEXTURE2D_DESC* pDesc, co
 	auto ret = m_d3dDevice->CreateTexture2D(pDesc, pInitialData, ppTexture2D);
 
 	// Only on success
-	if (ret == S_OK && pDesc->BindFlags == D3D11_BIND_SHADER_RESOURCE)
-	{
-		// Our texture information
-		FTextureInfo fTexInfo{};
+	//if (ret == S_OK && pDesc->BindFlags == D3D11_BIND_SHADER_RESOURCE)
+	//{
+	//	// Our texture information
+	//	FTextureInfo fTexInfo{};
 
-		bool CanCaptureImmediate = false;
-		if (pDesc->Usage == D3D11_USAGE_IMMUTABLE)
-		{
-			CanCaptureImmediate = true;
-			if (!pInitialData) { DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("NULLPTR in immut. Texture")); }
-		}
+	//	bool CanCaptureImmediate = false;
+	//	if (pDesc->Usage == D3D11_USAGE_IMMUTABLE)
+	//	{
+	//		CanCaptureImmediate = true;
+	//		if (!pInitialData) { DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("NULLPTR in immut. Texture")); }
+	//	}
 
-		// Mip handling?
-		// No, not yet, only 1 mip is assumed
+	//	// Mip handling?
+	//	// No, not yet, only 1 mip is assumed
 
-		fTexInfo.uWidth = pDesc->Width;
-		fTexInfo.uHeight = pDesc->Height;
-		fTexInfo.uFormat = pDesc->Format;
-		fTexInfo.uCount = pDesc->ArraySize;
+	//	fTexInfo.uWidth = pDesc->Width;
+	//	fTexInfo.uHeight = pDesc->Height;
+	//	fTexInfo.uFormat = pDesc->Format;
+	//	fTexInfo.uCount = pDesc->ArraySize;
 
-		m_pGLOM->AddTexture(*ppTexture2D, pInitialData, fTexInfo, this, CanCaptureImmediate);
-	}
+	//	m_pGLOM->AddTexture(*ppTexture2D, pInitialData, fTexInfo, this, CanCaptureImmediate);
+	//}
 
 	//if ((pDesc->Format == DXGI_FORMAT_R8G8B8A8_UNORM
 	//	|| pDesc->Format == DXGI_FORMAT_R8G8B8A8_UINT
@@ -371,28 +367,28 @@ HRESULT D3D11CustomDevice::CreateTexture3D(const D3D11_TEXTURE3D_DESC* pDesc, co
 	auto ret = m_d3dDevice->CreateTexture3D(pDesc, pInitialData, ppTexture3D);
 
 	// Only on success
-	if (ret == S_OK && pDesc->BindFlags == D3D11_BIND_SHADER_RESOURCE)
-	{
-		// Our texture information
-		FTextureInfo fTexInfo{};
+	//if (ret == S_OK && pDesc->BindFlags == D3D11_BIND_SHADER_RESOURCE)
+	//{
+	//	// Our texture information
+	//	FTextureInfo fTexInfo{};
 
-		bool CanCaptureImmediate = false;
-		if (pDesc->Usage == D3D11_USAGE_IMMUTABLE)
-		{
-			CanCaptureImmediate = true;
-			if (!pInitialData) { DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("NULLPTR in immut. Texture")); }
-		}
+	//	bool CanCaptureImmediate = false;
+	//	if (pDesc->Usage == D3D11_USAGE_IMMUTABLE)
+	//	{
+	//		CanCaptureImmediate = true;
+	//		if (!pInitialData) { DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("NULLPTR in immut. Texture")); }
+	//	}
 
-		// Mip handling?
-		// No, not yet, only 1 mip is assumed
+	//	// Mip handling?
+	//	// No, not yet, only 1 mip is assumed
 
-		fTexInfo.uWidth = pDesc->Width;
-		fTexInfo.uHeight = pDesc->Height;
-		fTexInfo.uDepth = pDesc->Depth;
-		fTexInfo.uFormat = pDesc->Format;
+	//	fTexInfo.uWidth = pDesc->Width;
+	//	fTexInfo.uHeight = pDesc->Height;
+	//	fTexInfo.uDepth = pDesc->Depth;
+	//	fTexInfo.uFormat = pDesc->Format;
 
-		m_pGLOM->AddTexture(*ppTexture3D, pInitialData, fTexInfo, this, CanCaptureImmediate);
-	}
+	//	m_pGLOM->AddTexture(*ppTexture3D, pInitialData, fTexInfo, this, CanCaptureImmediate);
+	//}
 
 	return ret;
 }
@@ -401,22 +397,22 @@ HRESULT D3D11CustomDevice::CreateShaderResourceView(ID3D11Resource* pResource, c
 {
 	auto ret = m_d3dDevice->CreateShaderResourceView(pResource, pDesc, ppSRView);
 
-	if (ret == S_OK)
-	{
-		// Try all
-		int32_t val;
-		val = m_pGLOM->QueryBuffer(pResource);
-		if (val >= 0)
-		{
-			m_pGLOM->AddResourceView(*ppSRView, pResource, EBackingType::Buffer);
-		}
-		
-		val = m_pGLOM->QueryTexture(pResource);
-		if (val >= 0)
-		{
-			m_pGLOM->AddResourceView(*ppSRView, pResource, EBackingType::Texture);
-		}		
-	}
+	//if (ret == S_OK)
+	//{
+	//	// Try all
+	//	int32_t val;
+	//	val = m_pGLOM->QueryBuffer(pResource);
+	//	if (val >= 0)
+	//	{
+	//		m_pGLOM->AddResourceView(*ppSRView, pResource, EBackingType::Buffer);
+	//	}
+	//	
+	//	val = m_pGLOM->QueryTexture(pResource);
+	//	if (val >= 0)
+	//	{
+	//		m_pGLOM->AddResourceView(*ppSRView, pResource, EBackingType::Texture);
+	//	}		
+	//}
 
 	return ret;
 }
@@ -452,7 +448,7 @@ HRESULT D3D11CustomDevice::CreateInputLayout(const D3D11_INPUT_ELEMENT_DESC* pIn
 
 	const auto ret = m_d3dDevice->CreateInputLayout(pInputElementDescs, NumElements, pShaderBytecodeWithInputSignature, BytecodeLength, ppInputLayout);
 
-	if (ret == S_OK) { m_pGLOM->AddInputLayout(*ppInputLayout, pInputElementDescs, NumElements); }
+	//if (ret == S_OK) { m_pGLOM->AddInputLayout(*ppInputLayout, pInputElementDescs, NumElements); }
 
 	//InputLayoutMap.emplace(std::make_pair(*ppInputLayout, bufferNumber));
 	//++bufferNumber;
@@ -482,7 +478,7 @@ HRESULT D3D11CustomDevice::CreateVertexShader(const void* pShaderBytecode, SIZE_
 
 	auto ret = m_d3dDevice->CreateVertexShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppVertexShader);
 
-	if (ret == S_OK) { m_pGLOM->AddShader(*ppVertexShader, pShaderBytecode, BytecodeLength); }
+	//if (ret == S_OK) { m_pGLOM->AddShader(*ppVertexShader, pShaderBytecode, BytecodeLength); }
 
 	return ret;
 }
@@ -491,7 +487,7 @@ HRESULT D3D11CustomDevice::CreateGeometryShader(const void* pShaderBytecode, SIZ
 {
 	auto ret = m_d3dDevice->CreateGeometryShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppGeometryShader);
 
-	if (ret == S_OK) { m_pGLOM->AddShader(*ppGeometryShader, pShaderBytecode, BytecodeLength); }
+	//if (ret == S_OK) { m_pGLOM->AddShader(*ppGeometryShader, pShaderBytecode, BytecodeLength); }
 
 	return ret;
 }
@@ -502,7 +498,7 @@ HRESULT D3D11CustomDevice::CreateGeometryShaderWithStreamOutput(const void* pSha
 
 	DEBUG_LOGLINE(m_pGLOM->Event, LOG("This shader needs buffer binding: StreamOutput"));
 
-	if (ret == S_OK) { m_pGLOM->AddShader(*ppGeometryShader, pShaderBytecode, BytecodeLength); }
+	//if (ret == S_OK) { m_pGLOM->AddShader(*ppGeometryShader, pShaderBytecode, BytecodeLength); }
 
 	return ret;
 }
@@ -511,7 +507,7 @@ HRESULT D3D11CustomDevice::CreatePixelShader(const void* pShaderBytecode, SIZE_T
 {
 	auto ret = m_d3dDevice->CreatePixelShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppPixelShader);
 
-	if (ret == S_OK) { m_pGLOM->AddShader(*ppPixelShader, pShaderBytecode, BytecodeLength); }
+	//if (ret == S_OK) { m_pGLOM->AddShader(*ppPixelShader, pShaderBytecode, BytecodeLength); }
 
 	return ret;
 }
@@ -520,7 +516,7 @@ HRESULT D3D11CustomDevice::CreateHullShader(const void* pShaderBytecode, SIZE_T 
 {
 	auto ret = m_d3dDevice->CreateHullShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppHullShader);
 
-	if (ret == S_OK) { m_pGLOM->AddShader(*ppHullShader, pShaderBytecode, BytecodeLength); }
+	//if (ret == S_OK) { m_pGLOM->AddShader(*ppHullShader, pShaderBytecode, BytecodeLength); }
 
 	return ret;
 }
@@ -529,7 +525,7 @@ HRESULT D3D11CustomDevice::CreateDomainShader(const void* pShaderBytecode, SIZE_
 {
 	auto ret = m_d3dDevice->CreateDomainShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppDomainShader);
 
-	if (ret == S_OK) { m_pGLOM->AddShader(*ppDomainShader, pShaderBytecode, BytecodeLength); }
+	//if (ret == S_OK) { m_pGLOM->AddShader(*ppDomainShader, pShaderBytecode, BytecodeLength); }
 
 	return ret;
 }
@@ -538,7 +534,7 @@ HRESULT D3D11CustomDevice::CreateComputeShader(const void* pShaderBytecode, SIZE
 {
 	auto ret = m_d3dDevice->CreateComputeShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppComputeShader);
 
-	if (ret == S_OK) { m_pGLOM->AddShader(*ppComputeShader, pShaderBytecode, BytecodeLength); }
+	//if (ret == S_OK) { m_pGLOM->AddShader(*ppComputeShader, pShaderBytecode, BytecodeLength); }
 
 	return ret;
 }

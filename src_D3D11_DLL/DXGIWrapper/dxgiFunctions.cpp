@@ -31,13 +31,13 @@ HRESULT WINAPI CreateDXGIFactory_Generic(REFIID riid, _COM_Outptr_ void **ppFact
 	switch(factory)
 	{
 	case EFactoryType::DXGIFactory:
-		pCreateFactory = (DXGIFAC)GetProcAddress(dxgw->getDLL(), "CreateDXGIFactory");
+		pCreateFactory = (DXGIFAC)GetProcAddress(dxgw->GetDLL(), "CreateDXGIFactory");
 		break;
 	case EFactoryType::DXGIFactory1:
-		pCreateFactory = (DXGIFAC)GetProcAddress(dxgw->getDLL(), "CreateDXGIFactory1");
+		pCreateFactory = (DXGIFAC)GetProcAddress(dxgw->GetDLL(), "CreateDXGIFactory1");
 		break;
 	case EFactoryType::DXGIFactory2:
-		pCreateFactory = (DXGIFAC)GetProcAddress(dxgw->getDLL(), "CreateDXGIFactory2");
+		pCreateFactory = (DXGIFAC)GetProcAddress(dxgw->GetDLL(), "CreateDXGIFactory2");
 		break;
 	default:
 		//dxgw->Event << LOGERR("Invalid Factory Type Requested") << std::endl;
@@ -122,7 +122,7 @@ HRESULT WINAPI CreateDXGIFactory2(UINT Flags, REFIID riid, _COM_Outptr_  void **
 	dxgw->Event << LOG("Caught DXGI Factory2 Call") << std::endl;
 
 	// Get the real function address
-	DXGIFAC2 pCreateFactory = (DXGIFAC2)GetProcAddress(dxgw->getDLL(), "CreateDXGIFactory2");
+	DXGIFAC2 pCreateFactory = (DXGIFAC2)GetProcAddress(dxgw->GetDLL(), "CreateDXGIFactory2");
 
 
 	// Check Validity

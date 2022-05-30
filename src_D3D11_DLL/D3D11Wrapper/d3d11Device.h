@@ -7,9 +7,9 @@
 #include <d3d11on12.h>
 #include <fstream>
 #include <vector>
+
 #include "d3d11DeviceContext.h"
 #include "d3d11ObjectManager.h"
-
 
 class IVBuffer
 {
@@ -47,7 +47,7 @@ public:
 	D3D11CustomDevice(ID3D11Device *dev, ID3D11Device ***ret, D3DObjectManager *pGlOM);
     D3D11CustomDevice(ID3D11Device *dev, D3DObjectManager *pGlOM);
 	
-	virtual void Notify_Present();
+	virtual void Notify_Present(IDXGISwapChain4* p_swap_chain, UINT sync_interval, UINT present_flags, const DXGI_PRESENT_PARAMETERS* p_present_params);
 	virtual void Link(D3D11CustomContext *devCon);
 	virtual void LocateSwapchain();
 

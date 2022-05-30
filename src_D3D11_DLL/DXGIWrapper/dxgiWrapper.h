@@ -7,10 +7,10 @@
 class DXGIWrapper
 {
 protected:
-	HMODULE hD3D;
+	HMODULE d3d_module;
 	IDXGISwapChain* m_swapchain;
 	std::mutex MutLoader;
-	bool bIsDllValid;
+	bool is_dll_valid;
 
 public:
 	std::ofstream Event;
@@ -23,7 +23,7 @@ public:
 	bool LoadDLL();
 
 	// Getters
-	HMODULE getDLL();
+	HMODULE GetDLL();
 
 	// Setters
 	void setSwapChain(IDXGISwapChain* swapchain);

@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #include "utils.h"
 
-DXGIWrapper::DXGIWrapper(): hD3D(nullptr), m_swapchain(nullptr), bIsDllValid(false)
+DXGIWrapper::DXGIWrapper(): d3d_module(nullptr), m_swapchain(nullptr), is_dll_valid(false)
 {
 	Event = std::ofstream("DXGI.log");
 	Event << this << std::endl;
@@ -34,17 +34,17 @@ bool DXGIWrapper::LoadDLL()
 		return false;
 	}
 
-	this->hD3D = hD3D;
-	this->bIsDllValid = true;
+	this->d3d_module = hD3D;
+	this->is_dll_valid = true;
 	//Event << LOG("Loaded DLL") << std::endl;
 	return true;
 }
 
-HMODULE DXGIWrapper::getDLL()
+HMODULE DXGIWrapper::GetDLL()
 {
 	std::lock_guard<std::mutex> lock(MutLoader);
-	if (!bIsDllValid) this->LoadDLL();
-	return hD3D;
+	if (!is_dll_valid) this->LoadDLL();
+	return d3d_module;
 }
 
 void DXGIWrapper::setSwapChain(IDXGISwapChain* swapchain)

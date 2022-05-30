@@ -4,13 +4,29 @@
 //
 
 #pragma once
+#include <Windows.h>
+#include <CommCtrl.h>
+#pragma comment (lib, "comctl32.lib")
 
 #include "targetver.h"
 
-//#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
-// Windows Header Files:
-#include <Windows.h>
+#ifndef NDEBUG
+#define DEBUG_ONLY_PRINT(x) std::cout << x << std::endl
+#define DEBUG_LOGLINE(x, msg) x << msg << std::endl
+
+#define DEBUG_LINE(x, msg) \
+	std::cout << "[" << std::to_string(uint64_t(this)) << "] " << msg << std::endl; \
+	DEBUG_LOGLINE(x, msg)
+
+#else
+#define DEBUG_ONLY_PRINT(x)
+#define DEBUG_LOGLINE(x, msg)
+#define DEBUG_LINE(x, msg)
+#endif
 
 
-
-// TODO: reference additional headers your program requires here
+#include <cstdint>
+#define LOG(x) "[INFO] " << x
+#define LOGWRT(x) "[WRTE] " << x
+#define LOGERR(x) "[ERRO] " << x
+#define LOGWARN(x) "[WARN] " << x

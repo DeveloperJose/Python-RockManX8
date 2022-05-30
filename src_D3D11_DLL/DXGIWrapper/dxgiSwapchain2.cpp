@@ -1,4 +1,5 @@
 #include "dxgiSwapchain2.h"
+#include "../D3D11Wrapper/stdafx.h"
 #include "utils.h"
 
 #include <iostream>
@@ -57,6 +58,7 @@ HRESULT __stdcall DXGICustomSwapChain::SetColorSpace1(DXGI_COLOR_SPACE_TYPE Colo
 
 HRESULT __stdcall DXGICustomSwapChain::ResizeBuffers1(UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT Format, UINT SwapChainFlags, const UINT* pCreationNodeMask, IUnknown* const* ppPresentQueue)
 {
+	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("Real ResizeBuffers1"));
 	return AsV3->ResizeBuffers1(BufferCount, Width, Height, Format, SwapChainFlags, pCreationNodeMask, ppPresentQueue);
 }
 
@@ -132,8 +134,8 @@ HRESULT DXGICustomSwapChain::Present1(UINT SyncInterval, UINT PresentFlags,
 	//{
 	//	m_pWrap->Event << LOG("Present1") << std::endl;
 	//}
-
-	if (CustomDevice) CustomDevice->Notify_Present();
+	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("Notify_Present Parent1 Parent1"));
+	if (CustomDevice) CustomDevice->Notify_Present(this, SyncInterval, PresentFlags, pPresentParameters);
 	return AsV1->Present1(SyncInterval, PresentFlags, pPresentParameters);
 }
 
@@ -179,7 +181,8 @@ HRESULT DXGICustomSwapChain::Present(UINT SyncInterval, UINT Flags)
 	//{
 	//	m_pWrap->Event << LOG("Present1") << std::endl;
 	//}
-	if (CustomDevice) CustomDevice->Notify_Present();
+	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("Notify_Present Parent1 Parent2"));
+	if (CustomDevice) CustomDevice->Notify_Present(this, SyncInterval, Flags, nullptr);
 
 	return DxgiSwapchain->Present(SyncInterval, Flags);
 }
@@ -207,7 +210,17 @@ HRESULT DXGICustomSwapChain::GetDesc(DXGI_SWAP_CHAIN_DESC* pDesc)
 HRESULT DXGICustomSwapChain::ResizeBuffers(UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT NewFormat,
 	UINT SwapChainFlags)
 {
+	// I spent many hours figuring out why this function crashed the game. You need to clear the buffers before resizing xd
+	// https://stackoverflow.com/questions/29041652/error-0x887a0001-from-sharpdx-resizebuffers-on-resize-event
+	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("ResizeBuffers2"));
+	char cBuf[128];
+	sprintf_s(cBuf, "buff=%u, width=%u, height=%u, formt=%u, flags=%u\n", BufferCount, Width, Height, NewFormat, SwapChainFlags);
+	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR(cBuf));
+
+	m_pGLOM->Clear();
+
 	return DxgiSwapchain->ResizeBuffers(BufferCount, Width, Height, NewFormat, SwapChainFlags);
+	//return DxgiSwapchain->ResizeBuffers(BufferCount, Width, Height, NewFormat, SwapChainFlags);
 }
 
 HRESULT DXGICustomSwapChain::ResizeTarget(const DXGI_MODE_DESC* pNewTargetParameters)
