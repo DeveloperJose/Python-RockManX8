@@ -1,6 +1,8 @@
 # ************************************************************ main gitignore
 __blender_autocomplete__/
 textures/
+Debug/
+Release/
 
 # Ghidra
 *.gbf
