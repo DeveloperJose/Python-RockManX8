@@ -39,6 +39,9 @@
     <ClInclude Include="dxgiSwapchain2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\D3D11Wrapper\d3d11ObjectManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dxgiSwapchain2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\D3D11Wrapper\d3d11ObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,8 +1,9 @@
 #include "dxgiSwapchain2.h"
-#include "../D3D11Wrapper/stdafx.h"
 #include "utils.h"
 
 #include <iostream>
+
+#include <editor/editor.h>
 
 #define AsV4 (reinterpret_cast<IDXGISwapChain4*>(DxgiSwapchain))
 #define AsV3 (reinterpret_cast<IDXGISwapChain3*>(DxgiSwapchain))
@@ -22,7 +23,7 @@ DXGICustomSwapChain::DXGICustomSwapChain(void * swapchain, IUnknown * dev, DXGIW
 	m_pWrap->Event << "Created Custom SC " << swapchain << std::endl;
 }
 
-DXGICustomSwapChain::DXGICustomSwapChain(IDXGISwapChain* swapchain, ID3D11Device* dev, D3DObjectManager* glom) :
+DXGICustomSwapChain::DXGICustomSwapChain(IDXGISwapChain* swapchain, ID3D11Device* dev, Editor* glom) :
 	CustomDevice(nullptr),
 	DxgiSwapchain(swapchain),
 	m_pGLOM(glom),
@@ -58,7 +59,6 @@ HRESULT __stdcall DXGICustomSwapChain::SetColorSpace1(DXGI_COLOR_SPACE_TYPE Colo
 
 HRESULT __stdcall DXGICustomSwapChain::ResizeBuffers1(UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT Format, UINT SwapChainFlags, const UINT* pCreationNodeMask, IUnknown* const* ppPresentQueue)
 {
-	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("Real ResizeBuffers1"));
 	return AsV3->ResizeBuffers1(BufferCount, Width, Height, Format, SwapChainFlags, pCreationNodeMask, ppPresentQueue);
 }
 
@@ -126,17 +126,9 @@ HRESULT DXGICustomSwapChain::GetCoreWindow(const IID& refiid, void** ppUnk)
 HRESULT DXGICustomSwapChain::Present1(UINT SyncInterval, UINT PresentFlags,
 	const DXGI_PRESENT_PARAMETERS* pPresentParameters)
 {
-	//if (m_pGLOM)
-	//{
-	//	m_pGLOM->Event << LOG("Present1") << std::endl;
-	//}
-	//else
-	//{
-	//	m_pWrap->Event << LOG("Present1") << std::endl;
-	//}
-	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("Notify_Present Parent1 Parent1"));
-	if (CustomDevice) CustomDevice->Notify_Present(this, SyncInterval, PresentFlags, pPresentParameters);
-	return AsV1->Present1(SyncInterval, PresentFlags, pPresentParameters);
+	if (CustomDevice) CustomDevice->Notify_Present(DxgiSwapchain, SyncInterval, PresentFlags);
+	HRESULT ret = AsV1->Present1(SyncInterval, PresentFlags, pPresentParameters);
+	return ret;
 }
 
 BOOL DXGICustomSwapChain::IsTemporaryMonoSupported()
@@ -173,18 +165,9 @@ HRESULT DXGICustomSwapChain::GetRotation(DXGI_MODE_ROTATION* pRotation)
 #pragma region DXGISwapChain
 HRESULT DXGICustomSwapChain::Present(UINT SyncInterval, UINT Flags)
 {
-	//if (m_pGLOM)
-	//{
-	//	m_pGLOM->Event << LOG("Present1") << std::endl;
-	//}
-	//else
-	//{
-	//	m_pWrap->Event << LOG("Present1") << std::endl;
-	//}
-	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("Notify_Present Parent1 Parent2"));
-	if (CustomDevice) CustomDevice->Notify_Present(this, SyncInterval, Flags, nullptr);
-
-	return DxgiSwapchain->Present(SyncInterval, Flags);
+	if (CustomDevice) CustomDevice->Notify_Present(DxgiSwapchain, SyncInterval, Flags);
+	HRESULT ret = DxgiSwapchain->Present(SyncInterval, Flags);
+	return ret;
 }
 
 HRESULT DXGICustomSwapChain::GetBuffer(UINT Buffer, const IID& riid, void** ppSurface)
@@ -212,14 +195,8 @@ HRESULT DXGICustomSwapChain::ResizeBuffers(UINT BufferCount, UINT Width, UINT He
 {
 	// I spent many hours figuring out why this function crashed the game. You need to clear the buffers before resizing xd
 	// https://stackoverflow.com/questions/29041652/error-0x887a0001-from-sharpdx-resizebuffers-on-resize-event
-	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("ResizeBuffers2"));
-	char cBuf[128];
-	sprintf_s(cBuf, "buff=%u, width=%u, height=%u, formt=%u, flags=%u\n", BufferCount, Width, Height, NewFormat, SwapChainFlags);
-	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR(cBuf));
-
-	m_pGLOM->Clear();
-
-	return DxgiSwapchain->ResizeBuffers(BufferCount, Width, Height, NewFormat, SwapChainFlags);
+	// https://github.com/microsoft/windows-rs/issues/1410
+	return m_pGLOM->Hook_ResizeBuffers(DxgiSwapchain, BufferCount, Width, Height, NewFormat, SwapChainFlags);
 	//return DxgiSwapchain->ResizeBuffers(BufferCount, Width, Height, NewFormat, SwapChainFlags);
 }
 

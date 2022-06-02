@@ -272,9 +272,9 @@ void CTexture::Load1D()
     falseDesc.BindFlags = 0;
     falseDesc.MiscFlags = 0;
 
-    m_pOwner->GetGLOM()->Event << "[CTex] Format is " << falseDesc.Format << std::endl;
+    //m_pOwner->GetGLOM()->Event << "[CTex] Format is " << falseDesc.Format << std::endl;
     auto size = (GetPixelSizeFromTypeBits(falseDesc.Format) * falseDesc.Width * falseDesc.ArraySize) / 8;
-    m_pOwner->GetGLOM()->Event << "[CTex] Size is " << size << std::endl;
+    //m_pOwner->GetGLOM()->Event << "[CTex] Size is " << size << std::endl;
     if (size == 0) { return; }
 
     /////
@@ -324,9 +324,9 @@ void CTexture::Load2D()
     falseDesc.BindFlags = 0;
     falseDesc.MiscFlags = 0;
 
-    m_pOwner->GetGLOM()->Event << "[CTex] Format is " << falseDesc.Format << std::endl;
+    //m_pOwner->GetGLOM()->Event << "[CTex] Format is " << falseDesc.Format << std::endl;
     auto size = (GetPixelSizeFromTypeBits(falseDesc.Format) * falseDesc.Width * falseDesc.Height * falseDesc.ArraySize) / 8;
-    m_pOwner->GetGLOM()->Event << "[CTex] Size is " << size << std::endl;
+    //m_pOwner->GetGLOM()->Event << "[CTex] Size is " << size << std::endl;
     if (size == 0) { return; }
 
     /////
@@ -376,9 +376,9 @@ void CTexture::Load3D()
     falseDesc.BindFlags = 0;
     falseDesc.MiscFlags = 0;
 
-    m_pOwner->GetGLOM()->Event << "[CTex] Format is " << falseDesc.Format << std::endl;
+    //m_pOwner->GetGLOM()->Event << "[CTex] Format is " << falseDesc.Format << std::endl;
     auto size = (GetPixelSizeFromTypeBits(falseDesc.Format) * falseDesc.Width * falseDesc.Height * falseDesc.Depth) / 8;
-    m_pOwner->GetGLOM()->Event << "[CTex] Size is " << size << std::endl;
+    //m_pOwner->GetGLOM()->Event << "[CTex] Size is " << size << std::endl;
     if (size == 0) { return; }
 
     /////

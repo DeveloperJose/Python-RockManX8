@@ -97,6 +97,10 @@ PlayerEntity: (0x270 length)
 
 SetEnemyParent (length 0xD0): 0362B030 -> 0362B100
 
+CEnemyInfo
+	Dmg 0x24
+	One at 04882900 and 4882850
+
 CEnemy 0493AB40 (length 0x530)
 	Break at 0298e640 to get ECX when unloading an enemy
 	idx 89 = 0493AB40
@@ -171,3 +175,6 @@ Prm0089 - Axl Rolling Ball Dude
 
 72029F00 - 71FF0000 = 0x39F00
 7205E270 -> 0x6E270
+
+01de60ed for OpenFile1 / 01DE60DF
+01E5CAB0 for Error

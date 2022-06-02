@@ -6,6 +6,7 @@
 #include "stdafx.h"
 #include "d3d11Device.h"
 
+#include "editor/editor.h"
 
 std::atomic<uint32_t> badAtomicBufferCounter;
 
@@ -22,7 +23,7 @@ D3D11CustomDevice::D3D11CustomDevice(ID3D11Device* dev)
 	PostInitialise();
 }
 
-D3D11CustomDevice::D3D11CustomDevice(ID3D11Device* dev, ID3D11Device*** ret, D3DObjectManager *pGlOM)
+D3D11CustomDevice::D3D11CustomDevice(ID3D11Device* dev, ID3D11Device*** ret, Editor*pGlOM)
 {
 	m_d3dDevice = dev;
 	m_pGLOM = pGlOM;
@@ -30,7 +31,7 @@ D3D11CustomDevice::D3D11CustomDevice(ID3D11Device* dev, ID3D11Device*** ret, D3D
 	PostInitialise();
 }
 
-D3D11CustomDevice::D3D11CustomDevice(ID3D11Device* dev, D3DObjectManager *pGlOM)
+D3D11CustomDevice::D3D11CustomDevice(ID3D11Device* dev, Editor*pGlOM)
 {
 	m_d3dDevice = dev;
 	m_pGLOM = pGlOM;
@@ -40,28 +41,15 @@ D3D11CustomDevice::D3D11CustomDevice(ID3D11Device* dev, D3DObjectManager *pGlOM)
 
 void D3D11CustomDevice::PostInitialise()
 {
-	//m_pvpFrames = make_shared<vector<CFrame>>(vector<CFrame>());
 
-	//nCapturedVSShaders = 0;
-	//nCapturedFSShaders = 0;
-	//nBuffersCaptured = 0;
-
-	/////////
-	//// 2018.03.09 - Write Layout to Disk
-	//////
-	//ILWrite = std::ofstream("InputLayouts.csv", std::ofstream::binary);
-	//ILWrite << "SemanticName,SemanticIndex,Format,InputSlot,AlignedByteOffset,InputSlotClass,InstanceDataStepRate" << std::endl;
-
-	//m_log = std::ofstream("Device" + std::to_string(uint64_t(this)) + ".log", std::ofstream::binary);
 }
 
 
-void D3D11CustomDevice::Notify_Present(IDXGISwapChain4* p_swap_chain, UINT sync_interval, UINT present_flags, const DXGI_PRESENT_PARAMETERS* p_present_params)
+void D3D11CustomDevice::Notify_Present(IDXGISwapChain* p_swap_chain, UINT sync_interval, UINT present_flags)
 {
-	DEBUG_LOGLINE(m_pGLOM->Event, LOGERR("Notify_Present Parent1"));
-	m_pGLOM->Notify_Present(p_swap_chain, sync_interval, present_flags, p_present_params, nullptr);
-	if(CustomContext) CustomContext->Notify_Present(p_swap_chain, sync_interval, present_flags, p_present_params);
-	else std::cout << "NotifyPresent Called on nullptr" << std::endl;
+	//if(CustomContext) CustomContext->Notify_Present(p_swap_chain, sync_interval, present_flags, p_present_params);
+	//else std::cout << "NotifyPresent Called on nullptr" << std::endl;
+	m_pGLOM->Notify_Present(p_swap_chain, sync_interval, present_flags);
 }
 
 void D3D11CustomDevice::Link(D3D11CustomContext* devCon)
@@ -90,11 +78,11 @@ ID3D11DeviceContext* D3D11CustomDevice::RealContext()
 {
 	char cBuf[64];
 	sprintf_s(cBuf, "context=%x\n", (uintptr_t)CustomContext);
-	DEBUG_LOGLINE(m_pGLOM->Event, LOG(cBuf));
+	//DEBUG_LOGLINE(m_pGLOM->Event, LOG(cBuf));
 	return CustomContext->m_devContext;
 }
 
-D3DObjectManager* D3D11CustomDevice::GetGLOM()
+Editor* D3D11CustomDevice::GetGLOM()
 {
 	return m_pGLOM;
 }
@@ -496,7 +484,7 @@ HRESULT D3D11CustomDevice::CreateGeometryShaderWithStreamOutput(const void* pSha
 {
 	auto ret = m_d3dDevice->CreateGeometryShaderWithStreamOutput(pShaderBytecode, BytecodeLength, pSODeclaration, NumEntries, pBufferStrides, NumStrides, RasterizedStream, pClassLinkage, ppGeometryShader);
 
-	DEBUG_LOGLINE(m_pGLOM->Event, LOG("This shader needs buffer binding: StreamOutput"));
+	//DEBUG_LOGLINE(m_pGLOM->Event, LOG("This shader needs buffer binding: StreamOutput"));
 
 	//if (ret == S_OK) { m_pGLOM->AddShader(*ppGeometryShader, pShaderBytecode, BytecodeLength); }
 
@@ -670,7 +658,7 @@ UINT D3D11CustomDevice::GetExceptionMode()
 
 HRESULT D3D11CustomDevice::QueryInterface(const IID& riid, void** ppvObject)
 {
-	DEBUG_LOGLINE(m_pGLOM->Event, "[CF99] QI");
+	//DEBUG_LOGLINE(m_pGLOM->Event, "[CF99] QI");
 
 	return m_d3dDevice->QueryInterface(riid, ppvObject);
 }

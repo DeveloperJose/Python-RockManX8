@@ -9,7 +9,8 @@
 #include <vector>
 
 #include "d3d11DeviceContext.h"
-#include "d3d11ObjectManager.h"
+
+#include <editor/editor.h>
 
 class IVBuffer
 {
@@ -33,7 +34,7 @@ class D3D11CustomDevice : public ID3D11Device
 {
 protected:
 	ID3D11Device *m_d3dDevice;
-	D3DObjectManager *m_pGLOM;
+	Editor*m_pGLOM;
 	class D3D11CustomContext * CustomContext;
 
 protected:
@@ -44,16 +45,16 @@ public:
 	D3D11CustomDevice(ID3D11Device *dev, ID3D11Device ***ret);
     D3D11CustomDevice(ID3D11Device *dev);
 
-	D3D11CustomDevice(ID3D11Device *dev, ID3D11Device ***ret, D3DObjectManager *pGlOM);
-    D3D11CustomDevice(ID3D11Device *dev, D3DObjectManager *pGlOM);
+	D3D11CustomDevice(ID3D11Device *dev, ID3D11Device ***ret, Editor*pGlOM);
+    D3D11CustomDevice(ID3D11Device *dev, Editor*pGlOM);
 	
-	virtual void Notify_Present(IDXGISwapChain4* p_swap_chain, UINT sync_interval, UINT present_flags, const DXGI_PRESENT_PARAMETERS* p_present_params);
+	virtual void Notify_Present(IDXGISwapChain* p_swap_chain, UINT sync_interval, UINT present_flags);
 	virtual void Link(D3D11CustomContext *devCon);
 	virtual void LocateSwapchain();
 
 	virtual ID3D11Device *RealDevice();
 	virtual ID3D11DeviceContext* RealContext();
-	virtual class D3DObjectManager* GetGLOM();
+	virtual class Editor* GetGLOM();
 
 	HRESULT STDMETHODCALLTYPE CreateBuffer(
 		/* [annotation] */

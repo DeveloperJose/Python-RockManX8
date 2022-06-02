@@ -13,6 +13,7 @@ DXGICustomFactory2::DXGICustomFactory2(void* factory, DXGIWrapper* log)
 	DxgiFactory = reinterpret_cast<IDXGIFactory3*>(factory);
 	m_pLog = log;
 	m_pLog->Event << "[CF02] CTOR" << std::endl;
+	printf("DXGICustomFactory2 created\n");
 }
 
 DXGICustomFactory2::~DXGICustomFactory2()
@@ -32,6 +33,7 @@ HRESULT DXGICustomFactory2::CreateSwapChainForHwnd(IUnknown* pDevice, HWND hWnd,
 	const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* pFullscreenDesc, IDXGIOutput* pRestrictToOutput, IDXGISwapChain1** ppSwapChain)
 {
 	m_pLog->Event << "CREATE" << std::endl;
+	printf("Create\n");
 	// HOOK THIS
 	const auto temp = DxgiFactory->CreateSwapChainForHwnd(pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain);
 	const auto tempSwapChain = new DXGICustomSwapChain(*ppSwapChain, pDevice, m_pLog);
@@ -43,6 +45,7 @@ HRESULT DXGICustomFactory2::CreateSwapChainForCoreWindow(IUnknown* pDevice, IUnk
 	const DXGI_SWAP_CHAIN_DESC1* pDesc, IDXGIOutput* pRestrictToOutput, IDXGISwapChain1** ppSwapChain)
 {
 	m_pLog->Event << "CREATE1" << std::endl;
+	printf("Create1\n");
 	const auto temp = DxgiFactory->CreateSwapChainForCoreWindow(pDevice, pWindow, pDesc, pRestrictToOutput, ppSwapChain);
 	const auto tempSwapChain = new DXGICustomSwapChain(*ppSwapChain, pDevice, m_pLog);
 	*ppSwapChain = tempSwapChain;
@@ -88,6 +91,7 @@ HRESULT DXGICustomFactory2::CreateSwapChainForComposition(IUnknown* pDevice, con
 	IDXGIOutput* pRestrictToOutput, IDXGISwapChain1** ppSwapChain)
 {
 	m_pLog->Event << "CREATE2" << std::endl;
+	printf("Create2\n");
 	const auto temp = DxgiFactory->CreateSwapChainForComposition(pDevice, pDesc, pRestrictToOutput, ppSwapChain);
 	const auto tempSwapChain = new DXGICustomSwapChain(*ppSwapChain, pDevice, m_pLog);
 	*ppSwapChain = tempSwapChain;
@@ -111,6 +115,7 @@ HRESULT DXGICustomFactory2::GetWindowAssociation(HWND* pWindowHandle)
 
 HRESULT DXGICustomFactory2::CreateSwapChain(IUnknown* pDevice, DXGI_SWAP_CHAIN_DESC* pDesc, IDXGISwapChain** ppSwapChain)
 {
+	printf("Create3\n");
 	m_pLog->Event << "CREATE3" << std::endl;
 	const auto temp = DxgiFactory->CreateSwapChain(pDevice, pDesc, ppSwapChain);
 	const auto tempSwapChain = new DXGICustomSwapChain(*ppSwapChain, pDevice, m_pLog);

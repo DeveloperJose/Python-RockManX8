@@ -1,0 +1,3 @@
+01ddbc13:
+mov esi, ecx
+movzx eax, word ptr [esi+3A]

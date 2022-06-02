@@ -3,7 +3,10 @@
 #include <dxgi1_6.h>
 #include "../D3D11Wrapper/d3d11Device.h"
 #include "../D3D11Wrapper/d3d11ObjectManager.h"
+#include "../D3D11Wrapper/stdafx.h"
 #include "dxgiWrapper.h"
+
+#include <editor/editor.h>
 
 class DXGICustomSwapChain : public IDXGISwapChain4
 {
@@ -11,11 +14,11 @@ protected:
 	IDXGISwapChain *DxgiSwapchain;
 	// Custom Device is here directly because it gets notified
 	D3D11CustomDevice *CustomDevice;
-	D3DObjectManager *m_pGLOM;
+	Editor *m_pGLOM;
 	class DXGIWrapper* m_pWrap;
 public:
 	DXGICustomSwapChain(void * swapchain, IUnknown * dev, class DXGIWrapper* log);
-	DXGICustomSwapChain(IDXGISwapChain* swapchain, ID3D11Device* dev, D3DObjectManager *glom);
+	DXGICustomSwapChain(IDXGISwapChain* swapchain, ID3D11Device* dev, Editor*glom);
 	virtual ~DXGICustomSwapChain() = default;
 
 	#pragma region DXGISwapChain4
