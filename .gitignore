@@ -3,6 +3,15 @@ __blender_autocomplete__/
 textures/
 Debug/
 Release/
+src/textures/*
+src/figures/*
+figures/*
+src/figures2/*
+*.1E3EE6FB
+
+# Noesis
+noesis/
+!noesis/plugins/fmt_mmx8_wpg.py
 
 # Ghidra
 *.gbf

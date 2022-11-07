@@ -25,7 +25,8 @@ class WPGFile:
         self.textures = []
         self.flags = []
         self.unparsed_bytes = b''
-        self.__load_from_file__(path)
+        if path:
+            self.__load_from_file__(path)
 
     def __load_from_file__(self, path: Path):
         with open(path, 'rb') as file:

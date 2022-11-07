@@ -61,10 +61,10 @@ class FileStream():
                 arr.append(raw_byte)
         return arr
 
-    def read_int_array(self, num_ints):
+    def read_int_array(self, num_ints, size_bytes=2):
         arr = []
         for i in range(num_ints):
-            int_byte = self.read_int()
+            int_byte = self.read_int(size_bytes)
             if int_byte is not False:
                 arr.append(int_byte)
         return arr

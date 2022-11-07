@@ -1,54 +1,3 @@
-For every problem you were graded on:
-
-
-Correctness (70%) - How close you were to the correct answer
-
-0 = No effort was put in the problem
-
-20 = The answer provided is incorrect and the approach/main idea is also incorrect but an attempt was made at solving the problem
-
-40 = The answer provided is incorrect but the approach/main idea is correct, there are just some errors or issues that make it incomplete
-
-65 = The answer provided matches the output but has a worse running time than the expected solution thus being more inefficient
-
-70 = The answer provided matches the output and running time of the expected solution
-
-Running Time Correctness (10%) - How close your run-time analysis of the function was to the real Big-O solution
-
-0 = No effort was put in attempting to compute Big-O for the problem
-
-7 = An attempt was made to compute Big-O but the answer is incorrect
-
-10 = The computed Big-O is correct
-
-Design (5%) - How well did you break down the problem into functions and classes. Most problems provided for the starting labs have already been broken down into functions by the TAs but sometimes it may be beneficial to write extra functions or classes.
-
-0 = No effort was put into breaking down the problem
-
-5 = The student used the TA provided function placeholders
-
-Extra Credit = The student found a place where they had duplicate code and wrote extra functions to reduce code duplicates
-
-Extra Credit = The student noticed a function was very large and hard to read and decided to break it down further by writing extra functions
-
-Style (5%) - How meaningful are the fuction and variable names and how readable is your code
-
-0 = No effort was put in naming things and making your code readable
-
-5 = Some effort was put in naming things and making your code readable
-
-Robustness (5%) - How well can your program handle erroneous or unexpected inputs. Not applicable for labs 1, 2, and 3.
-
-0 = No effort was put into handling erroneous or unexpected inputs so the program crashes
-
-5 = Some effort was put into handling erroneous or unexpected inputs and gracefully handling them like by guiding the user on possible valid inputs
-
-Documentation (5%) - For non-obvious code segments, how well did you explain your thoughts and ideas? Remember that it is not necessary to comment everything in a program, just parts you feel are not obvious to grasp from a quick glance.
-
-0 = No effort was put in documenting non-obvious code segments
-
-5 = Non-obvious code segments have some comments explaining the idea and thought behind them
-
 # Disable tab
 replace 01ddbc13 with 
 	XOR EAX, EAX
@@ -83,14 +32,99 @@ u3 = 00 00 00 00 00 00 80 3F
 02929783 - F3 0F10 52 10  - movss xmm2,[edx+10]
 02929A13 - 0F10 41 10  - movups xmm0,[ecx+10]
 
+RXC2.exe
+	From 04000000 to 04B02000
+
+Instruction 27FF243
+	-> 02A79BB0 (setcam)
+
+CAMERA??:
+	0486D400
+	0486D470
+
+CAMERA | ReClass: Camera | GHIDRA: CamStruct
+	0372C670
+	
+CAMERA2 | Ghidra/ReClass CamStruct2
+	04776790
+	
+	OFFSET X,Y,Z at instruction 027ff449
+	
+	Instruction 02814563
+	
+	Assemble 027fef56 | lea eax,[edi+00000190]
+	
+	On Level Load and Cutscene Camera calls at 02a7abce
+		Level Load also calls 027ff8fd and 027b8322 (to clear I think?)
+	After beating boss in result screen calls 0285f51d
+	
+	Trace
+		from <02a7abb0> 
+			to 027FE970 (edi/param2=0372C670 and esi/param1=04776790)
+			to 02A79B00 (eax/param_2=0323B2C0 and ecx/param1=0x 0372C670) 
+			to 02A7AA50 (esi/param1=0372C670) 
+			to SetCam (02A79BB0)
+
+On_X8Load_F0_Parent
+	this = D6B61386
+	
+Call
+	2E1AA150
+
+On_X8Load_F0_Call3
+	param1 = 2E1AA290
+
+On_X8Load_F0_Call4
+	param1 = 2E1AAAB0
+	
+Call5
+	param1 = 2E448280
+	
+After
+	param1 = 2E1AA1D0
+	
+COORDINATES
+	LOAD X: 027F8C7F (181->25->0->470) and 027FA7A6
+	
+	For actual X (470) XMM0 = 470
+		EAX = 720
+		EBX = 8
+		ECX = 47018E0 = ESI
+		EDX = 47001D6
+		EDI = 468D860
+		EBP = 4758FD5C
+		ESP = 4758FC74
+		EIP = 027F8C7F
+	
+CAMERA4  | ReClass CamStruct4
+	047767E0
+	
+CAMERA5 | ReClass CamStruct5
+	GHIDRA 0256A1E4 param_1
+	
+	Assemble 0255f293 | movss [eax+14],xmm0
+	
+SetCam Ghidra:
+	hex(0x048583d8 + 8 + screen_num * 0x50)
+	Seems to be 0-99 screens in Central White
+	
+	ESI = 0372C670 for 02a7a79f
+	
+	Instruction 02a7a6ea
+		xmm0 = 0.09 = ang2
+		xmm2 = 11.00 = local_50 = 511.4025269-500.4025269 = DAT_CAMERA_X - DAT_047767B0
+		
+	Instruction 02a7a674
+		
 Entity: (0x130 length)
-	Player 1 = 046E21A0
+	Player 1 = 046E21A0 | 046E1F40 in Central White
 	Player 2 = 046E1950
 	E1 = 046E4410
 	starts at 46E1820
+	reverse: 047cabe8 - FFFF FFFF FFFE A2E0 = 47E0908
 	
 PlayerEntity: (0x270 length)
-	Player 1 = 0465B470 = Entity 05
+	Player 1 = 0465B470 = Entity 05 | 0465BBC0 In Central White
 	Player 2 = 465B6E0
 	Enemy 1 = 465B950
 	0465CF40 = Enemy 11
@@ -178,3 +212,5 @@ Prm0089 - Axl Rolling Ball Dude
 
 01de60ed for OpenFile1 / 01DE60DF
 01E5CAB0 for Error
+
+RXC2.exe+2414642     - 00000004,RXC2.exe+23E1E0B,2E18A818,RXC2.exe+4209E80,...

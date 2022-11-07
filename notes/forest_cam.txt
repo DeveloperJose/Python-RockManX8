@@ -1,0 +1,980 @@
+Offset-Description                                     
+0000 - Pointer           372C670 : P->0323B2C0         
+0004 - 4 Bytes           372C674 : 0                   
+0008 - Pointer           372C678 : P->3EAE616C         
+000C - 4 Bytes           372C67C : 0                   
+0010 - 4 Bytes           372C680 : 0                   
+0014 - Pointer           372C684 : P->3D4CCCC8         
+0018 - 4 Bytes           372C688 : 0                   
+001C - 4 Bytes           372C68C : 0                   
+0020 - 4 Bytes           372C690 : 0                   
+0024 - 4 Bytes           372C694 : 0                   
+0028 - Double            372C698 : 0.0078125           
+0030 - Float             372C6A0 : 0.200000003         
+0034 - Float             372C6A4 : 0.200000003         
+0038 - Float             372C6A8 : 0.200000003         
+003C - 4 Bytes           372C6AC : 0                   
+0040 - Float             372C6B0 : 0.200000003         
+0044 - Pointer           372C6B4 : P->3D4CCCCD         
+0048 - Float             372C6B8 : 0.200000003         
+004C - 4 Bytes           372C6BC : 0                   
+0050 - Float             372C6C0 : 0.03705925867       
+0054 - Float             372C6C4 : -0.08757551014      
+0058 - Float             372C6C8 : -0.9954681993       
+005C - 4 Bytes           372C6CC : 0                   
+0060 - 4 Bytes           372C6D0 : 0                   
+0064 - 4 Bytes           372C6D4 : 0                   
+0068 - 4 Bytes           372C6D8 : 0                   
+006C - 4 Bytes           372C6DC : 0                   
+0070 - 4 Bytes           372C6E0 : 0                   
+0074 - 4 Bytes           372C6E4 : 0                   
+0078 - 4 Bytes           372C6E8 : 0                   
+007C - 4 Bytes           372C6EC : 0                   
+0080 - 4 Bytes           372C6F0 : 0                   
+0084 - 4 Bytes           372C6F4 : 0                   
+0088 - 4 Bytes           372C6F8 : 0                   
+008C - 4 Bytes           372C6FC : 0                   
+0090 - Pointer           372C700 : P->0323B428         
+0094 - Pointer           372C704 : P->0323B434         
+0098 - Pointer           372C708 : P->0323B444         
+009C - Pointer           372C70C : P->0323B428         
+00A0 - Pointer           372C710 : P->0323B434         
+00A4 - Pointer           372C714 : P->0323B444         
+00A8 - String            372C718 : piece01.esd         
+00B4 - 4 Bytes           372C724 : 0                   
+00B8 - String            372C728 : piece02.esd         
+00C4 - 4 Bytes           372C734 : 0                   
+00C8 - String            372C738 : piece03.esd         
+00D4 - 4 Bytes           372C744 : 0                   
+00D8 - 4 Bytes           372C748 : 0                   
+00DC - 4 Bytes           372C74C : 0                   
+00E0 - Pointer           372C750 : P->0323B510         
+00E4 - 4 Bytes           372C754 : 0                   
+00E8 - 4 Bytes           372C758 : 0                   
+00EC - 4 Bytes           372C75C : 0                   
+00F0 - 4 Bytes           372C760 : 0                   
+00F4 - 4 Bytes           372C764 : 0                   
+00F8 - 4 Bytes           372C768 : 0                   
+00FC - 4 Bytes           372C76C : 0                   
+0100 - 4 Bytes           372C770 : 0                   
+0104 - 4 Bytes           372C774 : 0                   
+0108 - 4 Bytes           372C778 : 0                   
+010C - 4 Bytes           372C77C : 0                   
+0110 - Pointer           372C780 : P->02A84820         
+0114 - Pointer           372C784 : P->02A84A30         
+0118 - Pointer           372C788 : P->02A84EB0         
+011C - Pointer           372C78C : P->02A84F20         
+0120 - Float             372C790 : 26                  
+0124 - Double            372C794 : -0.0078125          
+012C - 4 Bytes           372C79C : 0                   
+0130 - Float             372C7A0 : 56                  
+0134 - Float             372C7A4 : 7                   
+0138 - Float             372C7A8 : -1                  
+013C - 4 Bytes           372C7AC : 0                   
+0140 - Float             372C7B0 : 76                  
+0144 - Float             372C7B4 : 21                  
+0148 - Float             372C7B8 : -1                  
+014C - 4 Bytes           372C7BC : 0                   
+0150 - Float             372C7C0 : 106                 
+0154 - Float             372C7C4 : 21                  
+0158 - Float             372C7C8 : -1                  
+015C - 4 Bytes           372C7CC : 0                   
+0160 - Float             372C7D0 : 136                 
+0164 - Float             372C7D4 : 33                  
+0168 - Float             372C7D8 : -1                  
+016C - 4 Bytes           372C7DC : 0                   
+0170 - Float             372C7E0 : 176                 
+0174 - Float             372C7E4 : 30                  
+0178 - Float             372C7E8 : -1                  
+017C - 4 Bytes           372C7EC : 0                   
+0180 - Float             372C7F0 : 206                 
+0184 - Float             372C7F4 : 42                  
+0188 - Float             372C7F8 : -1                  
+018C - 4 Bytes           372C7FC : 0                   
+0190 - Float             372C800 : 246                 
+0194 - Float             372C804 : 41                  
+0198 - Float             372C808 : -1                  
+019C - 4 Bytes           372C80C : 0                   
+01A0 - Float             372C810 : 301                 
+01A4 - Float             372C814 : 46                  
+01A8 - Float             372C818 : -1                  
+01AC - 4 Bytes           372C81C : 0                   
+01B0 - Pointer           372C820 : P->41A4CCCD         
+01B4 - Double            372C824 : -0.0078125          
+01BC - 4 Bytes           372C82C : 0                   
+01C0 - Float             372C830 : 50.5                
+01C4 - Float             372C834 : 7                   
+01C8 - Float             372C838 : -1                  
+01CC - 4 Bytes           372C83C : 0                   
+01D0 - Float             372C840 : 70.5                
+01D4 - Float             372C844 : 21                  
+01D8 - Float             372C848 : -1                  
+01DC - 4 Bytes           372C84C : 0                   
+01E0 - Pointer           372C850 : P->42C8CCCD         
+01E4 - Float             372C854 : 21                  
+01E8 - Float             372C858 : -1                  
+01EC - 4 Bytes           372C85C : 0                   
+01F0 - Float             372C860 : 130.6000061         
+01F4 - Float             372C864 : 33                  
+01F8 - Float             372C868 : -1                  
+01FC - 4 Bytes           372C86C : 0                   
+0200 - Pointer           372C870 : P->432A999A         
+0204 - Float             372C874 : 30                  
+0208 - Float             372C878 : -1                  
+020C - 4 Bytes           372C87C : 0                   
+0210 - Pointer           372C880 : P->4348999A         
+0214 - Float             372C884 : 42                  
+0218 - Float             372C888 : -1                  
+021C - 4 Bytes           372C88C : 0                   
+0220 - Pointer           372C890 : P->43708000         
+0224 - Float             372C894 : 41                  
+0228 - Float             372C898 : -1                  
+022C - 4 Bytes           372C89C : 0                   
+0230 - Pointer           372C8A0 : P->41F73333         
+0234 - Double            372C8A4 : -0.0078125          
+023C - 4 Bytes           372C8AC : 0                   
+0240 - Float             372C8B0 : 61.70000076         
+0244 - Float             372C8B4 : 7                   
+0248 - Float             372C8B8 : -1                  
+024C - 4 Bytes           372C8BC : 0                   
+0250 - Float             372C8C0 : 81.5                
+0254 - Float             372C8C4 : 21                  
+0258 - Float             372C8C8 : -1                  
+025C - 4 Bytes           372C8CC : 0                   
+0260 - Float             372C8D0 : 111.5               
+0264 - Float             372C8D4 : 21                  
+0268 - Float             372C8D8 : -1                  
+026C - 4 Bytes           372C8DC : 0                   
+0270 - Float             372C8E0 : 141.3999939         
+0274 - Float             372C8E4 : 33                  
+0278 - Float             372C8E8 : -1                  
+027C - 4 Bytes           372C8EC : 0                   
+0280 - String            372C8F0 : ff5C                
+0285 - Byte              372C8F5 : 0                   
+0286 - 2 Bytes           372C8F6 : 16880               
+0288 - Float             372C8F8 : -1                  
+028C - 4 Bytes           372C8FC : 0                   
+0290 - String            372C900 : ffSC                
+0295 - Byte              372C905 : 0                   
+0296 - Byte              372C906 : 40                  
+0297 - Byte              372C907 : 66                  
+0298 - Float             372C908 : -1                  
+029C - 4 Bytes           372C90C : 0                   
+02A0 - Pointer           372C910 : P->437B8000         
+02A4 - Float             372C914 : 41                  
+02A8 - Float             372C918 : -1                  
+02AC - 4 Bytes           372C91C : 0                   
+02B0 - Float             372C920 : 26                  
+02B4 - Float             372C924 : -9                  
+02B8 - Float             372C928 : -1                  
+02BC - 4 Bytes           372C92C : 0                   
+02C0 - Float             372C930 : 56                  
+02C4 - Float             372C934 : -2                  
+02C8 - Float             372C938 : -1                  
+02CC - 4 Bytes           372C93C : 0                   
+02D0 - Float             372C940 : 76                  
+02D4 - Float             372C944 : 12                  
+02D8 - Float             372C948 : -1                  
+02DC - 4 Bytes           372C94C : 0                   
+02E0 - Float             372C950 : 106                 
+02E4 - Float             372C954 : 12                  
+02E8 - Float             372C958 : -1                  
+02EC - 4 Bytes           372C95C : 0                   
+02F0 - Float             372C960 : 136                 
+02F4 - Float             372C964 : 24                  
+02F8 - Float             372C968 : -1                  
+02FC - 4 Bytes           372C96C : 0                   
+0300 - Float             372C970 : 176                 
+0304 - Float             372C974 : 21                  
+0308 - Float             372C978 : -1                  
+030C - 4 Bytes           372C97C : 0                   
+0310 - Float             372C980 : 206                 
+0314 - Float             372C984 : 33                  
+0318 - Float             372C988 : -1                  
+031C - 4 Bytes           372C98C : 0                   
+0320 - Float             372C990 : 246                 
+0324 - Float             372C994 : 32                  
+0328 - Float             372C998 : -1                  
+032C - 4 Bytes           372C99C : 0                   
+0330 - 4 Bytes           372C9A0 : 0                   
+0334 - 4 Bytes           372C9A4 : 2                   
+0338 - 4 Bytes           372C9A8 : 4                   
+033C - 4 Bytes           372C9AC : 6                   
+0340 - 4 Bytes           372C9B0 : 8                   
+0344 - 4 Bytes           372C9B4 : 10                  
+0348 - 4 Bytes           372C9B8 : 12                  
+034C - 4 Bytes           372C9BC : 14                  
+0350 - 4 Bytes           372C9C0 : 1                   
+0354 - 4 Bytes           372C9C4 : 3                   
+0358 - 4 Bytes           372C9C8 : 5                   
+035C - 4 Bytes           372C9CC : 7                   
+0360 - 4 Bytes           372C9D0 : 9                   
+0364 - 4 Bytes           372C9D4 : 11                  
+0368 - 4 Bytes           372C9D8 : 13                  
+036C - 4 Bytes           372C9DC : 15                  
+0370 - 4 Bytes           372C9E0 : 3                   
+0374 - 4 Bytes           372C9E4 : 3                   
+0378 - 4 Bytes           372C9E8 : 3                   
+037C - 4 Bytes           372C9EC : 4                   
+0380 - 4 Bytes           372C9F0 : 3                   
+0384 - 4 Bytes           372C9F4 : 3                   
+0388 - 4 Bytes           372C9F8 : 4                   
+038C - 4 Bytes           372C9FC : 3                   
+0390 - 4 Bytes           372CA00 : 3                   
+0394 - 4 Bytes           372CA04 : 3                   
+0398 - 4 Bytes           372CA08 : 3                   
+039C - 4 Bytes           372CA0C : 5                   
+03A0 - 4 Bytes           372CA10 : 3                   
+03A4 - 4 Bytes           372CA14 : 3                   
+03A8 - 4 Bytes           372CA18 : 5                   
+03AC - 4 Bytes           372CA1C : 3                   
+03B0 - 4 Bytes           372CA20 : 0                   
+03B4 - 4 Bytes           372CA24 : 0                   
+03B8 - 4 Bytes           372CA28 : 0                   
+03BC - 4 Bytes           372CA2C : 1                   
+03C0 - 4 Bytes           372CA30 : 2                   
+03C4 - 4 Bytes           372CA34 : 2                   
+03C8 - 4 Bytes           372CA38 : 3                   
+03CC - 4 Bytes           372CA3C : 4                   
+03D0 - 4 Bytes           372CA40 : 4                   
+03D4 - 4 Bytes           372CA44 : 0                   
+03D8 - 4 Bytes           372CA48 : 0                   
+03DC - 4 Bytes           372CA4C : 0                   
+03E0 - 4 Bytes           372CA50 : 2                   
+03E4 - 4 Bytes           372CA54 : 2                   
+03E8 - 4 Bytes           372CA58 : 2                   
+03EC - 4 Bytes           372CA5C : 4                   
+03F0 - 4 Bytes           372CA60 : 4                   
+03F4 - 4 Bytes           372CA64 : 556                 
+03F8 - 4 Bytes           372CA68 : 559                 
+03FC - 4 Bytes           372CA6C : 523                 
+0400 - 4 Bytes           372CA70 : 563                 
+0404 - 4 Bytes           372CA74 : 566                 
+0408 - 4 Bytes           372CA78 : 569                 
+040C - 4 Bytes           372CA7C : 4294967295          
+0410 - 4 Bytes           372CA80 : 574                 
+0414 - 4 Bytes           372CA84 : 4294967295          
+0418 - 4 Bytes           372CA88 : 3600                
+041C - Pointer           372CA8C : P->0036739B         
+0420 - Pointer           372CA90 : P->0036739B         
+0424 - Pointer           372CA94 : P->0036739B         
+0428 - Pointer           372CA98 : P->0036739B         
+042C - Pointer           372CA9C : P->0036739B         
+0430 - Pointer           372CAA0 : P->0036739B         
+0434 - Pointer           372CAA4 : P->0036739B         
+0438 - Pointer           372CAA8 : P->0036739B         
+043C - 4 Bytes           372CAAC : 0                   
+0440 - Float             372CAB0 : -474                
+0444 - Double            372CAB4 : -0.0078125          
+044C - 4 Bytes           372CABC : 0                   
+0450 - Float             372CAC0 : -396                
+0454 - Double            372CAC4 : -0.0078125          
+045C - 4 Bytes           372CACC : 0                   
+0460 - Float             372CAD0 : -360                
+0464 - Float             372CAD4 : 2                   
+0468 - Float             372CAD8 : -1                  
+046C - 4 Bytes           372CADC : 0                   
+0470 - Float             372CAE0 : -292                
+0474 - Float             372CAE4 : 6.900000095         
+0478 - Float             372CAE8 : -1                  
+047C - 4 Bytes           372CAEC : 0                   
+0480 - Float             372CAF0 : -247                
+0484 - Double            372CAF4 : -0.0078125          
+048C - 4 Bytes           372CAFC : 0                   
+0490 - Float             372CB00 : -175                
+0494 - Float             372CB04 : 1                   
+0498 - Float             372CB08 : -1                  
+049C - 4 Bytes           372CB0C : 0                   
+04A0 - Float             372CB10 : -125                
+04A4 - Float             372CB14 : 1                   
+04A8 - Float             372CB18 : -1                  
+04AC - 4 Bytes           372CB1C : 0                   
+04B0 - Float             372CB20 : -55                 
+04B4 - Double            372CB24 : -0.0078125          
+04BC - 4 Bytes           372CB2C : 0                   
+04C0 - Float             372CB30 : -23.5               
+04C4 - Float             372CB34 : 1.5                 
+04C8 - Float             372CB38 : -1                  
+04CC - 4 Bytes           372CB3C : 0                   
+04D0 - 4 Bytes           372CB40 : 1                   
+04D4 - Double            372CB44 : -0.00273437425494194
+04DC - 4 Bytes           372CB4C : 0                   
+04E0 - String            372CB50 : FdxZPU              
+04E7 - Byte              372CB57 : 0                   
+04E8 - 4 Bytes           372CB58 : 1                   
+04EC - Double            372CB5C : -0.00273437425494194
+04F4 - 4 Bytes           372CB64 : 0                   
+04F8 - String            372CB68 : Fdx__Z              
+04FF - Byte              372CB6F : 0                   
+0500 - 4 Bytes           372CB70 : 1                   
+0504 - Double            372CB74 : 0.00273437425494194 
+050C - Float             372CB7C : -0.1000000015       
+0510 - 4 Bytes (Hex)     372CB80 : 6E6E8282            
+0514 - 4 Bytes (Hex)     372CB84 : 00006469            
+0518 - 4 Bytes           372CB88 : 1                   
+051C - Double            372CB8C : 0.00273437425494194 
+0524 - Float             372CB94 : -0.1000000015       
+0528 - String            372CB98 : xxns_K              
+052F - Byte              372CB9F : 0                   
+0530 - 4 Bytes           372CBA0 : 1                   
+0534 - Double            372CBA4 : 0.00273437425494194 
+053C - Float             372CBAC : -0.1000000015       
+0540 - Pointer           372CBB0 : P->3C828264         
+0544 - 4 Bytes (Hex)     372CBB4 : 00004141            
+0548 - 4 Bytes           372CBB8 : 1                   
+054C - Double            372CBBC : 0.00273437425494194 
+0554 - Float             372CBC4 : -0.1000000015       
+0558 - 4 Bytes (Hex)     372CBC8 : 556E8282            
+055C - 4 Bytes (Hex)     372CBCC : 00004655            
+0560 - 4 Bytes           372CBD0 : 1                   
+0564 - Double            372CBD4 : 0.00273437425494194 
+056C - Float             372CBDC : -0.1000000015       
+0570 - String            372CBE0 : nZd_UK              
+0577 - Byte              372CBE7 : 0                   
+0578 - 4 Bytes           372CBE8 : 1                   
+057C - Double            372CBEC : 0.00273437425494194 
+0584 - Float             372CBF4 : -0.1000000015       
+0588 - String            372CBF8 : xxn7A7              
+058F - Byte              372CBFF : 0                   
+0590 - 4 Bytes           372CC00 : 1                   
+0594 - Double            372CC04 : 0.00273437425494194 
+059C - Float             372CC0C : -0.1000000015       
+05A0 - String            372CC10 : ZnnP__              
+05A7 - Byte              372CC17 : 0                   
+05A8 - 4 Bytes           372CC18 : 1                   
+05AC - Double            372CC1C : 0.00273437425494194 
+05B4 - Float             372CC24 : -0.1000000015       
+05B8 - 4 Bytes           372CC28 : 1515881100          
+05BC - 4 Bytes (Hex)     372CC2C : 00003747            
+05C0 - 4 Bytes           372CC30 : 1                   
+05C4 - Double            372CC34 : 0.0078125           
+05CC - 4 Bytes           372CC3C : 0                   
+05D0 - 4 Bytes (Hex)     372CC40 : 6478BEB4            
+05D4 - 4 Bytes (Hex)     372CC44 : 0000505A            
+05D8 - 4 Bytes           372CC48 : 60                  
+05DC - Double            372CC4C : -0.00273437425494194
+05E4 - 4 Bytes           372CC54 : 0                   
+05E8 - 4 Bytes           372CC58 : 1435271800          
+05EC - 4 Bytes (Hex)     372CC5C : 00005F4B            
+05F0 - Pointer           372CC60 : P->0A000001         
+05F4 - 4 Bytes           372CC64 : 80                  
+05F8 - Float             372CC68 : 10                  
+05FC - Float             372CC6C : 130                 
+0600 - 4 Bytes           372CC70 : 1                   
+0604 - 4 Bytes           372CC74 : 0                   
+0608 - 4 Bytes           372CC78 : 0                   
+060C - 4 Bytes           372CC7C : 0                   
+0610 - 4 Bytes (Hex)     372CC80 : 6EA50001            
+0614 - 4 Bytes           372CC84 : 90                  
+0618 - Float             372CC88 : 10                  
+061C - Float             372CC8C : 200                 
+0620 - Pointer           372CC90 : P->1E460001         
+0624 - 4 Bytes           372CC94 : 10                  
+0628 - Float             372CC98 : 10                  
+062C - Float             372CC9C : 120                 
+0630 - Pointer           372CCA0 : P->1E140001         
+0634 - 4 Bytes           372CCA4 : 35                  
+0638 - Float             372CCA8 : 10                  
+063C - Float             372CCAC : 60                  
+0640 - Pointer           372CCB0 : P->28280001         
+0644 - 4 Bytes           372CCB4 : 25                  
+0648 - Float             372CCB8 : 10                  
+064C - Float             372CCBC : 60                  
+0650 - Pointer           372CCC0 : P->28320001         
+0654 - 4 Bytes           372CCC4 : 30                  
+0658 - Float             372CCC8 : 10                  
+065C - Float             372CCCC : 60                  
+0660 - Pointer           372CCD0 : P->0A0A0001         
+0664 - 4 Bytes           372CCD4 : 40                  
+0668 - Float             372CCD8 : 35                  
+066C - Float             372CCDC : 100                 
+0670 - Pointer           372CCE0 : P->32320001         
+0674 - 4 Bytes           372CCE4 : 75                  
+0678 - Float             372CCE8 : 10                  
+067C - Float             372CCEC : 60                  
+0680 - Pointer           372CCF0 : P->0A000001         
+0684 - 4 Bytes           372CCF4 : 80                  
+0688 - Float             372CCF8 : 10                  
+068C - Float             372CCFC : 130                 
+0690 - 4 Bytes (Hex)     372CD00 : 78820001            
+0694 - 4 Bytes           372CD04 : 190                 
+0698 - Float             372CD08 : 10                  
+069C - Float             372CD0C : 200                 
+06A0 - 4 Bytes           372CD10 : 1                   
+06A4 - 4 Bytes           372CD14 : 0                   
+06A8 - 4 Bytes           372CD18 : 0                   
+06AC - 4 Bytes           372CD1C : 0                   
+06B0 - Pointer           372CD20 : P->0A00003C         
+06B4 - 4 Bytes           372CD24 : 80                  
+06B8 - Float             372CD28 : 10                  
+06BC - Float             372CD2C : 130                 
+06C0 - 4 Bytes           372CD30 : 74                  
+06C4 - 4 Bytes           372CD34 : 89                  
+06C8 - 4 Bytes           372CD38 : 74                  
+06CC - 4 Bytes           372CD3C : 89                  
+06D0 - 4 Bytes           372CD40 : 74                  
+06D4 - 4 Bytes           372CD44 : 89                  
+06D8 - 4 Bytes           372CD48 : 108000              
+06DC - 4 Bytes           372CD4C : 720                 
+06E0 - 4 Bytes           372CD50 : 720                 
+06E4 - 4 Bytes           372CD54 : 480                 
+06E8 - 4 Bytes           372CD58 : 480                 
+06EC - 4 Bytes           372CD5C : 0                   
+06F0 - 4 Bytes           372CD60 : 108000              
+06F4 - 4 Bytes           372CD64 : 1080                
+06F8 - 4 Bytes           372CD68 : 1080                
+06FC - 4 Bytes           372CD6C : 540                 
+0700 - 4 Bytes           372CD70 : 540                 
+0704 - 4 Bytes           372CD74 : 0                   
+0708 - 4 Bytes           372CD78 : 108000              
+070C - 4 Bytes           372CD7C : 720                 
+0710 - 4 Bytes           372CD80 : 720                 
+0714 - 4 Bytes           372CD84 : 480                 
+0718 - 4 Bytes           372CD88 : 480                 
+071C - 4 Bytes           372CD8C : 0                   
+0720 - 4 Bytes           372CD90 : 108000              
+0724 - 4 Bytes           372CD94 : 480                 
+0728 - 4 Bytes           372CD98 : 720                 
+072C - 4 Bytes           372CD9C : 480                 
+0730 - 4 Bytes           372CDA0 : 480                 
+0734 - 4 Bytes           372CDA4 : 0                   
+0738 - 4 Bytes           372CDA8 : 108000              
+073C - 4 Bytes           372CDAC : 420                 
+0740 - 4 Bytes           372CDB0 : 600                 
+0744 - 4 Bytes           372CDB4 : 420                 
+0748 - 4 Bytes           372CDB8 : 420                 
+074C - 4 Bytes           372CDBC : 0                   
+0750 - 4 Bytes           372CDC0 : 108000              
+0754 - 4 Bytes           372CDC4 : 420                 
+0758 - 4 Bytes           372CDC8 : 540                 
+075C - 4 Bytes           372CDCC : 420                 
+0760 - 4 Bytes           372CDD0 : 420                 
+0764 - 4 Bytes           372CDD4 : 0                   
+0768 - 4 Bytes           372CDD8 : 108000              
+076C - 4 Bytes           372CDDC : 1800                
+0770 - 4 Bytes           372CDE0 : 2700                
+0774 - 4 Bytes           372CDE4 : 1800                
+0778 - 4 Bytes           372CDE8 : 1800                
+077C - 4 Bytes           372CDEC : 0                   
+0780 - 4 Bytes           372CDF0 : 108000              
+0784 - 4 Bytes           372CDF4 : 600                 
+0788 - 4 Bytes           372CDF8 : 1200                
+078C - 4 Bytes           372CDFC : 600                 
+0790 - 4 Bytes           372CE00 : 1200                
+0794 - 4 Bytes           372CE04 : 0                   
+0798 - 4 Bytes           372CE08 : 0                   
+079C - 4 Bytes           372CE0C : 0                   
+07A0 - 4 Bytes           372CE10 : 0                   
+07A4 - 4 Bytes           372CE14 : 0                   
+07A8 - 4 Bytes           372CE18 : 0                   
+07AC - 4 Bytes           372CE1C : 0                   
+07B0 - 4 Bytes           372CE20 : 0                   
+07B4 - 4 Bytes           372CE24 : 0                   
+07B8 - 4 Bytes           372CE28 : 0                   
+07BC - 4 Bytes           372CE2C : 4294967295          
+07C0 - 4 Bytes           372CE30 : 4294967295          
+07C4 - 4 Bytes           372CE34 : 0                   
+07C8 - 4 Bytes           372CE38 : 0                   
+07CC - 4 Bytes           372CE3C : 0                   
+07D0 - 4 Bytes           372CE40 : 0                   
+07D4 - 4 Bytes           372CE44 : 0                   
+07D8 - 4 Bytes           372CE48 : 0                   
+07DC - 4 Bytes           372CE4C : 0                   
+07E0 - 4 Bytes           372CE50 : 4294967295          
+07E4 - 4 Bytes           372CE54 : 0                   
+07E8 - 4 Bytes           372CE58 : 0                   
+07EC - 4 Bytes           372CE5C : 0                   
+07F0 - 4 Bytes           372CE60 : 0                   
+07F4 - 4 Bytes           372CE64 : 0                   
+07F8 - 4 Bytes           372CE68 : 0                   
+07FC - 4 Bytes           372CE6C : 0                   
+0800 - 4 Bytes           372CE70 : 0                   
+0804 - 4 Bytes           372CE74 : 0                   
+0808 - 4 Bytes           372CE78 : 0                   
+080C - 4 Bytes           372CE7C : 0                   
+0810 - Pointer           372CE80 : P->0323B804         
+0814 - Pointer           372CE84 : P->0323B810         
+0818 - Pointer           372CE88 : P->0323B81C         
+081C - Pointer           372CE8C : P->0323B828         
+0820 - Pointer           372CE90 : P->0323B834         
+0824 - Pointer           372CE94 : P->0323B840         
+0828 - Pointer           372CE98 : P->0323B84C         
+082C - Pointer           372CE9C : P->0323B858         
+0830 - Pointer           372CEA0 : P->0323B864         
+0834 - 4 Bytes           372CEA4 : 0                   
+0838 - 4 Bytes           372CEA8 : 0                   
+083C - 4 Bytes           372CEAC : 0                   
+0840 - Pointer           372CEB0 : P->0323BAC0         
+0844 - 4 Bytes           372CEB4 : 0                   
+0848 - 4 Bytes           372CEB8 : 0                   
+084C - 4 Bytes           372CEBC : 0                   
+0850 - 4 Bytes           372CEC0 : 0                   
+0854 - 4 Bytes           372CEC4 : 0                   
+0858 - 4 Bytes           372CEC8 : 0                   
+085C - 4 Bytes           372CECC : 0                   
+0860 - 4 Bytes           372CED0 : 0                   
+0864 - 4 Bytes           372CED4 : 0                   
+0868 - 4 Bytes           372CED8 : 0                   
+086C - 4 Bytes           372CEDC : 0                   
+0870 - Pointer           372CEE0 : P->0323BC40         
+0874 - 4 Bytes           372CEE4 : 0                   
+0878 - 4 Bytes           372CEE8 : 0                   
+087C - 4 Bytes           372CEEC : 0                   
+0880 - 4 Bytes           372CEF0 : 0                   
+0884 - 4 Bytes           372CEF4 : 0                   
+0888 - 4 Bytes           372CEF8 : 0                   
+088C - 4 Bytes           372CEFC : 0                   
+0890 - 4 Bytes           372CF00 : 1                   
+0894 - Float             372CF04 : -28.39999962        
+0898 - Float             372CF08 : -52.40000153        
+089C - Pointer           372CF0C : P->41C00001         
+08A0 - 4 Bytes           372CF10 : 1                   
+08A4 - Float             372CF14 : -189.3999939        
+08A8 - Float             372CF18 : -213.3999939        
+08AC - Float             372CF1C : 24                  
+08B0 - 4 Bytes           372CF20 : 1                   
+08B4 - Float             372CF24 : -213.3999939        
+08B8 - Float             372CF28 : -189.3999939        
+08BC - Float             372CF2C : -24                 
+08C0 - 4 Bytes           372CF30 : 1                   
+08C4 - Float             372CF34 : -129.3999939        
+08C8 - Float             372CF38 : -105.4000015        
+08CC - Float             372CF3C : -23.99999237        
+08D0 - 4 Bytes           372CF40 : 1                   
+08D4 - Float             372CF44 : -189.3999939        
+08D8 - Float             372CF48 : -213.3999939        
+08DC - Float             372CF4C : 24                  
+08E0 - Float             372CF50 : -28                 
+08E4 - Float             372CF54 : -75.5               
+08E8 - Float             372CF58 : -168.5              
+08EC - Float             372CF5C : -214                
+08F0 - Float             372CF60 : -240                
+08F4 - Float             372CF64 : -90                 
+08F8 - Float             372CF68 : -160                
+08FC - Float             372CF6C : -214                
+0900 - Pointer           372CF70 : P->0323C210         
+0904 - 4 Bytes           372CF74 : 0                   
+0908 - 4 Bytes           372CF78 : 0                   
+090C - 4 Bytes           372CF7C : 0                   
+0910 - 4 Bytes           372CF80 : 0                   
+0914 - 4 Bytes           372CF84 : 0                   
+0918 - 4 Bytes           372CF88 : 0                   
+091C - 4 Bytes           372CF8C : 0                   
+0920 - Pointer           372CF90 : P->0323C240         
+0924 - 4 Bytes           372CF94 : 0                   
+0928 - 4 Bytes           372CF98 : 0                   
+092C - 4 Bytes           372CF9C : 0                   
+0930 - 4 Bytes           372CFA0 : 0                   
+0934 - 4 Bytes           372CFA4 : 0                   
+0938 - 4 Bytes           372CFA8 : 0                   
+093C - 4 Bytes           372CFAC : 0                   
+0940 - Float             372CFB0 : 25                  
+0944 - Float             372CFB4 : 12.5                
+0948 - Float             372CFB8 : -61                 
+094C - 4 Bytes           372CFBC : 0                   
+0950 - Float             372CFC0 : 25                  
+0954 - Float             372CFC4 : 7.5                 
+0958 - Float             372CFC8 : -61                 
+095C - 4 Bytes           372CFCC : 0                   
+0960 - Pointer           372CFD0 : P->41BA6666         
+0964 - Float             372CFD4 : 20.5                
+0968 - Float             372CFD8 : -54.45000076        
+096C - 4 Bytes           372CFDC : 0                   
+0970 - Pointer           372CFE0 : P->41BA6666         
+0974 - Float             372CFE4 : 15.5                
+0978 - Float             372CFE8 : -67.5               
+097C - 4 Bytes           372CFEC : 0                   
+0980 - Pointer           372CFF0 : P->41BA6666         
+0984 - Float             372CFF4 : 15.5                
+0988 - Float             372CFF8 : -54.45000076        
+098C - 4 Bytes           372CFFC : 0                   
+0990 - Pointer           372D000 : P->41BA6666         
+0994 - Float             372D004 : 20.5                
+0998 - Float             372D008 : -67.5               
+099C - 4 Bytes           372D00C : 0                   
+09A0 - Pointer           372D010 : P->41BA6666         
+09A4 - Float             372D014 : 9                   
+09A8 - Float             372D018 : -54.45000076        
+09AC - 4 Bytes           372D01C : 0                   
+09B0 - Pointer           372D020 : P->41BA6666         
+09B4 - Float             372D024 : 9                   
+09B8 - Float             372D028 : -67.5               
+09BC - Double            372D02C : 0.0078125           
+09C4 - 4 Bytes           372D034 : 0                   
+09C8 - 4 Bytes           372D038 : 0                   
+09CC - 4 Bytes           372D03C : 0                   
+09D0 - Double            372D040 : 0.0078125           
+09D8 - 4 Bytes           372D048 : 0                   
+09DC - 4 Bytes           372D04C : 0                   
+09E0 - 4 Bytes           372D050 : 0                   
+09E4 - Double            372D054 : 0.0078125           
+09EC - 4 Bytes           372D05C : 0                   
+09F0 - 4 Bytes           372D060 : 0                   
+09F4 - 4 Bytes           372D064 : 0                   
+09F8 - Double            372D068 : 0.0078125           
+0A00 - Double            372D070 : -0.0078125          
+0A08 - 4 Bytes           372D078 : 0                   
+0A0C - Double            372D07C : 0.0078125           
+0A14 - 4 Bytes           372D084 : 0                   
+0A18 - 4 Bytes           372D088 : 0                   
+0A1C - 4 Bytes           372D08C : 0                   
+0A20 - 4 Bytes           372D090 : 0                   
+0A24 - Double            372D094 : 0.0078125           
+0A2C - 4 Bytes           372D09C : 0                   
+0A30 - 4 Bytes           372D0A0 : 0                   
+0A34 - 4 Bytes           372D0A4 : 0                   
+0A38 - Double            372D0A8 : 0.0078125           
+0A40 - Float             372D0B0 : -1                  
+0A44 - 4 Bytes           372D0B4 : 0                   
+0A48 - 4 Bytes           372D0B8 : 0                   
+0A4C - 4 Bytes           372D0BC : 0                   
+0A50 - Double            372D0C0 : -0.0078125          
+0A58 - 4 Bytes           372D0C8 : 0                   
+0A5C - 4 Bytes           372D0CC : 0                   
+0A60 - 4 Bytes           372D0D0 : 0                   
+0A64 - Double            372D0D4 : 0.0078125           
+0A6C - 4 Bytes           372D0DC : 0                   
+0A70 - 4 Bytes           372D0E0 : 0                   
+0A74 - 4 Bytes           372D0E4 : 0                   
+0A78 - Double            372D0E8 : 0.0078125           
+0A80 - Double            372D0F0 : 0.0078125           
+0A88 - 4 Bytes           372D0F8 : 0                   
+0A8C - Double            372D0FC : -0.0078125          
+0A94 - 4 Bytes           372D104 : 0                   
+0A98 - 4 Bytes           372D108 : 0                   
+0A9C - 4 Bytes           372D10C : 0                   
+0AA0 - 4 Bytes           372D110 : 0                   
+0AA4 - Double            372D114 : 0.0078125           
+0AAC - 4 Bytes           372D11C : 0                   
+0AB0 - 4 Bytes           372D120 : 0                   
+0AB4 - 4 Bytes           372D124 : 0                   
+0AB8 - Double            372D128 : 0.0078125           
+0AC0 - String            372D130 : ID_DUMMY            
+0AC9 - Byte              372D139 : 0                   
+0ACA - Byte              372D13A : 0                   
+0ACB - Byte              372D13B : 0                   
+0ACC - 4 Bytes           372D13C : 0                   
+0AD0 - 4 Bytes           372D140 : 6                   
+0AD4 - 4 Bytes           372D144 : 0                   
+0AD8 - 4 Bytes           372D148 : 0                   
+0ADC - 4 Bytes           372D14C : 0                   
+0AE0 - 4 Bytes           372D150 : 0                   
+0AE4 - 4 Bytes           372D154 : 0                   
+0AE8 - 4 Bytes           372D158 : 0                   
+0AEC - 4 Bytes           372D15C : 0                   
+0AF0 - String            372D160 : ID_PL_000           
+0AFA - Byte              372D16A : 0                   
+0AFB - Byte              372D16B : 0                   
+0AFC - 4 Bytes           372D16C : 0                   
+0B00 - 4 Bytes           372D170 : 7                   
+0B04 - 4 Bytes           372D174 : 0                   
+0B08 - 4 Bytes           372D178 : 0                   
+0B0C - Double            372D17C : 0.0078125           
+0B14 - Float             372D184 : 1.5                 
+0B18 - 4 Bytes           372D188 : 0                   
+0B1C - 4 Bytes           372D18C : 0                   
+0B20 - String            372D190 : ID_PL_001           
+0B2A - Byte              372D19A : 0                   
+0B2B - Byte              372D19B : 0                   
+0B2C - 4 Bytes           372D19C : 0                   
+0B30 - 4 Bytes           372D1A0 : 7                   
+0B34 - 4 Bytes           372D1A4 : 0                   
+0B38 - 4 Bytes           372D1A8 : 0                   
+0B3C - Double            372D1AC : 0.0078125           
+0B44 - Float             372D1B4 : 1.5                 
+0B48 - 4 Bytes           372D1B8 : 0                   
+0B4C - 4 Bytes           372D1BC : 0                   
+0B50 - String            372D1C0 : ID_PL_002           
+0B5A - Byte              372D1CA : 0                   
+0B5B - Byte              372D1CB : 0                   
+0B5C - 4 Bytes           372D1CC : 0                   
+0B60 - 4 Bytes           372D1D0 : 7                   
+0B64 - 4 Bytes           372D1D4 : 0                   
+0B68 - 4 Bytes           372D1D8 : 0                   
+0B6C - Double            372D1DC : 0.0078125           
+0B74 - Float             372D1E4 : 1.5                 
+0B78 - 4 Bytes           372D1E8 : 0                   
+0B7C - 4 Bytes           372D1EC : 0                   
+0B80 - String            372D1F0 : ID_PL_027           
+0B8A - Byte              372D1FA : 0                   
+0B8B - Byte              372D1FB : 0                   
+0B8C - 4 Bytes           372D1FC : 0                   
+0B90 - 4 Bytes           372D200 : 7                   
+0B94 - 4 Bytes           372D204 : 0                   
+0B98 - 4 Bytes           372D208 : 0                   
+0B9C - Double            372D20C : 0.0078125           
+0BA4 - Float             372D214 : 1.5                 
+0BA8 - 4 Bytes           372D218 : 0                   
+0BAC - 4 Bytes           372D21C : 0                   
+0BB0 - String            372D220 : ID_PL_030           
+0BBA - Byte              372D22A : 0                   
+0BBB - Byte              372D22B : 0                   
+0BBC - 4 Bytes           372D22C : 0                   
+0BC0 - 4 Bytes           372D230 : 7                   
+0BC4 - 4 Bytes           372D234 : 0                   
+0BC8 - 4 Bytes           372D238 : 0                   
+0BCC - Double            372D23C : 0.0078125           
+0BD4 - Float             372D244 : 1.5                 
+0BD8 - 4 Bytes           372D248 : 0                   
+0BDC - 4 Bytes           372D24C : 0                   
+0BE0 - String            372D250 : ID_PL_031           
+0BEA - Byte              372D25A : 0                   
+0BEB - Byte              372D25B : 0                   
+0BEC - 4 Bytes           372D25C : 0                   
+0BF0 - 4 Bytes           372D260 : 7                   
+0BF4 - 4 Bytes           372D264 : 0                   
+0BF8 - 4 Bytes           372D268 : 0                   
+0BFC - Double            372D26C : 0.0078125           
+0C04 - Float             372D274 : 1.5                 
+0C08 - 4 Bytes           372D278 : 0                   
+0C0C - 4 Bytes           372D27C : 0                   
+0C10 - String            372D280 : ID_PL_032           
+0C1A - Byte              372D28A : 0                   
+0C1B - Byte              372D28B : 0                   
+0C1C - 4 Bytes           372D28C : 0                   
+0C20 - 4 Bytes           372D290 : 7                   
+0C24 - 4 Bytes           372D294 : 0                   
+0C28 - 4 Bytes           372D298 : 0                   
+0C2C - Double            372D29C : 0.0078125           
+0C34 - Float             372D2A4 : 1.5                 
+0C38 - 4 Bytes           372D2A8 : 0                   
+0C3C - 4 Bytes           372D2AC : 0                   
+0C40 - String            372D2B0 : ID_SO_101           
+0C4A - Byte              372D2BA : 0                   
+0C4B - Byte              372D2BB : 0                   
+0C4C - 4 Bytes           372D2BC : 0                   
+0C50 - 4 Bytes           372D2C0 : 0                   
+0C54 - 4 Bytes           372D2C4 : 0                   
+0C58 - 4 Bytes           372D2C8 : 0                   
+0C5C - 4 Bytes           372D2CC : 0                   
+0C60 - 4 Bytes           372D2D0 : 0                   
+0C64 - 4 Bytes           372D2D4 : 0                   
+0C68 - 4 Bytes           372D2D8 : 0                   
+0C6C - 4 Bytes           372D2DC : 0                   
+0C70 - String            372D2E0 : ID_SO_179           
+0C7A - Byte              372D2EA : 0                   
+0C7B - Byte              372D2EB : 0                   
+0C7C - 4 Bytes           372D2EC : 0                   
+0C80 - 4 Bytes           372D2F0 : 0                   
+0C84 - 4 Bytes           372D2F4 : 0                   
+0C88 - 4 Bytes           372D2F8 : 0                   
+0C8C - 4 Bytes           372D2FC : 0                   
+0C90 - 4 Bytes           372D300 : 0                   
+0C94 - 4 Bytes           372D304 : 0                   
+0C98 - 4 Bytes           372D308 : 0                   
+0C9C - 4 Bytes           372D30C : 0                   
+0CA0 - String            372D310 : ID_EE_271           
+0CAA - Byte              372D31A : 0                   
+0CAB - Byte              372D31B : 0                   
+0CAC - 4 Bytes           372D31C : 0                   
+0CB0 - 4 Bytes           372D320 : 0                   
+0CB4 - 4 Bytes           372D324 : 0                   
+0CB8 - 4 Bytes           372D328 : 0                   
+0CBC - 4 Bytes           372D32C : 0                   
+0CC0 - 4 Bytes           372D330 : 0                   
+0CC4 - 4 Bytes           372D334 : 0                   
+0CC8 - 4 Bytes           372D338 : 0                   
+0CCC - 4 Bytes           372D33C : 0                   
+0CD0 - String            372D340 : ID_SO_029           
+0CDA - Byte              372D34A : 0                   
+0CDB - Byte              372D34B : 0                   
+0CDC - 4 Bytes           372D34C : 0                   
+0CE0 - 4 Bytes           372D350 : 0                   
+0CE4 - 4 Bytes           372D354 : 0                   
+0CE8 - 4 Bytes           372D358 : 0                   
+0CEC - 4 Bytes           372D35C : 0                   
+0CF0 - 4 Bytes           372D360 : 0                   
+0CF4 - 4 Bytes           372D364 : 0                   
+0CF8 - 4 Bytes           372D368 : 0                   
+0CFC - 4 Bytes           372D36C : 0                   
+0D00 - String            372D370 : ID_SO_191           
+0D0A - Byte              372D37A : 0                   
+0D0B - Byte              372D37B : 0                   
+0D0C - 4 Bytes           372D37C : 0                   
+0D10 - 4 Bytes           372D380 : 0                   
+0D14 - 4 Bytes           372D384 : 0                   
+0D18 - 4 Bytes           372D388 : 0                   
+0D1C - 4 Bytes           372D38C : 0                   
+0D20 - 4 Bytes           372D390 : 0                   
+0D24 - 4 Bytes           372D394 : 0                   
+0D28 - 4 Bytes           372D398 : 0                   
+0D2C - 4 Bytes           372D39C : 0                   
+0D30 - String            372D3A0 : ID_SO_192           
+0D3A - Byte              372D3AA : 0                   
+0D3B - Byte              372D3AB : 0                   
+0D3C - 4 Bytes           372D3AC : 0                   
+0D40 - 4 Bytes           372D3B0 : 0                   
+0D44 - 4 Bytes           372D3B4 : 0                   
+0D48 - 4 Bytes           372D3B8 : 0                   
+0D4C - 4 Bytes           372D3BC : 0                   
+0D50 - 4 Bytes           372D3C0 : 0                   
+0D54 - 4 Bytes           372D3C4 : 0                   
+0D58 - 4 Bytes           372D3C8 : 0                   
+0D5C - 4 Bytes           372D3CC : 0                   
+0D60 - 4 Bytes           372D3D0 : 0                   
+0D64 - 4 Bytes           372D3D4 : 0                   
+0D68 - 4 Bytes           372D3D8 : 0                   
+0D6C - 4 Bytes           372D3DC : 0                   
+0D70 - 4 Bytes           372D3E0 : 0                   
+0D74 - 4 Bytes           372D3E4 : 0                   
+0D78 - 4 Bytes           372D3E8 : 0                   
+0D7C - 4 Bytes           372D3EC : 0                   
+0D80 - 4 Bytes           372D3F0 : 0                   
+0D84 - 4 Bytes           372D3F4 : 0                   
+0D88 - 4 Bytes           372D3F8 : 0                   
+0D8C - 4 Bytes           372D3FC : 0                   
+0D90 - Pointer           372D400 : P->439A4000         
+0D94 - Float             372D404 : 40                  
+0D98 - Float             372D408 : 150                 
+0D9C - 4 Bytes           372D40C : 0                   
+0DA0 - Pointer           372D410 : P->0323C528         
+0DA4 - 4 Bytes           372D414 : 0                   
+0DA8 - 4 Bytes           372D418 : 0                   
+0DAC - 4 Bytes           372D41C : 0                   
+0DB0 - 4 Bytes           372D420 : 0                   
+0DB4 - 4 Bytes           372D424 : 0                   
+0DB8 - 4 Bytes           372D428 : 0                   
+0DBC - 4 Bytes           372D42C : 0                   
+0DC0 - 4 Bytes           372D430 : 0                   
+0DC4 - 4 Bytes           372D434 : 0                   
+0DC8 - 4 Bytes           372D438 : 0                   
+0DCC - 4 Bytes           372D43C : 0                   
+0DD0 - 4 Bytes           372D440 : 0                   
+0DD4 - 4 Bytes           372D444 : 0                   
+0DD8 - 4 Bytes           372D448 : 0                   
+0DDC - 4 Bytes           372D44C : 0                   
+0DE0 - 4 Bytes           372D450 : 0                   
+0DE4 - 4 Bytes           372D454 : 0                   
+0DE8 - 4 Bytes           372D458 : 0                   
+0DEC - 4 Bytes           372D45C : 0                   
+0DF0 - 4 Bytes           372D460 : 0                   
+0DF4 - 4 Bytes           372D464 : 0                   
+0DF8 - 4 Bytes           372D468 : 0                   
+0DFC - Double            372D46C : -1638.400390625     
+0E04 - Float             372D474 : -2.799999952        
+0E08 - Float             372D478 : -1.5                
+0E0C - Float             372D47C : -2.799999952        
+0E10 - Float             372D480 : -3                  
+0E14 - Float             372D484 : -5                  
+0E18 - Float             372D488 : -10.80000019        
+0E1C - Pointer           372D48C : P->0323C940         
+0E20 - 4 Bytes           372D490 : 0                   
+0E24 - Pointer           372D494 : P->0323C970         
+0E28 - 4 Bytes           372D498 : 0                   
+0E2C - 4 Bytes           372D49C : 0                   
+0E30 - Pointer           372D4A0 : P->0323C9A0         
+0E34 - 4 Bytes           372D4A4 : 0                   
+0E38 - 4 Bytes           372D4A8 : 0                   
+0E3C - 4 Bytes           372D4AC : 0                   
+0E40 - 4 Bytes           372D4B0 : 0                   
+0E44 - 4 Bytes           372D4B4 : 0                   
+0E48 - 4 Bytes           372D4B8 : 0                   
+0E4C - 4 Bytes           372D4BC : 0                   
+0E50 - 4 Bytes           372D4C0 : 0                   
+0E54 - 4 Bytes           372D4C4 : 0                   
+0E58 - 4 Bytes           372D4C8 : 0                   
+0E5C - 4 Bytes           372D4CC : 0                   
+0E60 - 4 Bytes           372D4D0 : 0                   
+0E64 - 4 Bytes           372D4D4 : 0                   
+0E68 - 4 Bytes           372D4D8 : 0                   
+0E6C - 4 Bytes           372D4DC : 0                   
+0E70 - Pointer           372D4E0 : P->0323D03C         
+0E74 - 4 Bytes           372D4E4 : 0                   
+0E78 - 4 Bytes (Hex)     372D4E8 : 80FFFF03            
+0E7C - 4 Bytes           372D4EC : 256                 
+0E80 - Pointer           372D4F0 : P->0323D04C         
+0E84 - 4 Bytes           372D4F4 : 4                   
+0E88 - 4 Bytes (Hex)     372D4F8 : 80FFFF03            
+0E8C - 4 Bytes           372D4FC : 256                 
+0E90 - Pointer           372D500 : P->0323D05C         
+0E94 - 4 Bytes           372D504 : 8                   
+0E98 - 4 Bytes (Hex)     372D508 : 80FFFF03            
+0E9C - 4 Bytes           372D50C : 256                 
+0EA0 - Pointer           372D510 : P->0323D06C         
+0EA4 - 4 Bytes           372D514 : 12                  
+0EA8 - 4 Bytes (Hex)     372D518 : 80FFFF03            
+0EAC - 4 Bytes           372D51C : 256                 
+0EB0 - Pointer           372D520 : P->0323D07C         
+0EB4 - 4 Bytes           372D524 : 16                  
+0EB8 - 4 Bytes (Hex)     372D528 : 80FFFF03            
+0EBC - 4 Bytes           372D52C : 256                 
+0EC0 - Pointer           372D530 : P->0323D08C         
+0EC4 - 4 Bytes           372D534 : 20                  
+0EC8 - 4 Bytes (Hex)     372D538 : 80FFFF03            
+0ECC - 4 Bytes           372D53C : 256                 
+0ED0 - Pointer           372D540 : P->0323D09C         
+0ED4 - 4 Bytes           372D544 : 24                  
+0ED8 - 4 Bytes (Hex)     372D548 : 80FFFF03            
+0EDC - 4 Bytes           372D54C : 256                 
+0EE0 - Pointer           372D550 : P->0323D09C         
+0EE4 - 4 Bytes           372D554 : 28                  
+0EE8 - 4 Bytes (Hex)     372D558 : 80FFFF03            
+0EEC - 4 Bytes           372D55C : 256                 
+0EF0 - Pointer           372D560 : P->0323D0BC         
+0EF4 - 4 Bytes           372D564 : 32                  
+0EF8 - 4 Bytes (Hex)     372D568 : 80FFFF10            
+0EFC - 4 Bytes           372D56C : 0                   
+0F00 - Pointer           372D570 : P->0323D0BC         
+0F04 - 4 Bytes           372D574 : 36                  
+0F08 - 4 Bytes (Hex)     372D578 : 80FFFF10            
+0F0C - 4 Bytes           372D57C : 0                   
+0F10 - Pointer           372D580 : P->0323D0BC         
+0F14 - 4 Bytes           372D584 : 40                  
+0F18 - 4 Bytes (Hex)     372D588 : 80FFFF10            
+0F1C - 4 Bytes           372D58C : 0                   
+0F20 - Pointer           372D590 : P->0323D0BC         
+0F24 - 4 Bytes           372D594 : 44                  
+0F28 - 4 Bytes (Hex)     372D598 : 80FFFF10            
+0F2C - 4 Bytes           372D59C : 0                   
+0F30 - 4 Bytes           372D5A0 : 0                   
+0F34 - 4 Bytes           372D5A4 : 48                  
+0F38 - 4 Bytes (Hex)     372D5A8 : 80FFFF0C            
+0F3C - 4 Bytes           372D5AC : 0                   
+0F40 - 4 Bytes           372D5B0 : 0                   
+0F44 - 4 Bytes           372D5B4 : 49                  
+0F48 - 4 Bytes (Hex)     372D5B8 : 80FFFF0C            
+0F4C - 4 Bytes           372D5BC : 0                   
+0F50 - 4 Bytes           372D5C0 : 0                   
+0F54 - 4 Bytes           372D5C4 : 50                  
+0F58 - 4 Bytes (Hex)     372D5C8 : 80FFFF0C            
+0F5C - 4 Bytes           372D5CC : 0                   
+0F60 - 4 Bytes           372D5D0 : 0                   
+0F64 - 4 Bytes           372D5D4 : 51                  
+0F68 - 4 Bytes (Hex)     372D5D8 : 80FFFF0C            
+0F6C - 4 Bytes           372D5DC : 0                   
+0F70 - 4 Bytes           372D5E0 : 0                   
+0F74 - 4 Bytes           372D5E4 : 52                  
+0F78 - 4 Bytes (Hex)     372D5E8 : 80FFFF0C            
+0F7C - 4 Bytes           372D5EC : 0                   
+0F80 - 4 Bytes           372D5F0 : 0                   
+0F84 - 4 Bytes           372D5F4 : 53                  
+0F88 - 4 Bytes (Hex)     372D5F8 : 80FFFF0C            
+0F8C - 4 Bytes           372D5FC : 0                   
+0F90 - 4 Bytes           372D600 : 0                   
+0F94 - 4 Bytes           372D604 : 54                  
+0F98 - 4 Bytes (Hex)     372D608 : 80FFFF0C            
+0F9C - 4 Bytes           372D60C : 0                   
+0FA0 - 4 Bytes           372D610 : 0                   
+0FA4 - 4 Bytes           372D614 : 55                  
+0FA8 - 4 Bytes (Hex)     372D618 : 80FFFF0C            
+0FAC - 4 Bytes           372D61C : 0                   
+0FB0 - 4 Bytes           372D620 : 0                   
+0FB4 - 4 Bytes           372D624 : 56                  
+0FB8 - 4 Bytes (Hex)     372D628 : 80FFFF0C            
+0FBC - 4 Bytes           372D62C : 0                   
+0FC0 - 4 Bytes           372D630 : 0                   
+0FC4 - 4 Bytes           372D634 : 57                  
+0FC8 - 4 Bytes (Hex)     372D638 : 80FFFF0C            
+0FCC - 4 Bytes           372D63C : 0                   
+0FD0 - 4 Bytes           372D640 : 0                   
+0FD4 - 4 Bytes           372D644 : 58                  
+0FD8 - 4 Bytes (Hex)     372D648 : 80FFFF0C            
+0FDC - 4 Bytes           372D64C : 0                   
+0FE0 - 4 Bytes           372D650 : 0                   
+0FE4 - 4 Bytes           372D654 : 59                  
+0FE8 - 4 Bytes (Hex)     372D658 : 80FFFF0C            
+0FEC - 4 Bytes           372D65C : 0                   
+0FF0 - 4 Bytes           372D660 : 0                   
+0FF4 - 4 Bytes           372D664 : 60                  
+0FF8 - 4 Bytes (Hex)     372D668 : 80FFFF0C            
+0FFC - 4 Bytes           372D66C : 0                   
