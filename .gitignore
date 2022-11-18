@@ -15,6 +15,9 @@ noesis/
 
 # Ghidra
 *.gbf
+*.grf
+*.ps
+*.lock
 
 # MCB/ARC/Settings
 *.mcb
