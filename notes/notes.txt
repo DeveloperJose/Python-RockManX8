@@ -214,3 +214,83 @@ Prm0089 - Axl Rolling Ball Dude
 01E5CAB0 for Error
 
 RXC2.exe+2414642     - 00000004,RXC2.exe+23E1E0B,2E18A818,RXC2.exe+4209E80,...
+
+unk1_p2=[0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 19, 0, 0]
+unk1_p2(hex)=['0', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '13', '0', '0']
+unk1_p2_b2[512, 0, 0, 0, 0, 0, 0, 0, 4865, 0]
+unk1_p2_b2(hex)=['200', '0', '0', '0', '0', '0', '0', '0', '1301', '0']
+[im1/1]
+[shape] 512x448
+[bpp_debug] [0, 1, 0, 0]
+[bpp_debug_b2] [256, 0]
+	[alt] Changing h=0 to 0
+	unk3=['0', '81', '3', '0', '0', '0', '0', '0', '0', '0', '0', '0']
+	unk3_b2['8100', '3', '0', '0', '0', '0']
+
+unk1_p2=[0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 19, 0, 0]
+unk1_p2(hex)=['0', 'C', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '13', '0', '0']
+unk1_p2_b2[3072, 0, 0, 0, 0, 0, 0, 0, 4865, 0]
+unk1_p2_b2(hex)=['C00', '0', '0', '0', '0', '0', '0', '0', '1301', '0']
+[im1/6]
+[shape] 256x256
+[bpp_debug] [0, 1, 0, 0]
+[bpp_debug_b2] [256, 0]
+	[alt] Changing h=0 to 0
+	unk3=['0', '1', '1', '0', '0', '0', '0', '0', '1', '13', '0', '0']
+	unk3_b2['100', '1', '0', '0', '1301', '0']
+	
+OOP FILES
+-cockpit_file0_im0 (X Mugshots)
+	WPG HEADER ENDS AT 1184
+	WPF ALL INFO ENDS AT 1376
+	
+	IM0 BEGINS AT 1420
+	
+-cockpit_file4_im3 (Retry/Weapons)
+	IM ACTUALLY BEGINS AT 1159820
+	
+OOP TYPES
+	0 = ID_IN or ID_BS or ID_EE or ID_EM or ID_PL or ID_NV = em###_orig_ev, bs###_orig_ev, pla_orig_ev, ef##_ev
+	1 = smiliar to 0
+	2 = Not used
+	3 = Unknown but similar to 0
+	4 = 2D Texture
+	5 = Unknown
+	6 = Unknown
+	
+ESP+8==0x362A934 or 0x0321983C or 032286F2
+
+Instruction 027f1baa
+	print(readString(EAX+14)=="ID_2D_020")
+	
+Instruction 027F7C7F
+	EAX (wpg_block)
+		4 bytes (wpg_header)
+		16 bytes (temp#)
+		20 bytes (?)
+		16 bytes (ID_XX_##)
+		readString(EAX+4+16+20)=="ID_2D_000"
+		
+Instruction 027f8538
+	ptr=readPointer(ESP+8)
+	print(readString(ptr))
+	
+	readString(readPointer(ESP+8)) == "ID_2D_000"
+	
+RELEASE_SEMAPHORE_F0
+	Breakpt1 = 0280e937
+	Breakpt2 = 02e54c53
+	EAX = 1C8 (instruction 02e54c53)
+	
+Load X8: 36351872
+Load Main: 3B926948
+
+19FDC4 = 36351872
+
+Sigma Palace
+	- Remove jmp at 027b9e89
+	- Replace mov eax,[esi+04] at 027ba015
+	
+OOP1
+	Zero portrait at 046FC718
+	Sigma Palace 047018E0

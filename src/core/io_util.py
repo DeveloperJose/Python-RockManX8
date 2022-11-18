@@ -72,8 +72,8 @@ class FileStream():
     def write(self, bytes):
         self.__file__.write(bytes)
 
-    def write_int(self, i):
-        int_bytes = i.to_bytes(2, byteorder='little')
+    def write_int(self, i, size_bytes=2):
+        int_bytes = i.to_bytes(size_bytes, byteorder='little')
         self.__file__.write(int_bytes)
 
     def write_float(self, f):
@@ -93,9 +93,9 @@ class FileStream():
         for by in arr:
             self.__file__.write(by)
 
-    def write_int_array(self, arr):
+    def write_int_array(self, arr, size_bytes=2):
         for n in arr:
-            self.write_int(n)
+            self.write_int(n, size_bytes)
 
     def write_string_array(self, arr):
         for st in arr:
