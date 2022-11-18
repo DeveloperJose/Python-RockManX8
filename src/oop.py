@@ -11,8 +11,11 @@ from core.wpg import WPGFile
 from PIL import Image, ImageFile
 from tqdm import tqdm
 
-def int_list_to_hex(l):
-    return [f'{h:X}' for h in l]
+def int_list_to_hex(l, hxd=False):
+    l_out = [f'{h:X}' for h in l]
+    if hxd:
+        return ' '.join(l_out)
+    return l_out
 
 SHOW_FIGURES = False
 DEBUG = False
@@ -41,7 +44,7 @@ if DEBUG:
     # if not DEBUG_ONE:
     # l += [pathlib.Path('/home/jperez/data/textures/2D_LOAD_ATARI00.1E3EE6FB')]
     # l += [pathlib.Path('/home/jperez/data/textures/2D_LOAD_ELEVATOR - Copy.1E3EE6FB')]
-    # l += [pathlib.Path('/home/jperez/data/textures/2D_LOAD_SIGMA.1E3EE6FB')]
+    l += [pathlib.Path('/home/jperez/data/textures/2D_LOAD_SIGMA.1E3EE6FB')]
     l += [pathlib.Path('/home/jperez/data/textures/cockpit.1E3EE6FB')]
 else:
     l = tqdm(list(pathlib.Path('/home/jperez/data/textures').glob('*.1E3EE6FB')))
@@ -96,6 +99,7 @@ for op_file in l:
 
             # wpg_temp (16 bytes)
             # 16 bytes - String in format "temp#"
+            printd(f'TEMP AT {reader.tell()}')
             wpg_temp = reader.read_string()
 
             # wpg_magic1_p1 (20 bytes)
@@ -118,6 +122,8 @@ for op_file in l:
 
             # 16 bytes - String of form ID_XX_###
             wpg_id = reader.read_string()
+            reader.seek(reader.tell()-16)
+            wpg_id_int = reader.read_int_array(16, 1)
 
             # 4 bytes - Always [0, 0]
             wpg_magic2 = reader.read_int_array(2)
@@ -130,9 +136,10 @@ for op_file in l:
             printd(f'Header(hex)={int_list_to_hex(wpg_header)}')
             printd(f'type={wpg_type}, magic1_p1={wpg_magic1_p1}')
             printd(f'magic1_p2={wpg_magic1_p2}')
-            printd(f'Temp={wpg_temp}, ID={wpg_id}, Magic2={wpg_magic2}')
+            printd(f'Temp={wpg_temp}, ID={wpg_id}={int_list_to_hex(wpg_id_int, True)}, Magic2={wpg_magic2}')
 
             wpg_unk1_p1 = reader.read_int_array(64, 1)
+            printd(f'unk1_p1={wpg_unk1_p1}')
             # assert wpg_unk1_p1 == [255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], str(wpg_unk1_p1)
 
             wpg_unk1_p2 = reader.read_int_array(20, 1)
@@ -271,7 +278,7 @@ for op_file in l:
                     break
                 
                 after = reader.tell()
-                im = Image.frombytes("P", shape, im_data, 'raw', 'P', 0, 0)
+                im = Image.frombytes("P", shape, im_data, 'raw', 'P', 0, -1)
                 # arr = np.array(im, dtype=np.uint8)
                 # arr = np.roll(arr, (-wpg_offd, 0))
                 # im = Image.fromarray(arr).convert('P')
@@ -289,7 +296,7 @@ for op_file in l:
                 im.putpalette(arr, 'RGBA')
 
                 im = im.convert('RGB')
-                im.save(f'{figures_dir}/{op_file.stem}_file{file_idx}_im{i}_bpp{bpp}.png')
+                im.save(f'{figures_dir}/{op_file.stem}_file{file_idx}_im{i}_bpp{bpp}_{wpg_id}.png')
             
                 if SHOW_FIGURES:
                     fig, curr = plt.subplots(figsize=(35, 35))
