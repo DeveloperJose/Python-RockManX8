@@ -1,7 +1,10 @@
-# Mega Man X8 WPG plugin by Zheneq (https://github.com/Zheneq/Noesis-Plugins)
-# Modified by RainfallPianist
-#   * Added support for 1BPP TGA
-# Made for Noesis 4.428
+"""
+Mega Man X8 WPG plugin
+- Allows you to load and view Mega Man X8 WPG textures in Noesis
+- Tested for Noesis 4.473
+- Original code by https://github.com/Zheneq/Noesis-Plugins with modifications by me
+    - Added support for 1BPP TGA
+"""
 
 import noesis
 import rapi
@@ -62,7 +65,7 @@ class WPGFile:
             self.data = data
         elif path:
             with open(path, "rb") as tex_file:
-                self.data = tex_file
+                self.data = tex_file.read()
         else:
             self.log("[WPG] No input provided!")
 
@@ -88,8 +91,9 @@ class WPGFile:
 
         self.log("Loaded {} textures", self.count)
 
-        if self.count == 0:
-            noesis.messagePrompt("[WPG] No textures were found in this file")
+        # if self.count == 0:
+            # noesis.messagePrompt("[WPG] No textures were found in this file")
+        print("Loaded", self.count, "textures in file", self.name)
 
         return self.count
 

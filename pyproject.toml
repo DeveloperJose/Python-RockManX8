@@ -4,15 +4,23 @@ version = "0.1.0"
 description = ""
 authors = ["DeveloperJose <josegperez@mail.com>"]
 readme = "README.md"
-packages = [ { include = "megaman-x8-tools", from = "src" } ]
+packages = [ 
+    { include = "megaman-x8-tools", from = "src" }, 
+]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 pillow = "^10.3.0"
+kaitaistruct = {git = "https://github.com/kaitai-io/kaitai_struct_python_runtime.git"}
+pymeow = {url = "https://github.com/qb-0/pyMeow/releases/download/1.73.42/pyMeow-1.73.42.zip"}
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.7"
+pre-commit = "^3.7.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff.format]
+exclude = ["inc_noesis.py"]

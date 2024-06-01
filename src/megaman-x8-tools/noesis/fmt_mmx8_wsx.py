@@ -1,17 +1,36 @@
-# Mega Man X8 WSX plugin by Zheneq (https://github.com/Zheneq/Noesis-Plugins)
-# Modified by RainfallPianist
-#   *
-# Made for Noesis 4.428
-from __future__ import annotations
+"""
+Mega Man X8 WSX plugin
+- Allows you to load and view Mega Man X8 .wsx models in Noesis
+- Tested for Noesis 4.473
+- Original code by https://github.com/Zheneq/Noesis-Plugins with modifications by me
+"""
 
-import inc_noesis
-from inc_noesis import *
+from __future__ import absolute_import, division, with_statement
+
+import os
+from collections import OrderedDict
 
 import noesis
 import rapi
-import os
-from collections import OrderedDict
+
 from fmt_mmx8_wpg import WPGFile
+from inc_noesis import (
+    NoeBitStream,
+    NoeModel,
+    NoeModelMaterials,
+    NoeBone,
+    NoeVec3,
+    NoeMat43,
+    NoeAngles,
+    NoeKeyFramedBone,
+    NoeKeyFramedAnim,
+    NoeKeyFramedValue,
+    NoeVertWeight,
+    NoeMesh,
+    NoeMaterial,
+    NOESEEK_REL,
+    NOESEEK_ABS,
+)
 
 BLOCK_HEADER_SIZE = 60
 
@@ -47,11 +66,11 @@ def noepyLoadModel(data, model_list):
 #         print(mesh.name)
 
 
-def parse_string(bs: inc_noesis.NoeBitStream, n_bytes):
+def parse_string(bs, n_bytes):
     return bs.readBytes(n_bytes).decode("ascii").split("\0")[0]
 
 
-def readQuat(bs: inc_noesis.NoeBitStream):
+def readQuat(bs):
     r = NoeAngles.fromBytes(bs.readBytes(12))
     r[0], r[1], r[2] = -r[0], r[2], r[1]
     return r.toQuat()
@@ -59,7 +78,8 @@ def readQuat(bs: inc_noesis.NoeBitStream):
 
 class WSXFile:
     def __init__(self, bs):
-        self.bs: inc_noesis.NoeBitStream = bs
+        # self.bs: inc_noesis.NoeBitStream = bs
+        self.bs = bs
         self.blockTypes = [
             "Skeletal mesh",
             "Static mesh",
@@ -84,6 +104,9 @@ class WSXFile:
         self.objects = OrderedDict()
 
         # self.meshes = []
+
+        self.wpg_locations = {}
+        self.dir_path = "E:\\opk"
 
     def checkType(self):
         bs = self.bs
@@ -115,6 +138,13 @@ class WSXFile:
         self.checkType()
         if not self.valid:
             return 0
+        
+        # TODO: Check OOP vs WSX
+        # Make a dictionary mapping all filenames to their paths
+        for root, dirs, files in os.walk(self.dir_path):
+            for filename in files:
+                self.wpg_locations[filename] = os.path.join(root, filename)
+        
 
         # Reset variables
         bs = self.bs
@@ -561,8 +591,15 @@ class WSXFile:
 
             # loading textures
             materialData["name"] = TextureStrings[1]
-            dirPath = rapi.getDirForFilePath(rapi.getInputName())
-            texPath = os.path.join(dirPath, "wpg", TextureStrings[1])
+            # dirPath = rapi.getDirForFilePath(rapi.getInputName())
+            # dirPath = r"E:\opk"
+            # filename = TextureStrings[1]
+            # opk_folder = filename.split("_")[0].lower()
+
+            # texPath = os.path.join(dirPath, "wpg", TextureStrings[1])
+            # texPath = os.path.join(dirPath, opk_folder, "wpg", filename)
+            texPath = self.wpg_locations[TextureStrings[1]]
+            print("TEXPATH", texPath)
             # WPGFile(texList, blockHeader['objectname'], materialData['mapping'], texPath).load()
             wpg_file = WPGFile(texList, blockHeader["objectname"], None, texPath)
             wpg_file.load()

@@ -9,18 +9,16 @@ __blender_autocomplete__/
 **/figures3/
 *.1E3EE6FB
 *.sandbox
-*.npy
-
-src/d3d10-mmxlc/
+# *.npy
+**/_arc
 
 # venv
 .venv/
+.ruff_cache/
+*.python-version
 
-# Noesis
-noesis/
-!noesis/plugins/fmt_mmx8_wpg.py
-!noesis/plugins/fmt_mmx8_wsx.py
-
+# Noesis include file
+**/noesis/inc_noesis.py
 
 # Ghidra
 *.gbf
