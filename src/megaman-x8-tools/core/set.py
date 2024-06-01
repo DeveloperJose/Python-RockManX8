@@ -30,8 +30,8 @@ class SetEnemy:
         enemy_y = reader.read_float()  # 4 bytes (0x14)
 
         # 8 bytes
-        fvar1 = reader.read_float() # 4 bytes bytes (0x18)
-        fvar2 = reader.read_float() # 4 bytes (0x1C)
+        fvar1 = reader.read_float()  # 4 bytes bytes (0x18)
+        fvar2 = reader.read_float()  # 4 bytes (0x1C)
 
         k1 = reader.read_int()  # 2 bytes (0x20)
         u4 = reader.read_int_array(3)  # 6 bytes (0x22)
@@ -88,10 +88,10 @@ class SetEnemy:
         s += FileStream.int_to_hex(self.id) + " , "
         s += FileStream.int_array_to_hex(self.u2) + " , "
 
-        s += f'{self.x:.1f}'.ljust(8) + " , "
-        s += f'{self.y:.1f}'.ljust(8) + " , "
-        s += f'{self.fvar1:.1f}'.ljust(8) + " , "
-        s += f'{self.fvar2:.1f}'.ljust(8) + " , "
+        s += f"{self.x:.1f}".ljust(8) + " , "
+        s += f"{self.y:.1f}".ljust(8) + " , "
+        s += f"{self.fvar1:.1f}".ljust(8) + " , "
+        s += f"{self.fvar2:.1f}".ljust(8) + " , "
         # s += FileStream.float_to_hex(self.y) + ","
         # s += FileStream.int_array_to_hex(self.u3) + ","
         s += FileStream.int_to_hex(self.k1) + " , "
@@ -110,12 +110,12 @@ class SetEnemy:
         return self.type
 
     def id_bytes(self):
-        s = ''
+        s = ""
         # s += FileStream.int_array_to_hex(self.u1) + ' '
         # s += FileStream.int_to_hex(self.id) + ' '
         # s += FileStream.int_array_to_hex(self.u2) + ' '
-        s += FileStream.float_to_hex(self.x) + ' '
-        s += FileStream.float_to_hex(self.y) + ' '
+        s += FileStream.float_to_hex(self.x) + " "
+        s += FileStream.float_to_hex(self.y) + " "
         # s += FileStream.int_array_to_hex(self.u3) + ' '
         # s += FileStream.int_to_hex(self.k1) + ' '
         # s += FileStream.int_array_to_hex(self.u4) + ' '
@@ -146,13 +146,13 @@ class SetFile:
         return "Unknown Stage"
 
     def __load_from_file__(self, spath):
-        with open(spath, 'rb') as file:
+        with open(spath, "rb") as file:
             reader = FileStream(file)
 
             num_enemies = reader.read_int()
             # Handle ARC format
             if num_enemies == 0x534F:
-                print('ARC file')
+                print("ARC file")
                 h1 = reader.read_int_array(5)
                 num_enemies = reader.read_int()
 
@@ -168,7 +168,7 @@ class SetFile:
         if spath is None:
             spath = self.path
 
-        with open(spath, 'wb') as file:
+        with open(spath, "wb") as file:
             writer = FileStream(file)
 
             writer.write_int(len(self.enemies))

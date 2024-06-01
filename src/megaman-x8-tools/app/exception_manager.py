@@ -14,14 +14,14 @@ def handle_exception(type, value, tb):
     mbox = QMessageBox(window)
     mbox.setModal(True)
     mbox.setIcon(QMessageBox.Warning)
-    mbox.setWindowTitle('An error has occurred! [uh-oh?]')
+    mbox.setWindowTitle("An error has occurred! [uh-oh?]")
 
     if isinstance(value, PermissionError):
-        msg = f'Permission denied while trying to write to file: {value.filename}'
-        info = 'That file is most likely read-only. Please make sure to disable that on the file/folder properties and trying again!'
+        msg = f"Permission denied while trying to write to file: {value.filename}"
+        info = "That file is most likely read-only. Please make sure to disable that on the file/folder properties and trying again!"
     else:
-        msg = f'Error: {value}'
-        info = 'An exception has occurred in the code. The details are provided below.'
+        msg = f"Error: {value}"
+        info = "An exception has occurred in the code. The details are provided below."
 
     mbox.setText(msg)
     mbox.setInformativeText(info)

@@ -2,7 +2,7 @@ import re
 import struct
 
 
-class FileStream():
+class FileStream:
     def __init__(self, file):
         self.__file__ = file
 
@@ -41,16 +41,16 @@ class FileStream():
         raw = self.__file__.read(size_bytes)
         if len(raw) != size_bytes:
             return False
-        return int.from_bytes(raw, byteorder='little')
+        return int.from_bytes(raw, byteorder="little")
 
     def read_float(self, size_bytes=4):
         raw = self.__file__.read(size_bytes)
-        return struct.unpack('<f', raw)[0]
+        return struct.unpack("<f", raw)[0]
 
     def read_string(self, size_bytes=16):
         raw = self.__file__.read(size_bytes)
-        decoded_str = raw.decode('utf-8', errors='replace')
-        decoded_str = re.sub(r'[\x00-\x2F]', r'', decoded_str)
+        decoded_str = raw.decode("utf-8", errors="replace")
+        decoded_str = re.sub(r"[\x00-\x2F]", r"", decoded_str)
         return decoded_str
 
     def read_byte_array(self, num_bytes):
@@ -73,7 +73,7 @@ class FileStream():
         self.__file__.write(bytes)
 
     def write_int(self, i, size_bytes=2):
-        int_bytes = i.to_bytes(size_bytes, byteorder='little')
+        int_bytes = i.to_bytes(size_bytes, byteorder="little")
         self.__file__.write(int_bytes)
 
     def write_float(self, f):
@@ -87,7 +87,7 @@ class FileStream():
         # Pad missing bytes with 0
         missing_bytes = max(pad_bytes - len(s), 0)
         for i in range(missing_bytes):
-            self.__file__.write(b'\0')
+            self.__file__.write(b"\0")
 
     def write_byte_array(self, arr):
         for by in arr:
@@ -102,8 +102,8 @@ class FileStream():
             self.write_string(st)
 
     @staticmethod
-    def str_to_hex(s: str, pad_bytes=8, sep=' '):
-        arr = bytearray(s, 'utf-8')
+    def str_to_hex(s: str, pad_bytes=8, sep=" "):
+        arr = bytearray(s, "utf-8")
         missing_bytes = max(pad_bytes - len(s), 0)
         for _ in range(missing_bytes):
             arr.insert(len(s), 0)
@@ -111,16 +111,16 @@ class FileStream():
         return arr.hex(sep)
 
     @staticmethod
-    def int_array_to_hex(arr, sep=' '):
+    def int_array_to_hex(arr, sep=" "):
         hexes = []
         for n in arr:
             hexes.append(FileStream.int_to_hex(n, sep))
         return sep.join(hexes)
 
     @staticmethod
-    def int_to_hex(n, sep=' '):
+    def int_to_hex(n, sep=" "):
         # Convert to hex and pad to 4 bytes
-        hex_str = f'{n:04x}'
+        hex_str = f"{n:04x}"
 
         # Convert to Little-Endian order
         p1 = hex_str[0:2]
@@ -129,10 +129,10 @@ class FileStream():
         return r
 
     @staticmethod
-    def float_to_hex(f, sep=' '):
+    def float_to_hex(f, sep=" "):
         # Convert to hex and pad to 8 bytes
-        h = struct.unpack('<I', struct.pack('<f', f))[0]
-        hex_str = f'{h:08x}'
+        h = struct.unpack("<I", struct.pack("<f", f))[0]
+        hex_str = f"{h:08x}"
 
         # Convert to Little-Endian order
         p1 = hex_str[0:2]

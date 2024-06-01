@@ -8,45 +8,50 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(200, 100)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
         MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setMinimumSize(QtCore.QSize(0, 0))
         MainWindow.setMaximumSize(QtCore.QSize(2000, 2000))
-        MainWindow.setStyleSheet("QMainWindow {\n"
-"    background: rgb(255, 255, 255);\n"
-"}\n"
-"\n"
-"QLabel, QCheckBox { \n"
-"    background: rgb(255, 255, 255);\n"
-"    font: 12pt \"Calibri\";\n"
-"}\n"
-"\n"
-"QGroupBox {\n"
-"    background: rgb(255, 255, 255);\n"
-"    font: 15pt \"Calibri\";\n"
-"}\n"
-"\n"
-"QComboBox {\n"
-"    background: white;\n"
-"    color: black;\n"
-"}\n"
-"\n"
-"QPushButton:enabled {\n"
-"    background: rgb(236, 236, 236);\n"
-"    color: black;\n"
-"}\n"
-"\n"
-"QPushButton:disabled, QLineEdit:disabled, QComboBox:disabled{\n"
-"    background: rgb(191, 191, 191);\n"
-"    color: rgb(85, 85, 85);\n"
-"}")
+        MainWindow.setStyleSheet(
+            "QMainWindow {\n"
+            "    background: rgb(255, 255, 255);\n"
+            "}\n"
+            "\n"
+            "QLabel, QCheckBox { \n"
+            "    background: rgb(255, 255, 255);\n"
+            '    font: 12pt "Calibri";\n'
+            "}\n"
+            "\n"
+            "QGroupBox {\n"
+            "    background: rgb(255, 255, 255);\n"
+            '    font: 15pt "Calibri";\n'
+            "}\n"
+            "\n"
+            "QComboBox {\n"
+            "    background: white;\n"
+            "    color: black;\n"
+            "}\n"
+            "\n"
+            "QPushButton:enabled {\n"
+            "    background: rgb(236, 236, 236);\n"
+            "    color: black;\n"
+            "}\n"
+            "\n"
+            "QPushButton:disabled, QLineEdit:disabled, QComboBox:disabled{\n"
+            "    background: rgb(191, 191, 191);\n"
+            "    color: rgb(85, 85, 85);\n"
+            "}"
+        )
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
@@ -74,5 +79,6 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Title Will Be Set In Code"))
         self.uxBtnTextEditor.setText(_translate("MainWindow", "Open Text Editor"))
         self.uxBtnTextureEditor.setText(_translate("MainWindow", "Open Texture Editor"))
-        self.uxBtnLevelEditor.setText(_translate("MainWindow", "Open Level Editor (Enemy Placement Only)"))
-
+        self.uxBtnLevelEditor.setText(
+            _translate("MainWindow", "Open Level Editor (Enemy Placement Only)")
+        )

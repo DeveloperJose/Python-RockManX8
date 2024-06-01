@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["DeveloperJose <josegperez@mail.com>"]
 readme = "README.md"
-packages = [ include = "megaman-x8-tools" from "src"]
+packages = [ { include = "megaman-x8-tools", from = "src" } ]
 
 [tool.poetry.dependencies]
 python = "^3.10"

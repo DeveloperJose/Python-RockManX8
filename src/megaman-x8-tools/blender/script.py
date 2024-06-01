@@ -14,18 +14,22 @@ bl_info = {
     "wiki_url": "",
     "tracker_url": "",
     "support": "COMMUNITY",
-    "category": "Import-Export"
+    "category": "Import-Export",
 }
 
 
 class ImportSetFile(bpy.types.Operator, ImportHelper):
     """Set File Import Script"""  # Use this as a tooltip for menu items and buttons.
+
     bl_idname = "x8editor.import_set"
     bl_label = "[X8Editor] Import Set File"
-    bl_options = {'REGISTER', 'UNDO'}
+    bl_options = {"REGISTER", "UNDO"}
 
     filename_ext = ".set"
-    filter_glob = bpy.props.StringProperty(default="*.set",options={'HIDDEN'},)
+    filter_glob = bpy.props.StringProperty(
+        default="*.set",
+        options={"HIDDEN"},
+    )
 
     def execute(self, context):
         scene = context.scene
@@ -34,7 +38,7 @@ class ImportSetFile(bpy.types.Operator, ImportHelper):
         set_file = SetFile(self.filepath)
         self.report({"INFO"}, "Importing " + set_file.stage_name)
 
-        collection_name = f'{set_file.stage_name} Enemies'
+        collection_name = f"{set_file.stage_name} Enemies"
         enemy_collection = bpy.data.collections.new(collection_name)
         scene.collection.children.link(enemy_collection)
         for enemy in set_file.enemies:
@@ -43,9 +47,9 @@ class ImportSetFile(bpy.types.Operator, ImportHelper):
             bpy.ops.collection.objects_remove_all()
 
             cube.name = enemy.type
-            cube.location=(enemy.x, 0, enemy.y)
+            cube.location = (enemy.x, 0, enemy.y)
             bpy.data.collections[collection_name].objects.link(cube)
-        return {'FINISHED'}
+        return {"FINISHED"}
 
 
 def register():

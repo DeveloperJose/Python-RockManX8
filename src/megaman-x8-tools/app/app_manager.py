@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication
 from gui.text_editor import TextEditorWindow
 from app import config, mcb_manager, exception_manager
 
+
 class AppManager:
     def __init__(self):
         self.app = QApplication([])
@@ -29,9 +30,9 @@ class AppManager:
         self.__init_editor__()
 
         if config.is_valid_collection:
-            self.log_ui('Editing X8 from the X Legacy Collection 2')
+            self.log_ui("Editing X8 from the X Legacy Collection 2")
         else:
-            self.log_ui('Editing X8 from PC version released in 2004')
+            self.log_ui("Editing X8 from PC version released in 2004")
 
         exception_manager.in_qt_loop = True
         exception_manager.window = self.editor_window

@@ -11,16 +11,18 @@ from core.wpg import WPGFile
 from PIL import Image, ImageFile
 from tqdm import tqdm
 
+
 def int_list_to_hex(l, hxd=False):
-    l_out = [f'{h:X}' for h in l]
+    l_out = [f"{h:X}" for h in l]
     if hxd:
-        return ' '.join(l_out)
+        return " ".join(l_out)
     return l_out
+
 
 SHOW_FIGURES = False
 DEBUG = False
 
-figures_dir = pathlib.Path('figures2')
+figures_dir = pathlib.Path("figures2")
 if not figures_dir.exists():
     figures_dir.mkdir()
 
@@ -33,10 +35,13 @@ ALL_TYPES = set()
 
 D1 = 1024
 
-log_path = pathlib.Path('figures2/log.txt')
-log_file = open(log_path, 'w')
+log_path = pathlib.Path("figures2/log.txt")
+log_file = open(log_path, "w")
+
+
 def printd(st):
-    log_file.write(st + '\n')
+    log_file.write(st + "\n")
+
 
 if DEBUG:
     l = []
@@ -44,19 +49,19 @@ if DEBUG:
     # if not DEBUG_ONE:
     # l += [pathlib.Path('/home/jperez/data/textures/2D_LOAD_ATARI00.1E3EE6FB')]
     # l += [pathlib.Path('/home/jperez/data/textures/2D_LOAD_ELEVATOR - Copy.1E3EE6FB')]
-    l += [pathlib.Path('/home/jperez/data/textures/2D_LOAD_SIGMA.1E3EE6FB')]
-    l += [pathlib.Path('/home/jperez/data/textures/cockpit.1E3EE6FB')]
+    l += [pathlib.Path("/home/jperez/data/textures/2D_LOAD_SIGMA.1E3EE6FB")]
+    l += [pathlib.Path("/home/jperez/data/textures/cockpit.1E3EE6FB")]
 else:
-    l = tqdm(list(pathlib.Path('/home/jperez/data/textures').glob('*.1E3EE6FB')))
+    l = tqdm(list(pathlib.Path("/home/jperez/data/textures").glob("*.1E3EE6FB")))
 
 for op_file in l:
     try:
-        file = open(op_file, 'rb')
+        file = open(op_file, "rb")
     except PermissionError:
         file.close()
-        printd('Cannot open due to permission')
+        printd("Cannot open due to permission")
         continue
-    
+
     try:
         reader = FileStream(file)
 
@@ -65,9 +70,13 @@ for op_file in l:
         unk1 = reader.read_int_array(2)
 
         count = reader.read_int(4)
-        printd(f'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-        printd(f'>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
-        printd(f'{count} files in {op_file.name} | unk1={unk1}')
+        printd(
+            f">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+        )
+        printd(
+            f">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+        )
+        printd(f"{count} files in {op_file.name} | unk1={unk1}")
 
         offsets = []
         for _ in range(count):
@@ -90,7 +99,7 @@ for op_file in l:
             all_alt_w = {}
             all_alt_h = {}
             all_wpg_unk3 = {}
-            
+
             # wpg_header (16 bytes)
             # 12 bytes - Extra space for previous image palette
             # 4 bytes - Always [108, 0, 1, 1]
@@ -99,7 +108,7 @@ for op_file in l:
 
             # wpg_temp (16 bytes)
             # 16 bytes - String in format "temp#"
-            printd(f'TEMP AT {reader.tell()}')
+            printd(f"TEMP AT {reader.tell()}")
             wpg_temp = reader.read_string()
 
             # wpg_magic1_p1 (20 bytes)
@@ -122,7 +131,7 @@ for op_file in l:
 
             # 16 bytes - String of form ID_XX_###
             wpg_id = reader.read_string()
-            reader.seek(reader.tell()-16)
+            reader.seek(reader.tell() - 16)
             wpg_id_int = reader.read_int_array(16, 1)
 
             # 4 bytes - Always [0, 0]
@@ -131,61 +140,65 @@ for op_file in l:
 
             wpg_n_images = reader.read_int(4)
             all_n_images[offset] = wpg_n_images
-            printd(f'[File{file_idx+1}/{len(offsets)}] at {offset}=0x{offset:X} with {wpg_n_images} images')
-            printd(f'Header={wpg_header}')
-            printd(f'Header(hex)={int_list_to_hex(wpg_header)}')
-            printd(f'type={wpg_type}, magic1_p1={wpg_magic1_p1}')
-            printd(f'magic1_p2={wpg_magic1_p2}')
-            printd(f'Temp={wpg_temp}, ID={wpg_id}={int_list_to_hex(wpg_id_int, True)}, Magic2={wpg_magic2}')
+            printd(
+                f"[File{file_idx+1}/{len(offsets)}] at {offset}=0x{offset:X} with {wpg_n_images} images"
+            )
+            printd(f"Header={wpg_header}")
+            printd(f"Header(hex)={int_list_to_hex(wpg_header)}")
+            printd(f"type={wpg_type}, magic1_p1={wpg_magic1_p1}")
+            printd(f"magic1_p2={wpg_magic1_p2}")
+            printd(
+                f"Temp={wpg_temp}, ID={wpg_id}={int_list_to_hex(wpg_id_int, True)}, Magic2={wpg_magic2}"
+            )
 
             wpg_unk1_p1 = reader.read_int_array(64, 1)
-            printd(f'unk1_p1={wpg_unk1_p1}')
+            printd(f"unk1_p1={wpg_unk1_p1}")
             # assert wpg_unk1_p1 == [255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], str(wpg_unk1_p1)
 
             wpg_unk1_p2 = reader.read_int_array(20, 1)
-            reader.seek(reader.tell()-20)
+            reader.seek(reader.tell() - 20)
             wpg_unk1_p2_b2 = reader.read_int_array(10)
 
-            printd(f'\tunk1_p2={wpg_unk1_p2}')
-            printd(f'\tunk1_p2(hex)={int_list_to_hex(wpg_unk1_p2)}')
-            printd(f'\tunk1_p2_b2{wpg_unk1_p2_b2}')
-            printd(f'\tunk1_p2_b2(hex)={int_list_to_hex(wpg_unk1_p2_b2)}')
+            printd(f"\tunk1_p2={wpg_unk1_p2}")
+            printd(f"\tunk1_p2(hex)={int_list_to_hex(wpg_unk1_p2)}")
+            printd(f"\tunk1_p2_b2{wpg_unk1_p2_b2}")
+            printd(f"\tunk1_p2_b2(hex)={int_list_to_hex(wpg_unk1_p2_b2)}")
 
-            printd(f'WPG HEADER ENDS AT {reader.tell()}')
+            printd(f"WPG HEADER ENDS AT {reader.tell()}")
 
             filler = 0
             for i in range(wpg_n_images):
-                printd(f'\t[im{i+1}/{wpg_n_images}]')
+                printd(f"\t[im{i+1}/{wpg_n_images}]")
                 width = reader.read_int()
                 height = reader.read_int()
-                printd(f'\t[shape] {width}x{height}')
+                printd(f"\t[shape] {width}x{height}")
 
                 deb = reader.read_int_array(4, 1)
-                reader.seek(reader.tell()-4)
+                reader.seek(reader.tell() - 4)
                 deb_b2 = reader.read_int_array(2)
-                reader.seek(reader.tell()-4)
-                printd(f'\t[bpp_debug] {deb}')
-                printd(f'\t[bpp_debug_b2] {deb_b2}')
+                reader.seek(reader.tell() - 4)
+                printd(f"\t[bpp_debug] {deb}")
+                printd(f"\t[bpp_debug_b2] {deb_b2}")
 
                 alt_w = reader.read_int()
                 if alt_w == 0 or alt_w % 2 != 0:
-                    reader.seek(reader.tell()-2)
+                    reader.seek(reader.tell() - 2)
                     alt_w2 = reader.read_int(1)
                     reader.read_byte()
-                    printd(f'\t\t[alt] Changing w={alt_w} to {alt_w2}')
+                    printd(f"\t\t[alt] Changing w={alt_w} to {alt_w2}")
                     alt_w = alt_w2
 
                 alt_h = reader.read_int()
                 if alt_h == 0 or alt_h % 2 != 0:
-                    reader.seek(reader.tell()-2)
+                    reader.seek(reader.tell() - 2)
                     alt_h2 = reader.read_int(1)
                     reader.read_byte()
-                    printd(f'\t\t[alt] Changing h={alt_h} to {alt_h2}')
+                    printd(f"\t\t[alt] Changing h={alt_h} to {alt_h2}")
                     alt_h = alt_h2
 
                 # 8 bytes - Unknown
                 wpg_unk2 = reader.read_int_array(4)
-                printd(f'\t\tunk2={wpg_unk2}')
+                printd(f"\t\tunk2={wpg_unk2}")
 
                 bpp = reader.read_int()
                 bpp_dupe = reader.read_int()
@@ -194,16 +207,18 @@ for op_file in l:
                     s1 = min(alt_w, width) if alt_w != 0 else width
                     s2 = min(alt_h, height) if alt_h != 0 else height
 
-                    printd(f'\t\t[bpp8] Changing w={width} to {s1} and h={height} to {s2}')
+                    printd(
+                        f"\t\t[bpp8] Changing w={width} to {s1} and h={height} to {s2}"
+                    )
                     width = s1
                     height = s2
 
                 wpg_unk3 = reader.read_int_array(12, 1)
-                reader.seek(reader.tell()-12)
+                reader.seek(reader.tell() - 12)
                 wpg_unk3_b2 = reader.read_int_array(6)
 
-                printd(f'\t\tunk3={int_list_to_hex(wpg_unk3)}')
-                printd(f'\t\tunk3_b2{int_list_to_hex(wpg_unk3_b2)}')
+                printd(f"\t\tunk3={int_list_to_hex(wpg_unk3)}")
+                printd(f"\t\tunk3_b2{int_list_to_hex(wpg_unk3_b2)}")
                 # printd(f'\tw={width}, h={height}, altw={alt_w}, alth={alt_h}, unk2={wpg_unk2}, bpp={bpp}, bpp_dupe={bpp_dupe}, wpg_unk3={wpg_unk3}, tell={reader.tell()}')
                 # assert bpp == bpp_dupe, f'{bpp}!={bpp_dupe}'
 
@@ -213,10 +228,10 @@ for op_file in l:
                 all_alt_h[i] = alt_h
                 all_wpg_unk3[i] = wpg_unk3
 
-                D1 = 1024 if bpp==16 else 256
-                filler += (width * height)+D1
+                D1 = 1024 if bpp == 16 else 256
+                filler += (width * height) + D1
 
-            printd(f'WPG ALL INFO ENDS AT {reader.tell()}')
+            printd(f"WPG ALL INFO ENDS AT {reader.tell()}")
             # Test1
             # if file_idx==0:
             #     initial = reader.read(44)
@@ -227,18 +242,22 @@ for op_file in l:
             wpg_offd = wpg_unk1_p2[1]
             all_wpg_offd.append(wpg_offd)
 
-            printd(f'\tWant to add {wpg_offd} to offset')
-            next_off = reader.total_bytes() if file_idx == len(offsets)-1 else offsets[file_idx+1]
-            dn = next_off-(reader.tell()+filler)+wpg_offd
-            printd(f'\tHow about {dn}=0x{dn:X}')
+            printd(f"\tWant to add {wpg_offd} to offset")
+            next_off = (
+                reader.total_bytes()
+                if file_idx == len(offsets) - 1
+                else offsets[file_idx + 1]
+            )
+            dn = next_off - (reader.tell() + filler) + wpg_offd
+            printd(f"\tHow about {dn}=0x{dn:X}")
 
-            if file_idx != len(offsets)-1:
-                reader.seek(reader.tell()+dn)
+            if file_idx != len(offsets) - 1:
+                reader.seek(reader.tell() + dn)
             else:
-                reader.seek(reader.tell()+dn-wpg_offd)
+                reader.seek(reader.tell() + dn - wpg_offd)
 
-            predicted_rem_bytes = next_off-(reader.tell()+filler)
-            printd(f'\tWe will be {predicted_rem_bytes} bytes away at the end')
+            predicted_rem_bytes = next_off - (reader.tell() + filler)
+            printd(f"\tWe will be {predicted_rem_bytes} bytes away at the end")
             # assert predicted_rem_bytes%2==0
             # initial = reader.read_int_array(predicted_rem_bytes//2)
             # printd(f'\t\tInitial={initial}')
@@ -258,27 +277,32 @@ for op_file in l:
                 bpp_mode = all_bpps[i]
                 shape = all_shapes[i]
 
-                want = (shape[0]*shape[1])+D1
-                printd(f'\t\tim={i}, w={shape[0]}, h={shape[1]}, tell={reader.tell()}/{reader.total_bytes()}=0x{reader.tell():X}/0x{reader.total_bytes():X}, want={want}, bpp={bpp_mode}')
+                want = (shape[0] * shape[1]) + D1
+                printd(
+                    f"\t\tim={i}, w={shape[0]}, h={shape[1]}, tell={reader.tell()}/{reader.total_bytes()}=0x{reader.tell():X}/0x{reader.total_bytes():X}, want={want}, bpp={bpp_mode}"
+                )
 
                 checkpt = reader.tell()
                 im_data = reader.read(want)
-                printd(f'\t\t\tData after {reader.tell()}=0x{reader.tell():X}')
+                printd(f"\t\t\tData after {reader.tell()}=0x{reader.tell():X}")
 
-                reader.seek(reader.total_bytes()-1024)
+                reader.seek(reader.total_bytes() - 1024)
                 dt2 = reader.read(1024)
 
-                joblib.dump(im_data, f'{figures_dir}/{op_file.stem}_file{file_idx}_im{i}_bpp{bpp}.data')
+                joblib.dump(
+                    im_data,
+                    f"{figures_dir}/{op_file.stem}_file{file_idx}_im{i}_bpp{bpp}.data",
+                )
                 # joblib.dump(dt2, f'{figures_dir}/d2.data')
-                reader.seek(checkpt+want)
-                
+                reader.seek(checkpt + want)
+
                 if not im_data:
                     ran_out_of_bytes.append(op_file)
-                    printd('RAN OUT OF BYTES')
+                    printd("RAN OUT OF BYTES")
                     break
-                
+
                 after = reader.tell()
-                im = Image.frombytes("P", shape, im_data, 'raw', 'P', 0, -1)
+                im = Image.frombytes("P", shape, im_data, "raw", "P", 0, -1)
                 # arr = np.array(im, dtype=np.uint8)
                 # arr = np.roll(arr, (-wpg_offd, 0))
                 # im = Image.fromarray(arr).convert('P')
@@ -290,23 +314,27 @@ for op_file in l:
                 # im.putpalette(reader.read(pal_len), 'RGBA')
 
                 pal_offset = wpg_offd if predicted_rem_bytes < 0 else 0
-                reader.seek(after-pal_len-pal_offset)
+                reader.seek(after - pal_len - pal_offset)
                 arr = reader.read_int_array(pal_len, size_bytes=1)
                 reader.seek(after)
-                im.putpalette(arr, 'RGBA')
+                im.putpalette(arr, "RGBA")
 
-                im = im.convert('RGB')
-                im.save(f'{figures_dir}/{op_file.stem}_file{file_idx}_im{i}_bpp{bpp}_{wpg_id}.png')
-            
+                im = im.convert("RGB")
+                im.save(
+                    f"{figures_dir}/{op_file.stem}_file{file_idx}_im{i}_bpp{bpp}_{wpg_id}.png"
+                )
+
                 if SHOW_FIGURES:
                     fig, curr = plt.subplots(figsize=(35, 35))
                     curr.set_xticklabels([])
                     curr.set_yticklabels([])
                     curr.imshow(im)
-            
-            rem = next_off-reader.tell()
+
+            rem = next_off - reader.tell()
             all_remains.append(rem)
-            printd(f'\tFinished offset at {reader.tell()}/{reader.total_bytes()}=0x{reader.tell():X}/0x{reader.total_bytes():X}. Next offset {next_off} is {rem} bytes away')
+            printd(
+                f"\tFinished offset at {reader.tell()}/{reader.total_bytes()}=0x{reader.tell():X}/0x{reader.total_bytes():X}. Next offset {next_off} is {rem} bytes away"
+            )
 
         file.close()
     except Exception as ex:
@@ -319,35 +347,19 @@ for op_file in l:
 if len(exceptions) > 0:
     print(exceptions)
 
-print('Types', ALL_TYPES)
+print("Types", ALL_TYPES)
 
-print('Remains', np.unique(all_remains))
-printd(f'Remains {np.unique(all_remains)}')
+print("Remains", np.unique(all_remains))
+printd(f"Remains {np.unique(all_remains)}")
 if len(failed_files) > 0:
-    print('Failed', len(failed_files))
+    print("Failed", len(failed_files))
 if len(ran_out_of_bytes) > 0:
-    print('Ran out of bytes', len(ran_out_of_bytes))
+    print("Ran out of bytes", len(ran_out_of_bytes))
 
 log_file.close()
 # Remains [     0     76    140    172    204 165684]
 # Failed 142
 # Ran out of bytes 33
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # import io
@@ -371,7 +383,7 @@ log_file.close()
 #     reader1 = FileStream(file)
 #     all_bytes = reader1.read_remaining_bytes()
 #     file.close()
-    
+
 #     reader = FileStream(io.BytesIO(all_bytes))
 
 #     oop_header = reader.read_string(8)
@@ -426,7 +438,7 @@ log_file.close()
 #         all_n_images[offset] = wpg_n_images
 
 #         wpg_unk1 = reader.read_byte_array(84)
-        
+
 #         for i in range(wpg_n_images):
 #             width = reader.read_int()
 #             height = reader.read_int()
@@ -454,7 +466,7 @@ log_file.close()
 #             if not im_data:
 #                 print(f'Ran out of bytes')
 #                 break
-            
+
 #             IM = Image.frombytes("P", shape, im_data, 'raw', 'P', 0, -1)
 #             IM.save('original.png')
 

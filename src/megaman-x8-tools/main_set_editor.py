@@ -12,7 +12,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
-PURPLE = (128,0,128)
+PURPLE = (128, 0, 128)
 
 # Screen dimensions
 SCREEN_WIDTH = 1200
@@ -20,13 +20,14 @@ SCREEN_HEIGHT = 600
 SCALE = 5
 
 TYPE_MAP = {
-    'Prm0005' : [BLACK, 'Bat'],
-    'Prm0006' : [GREEN, 'Spike Wheel'],
-    'Prm0008' : [WHITE, 'Bat'],
-    'Prm0012' : [RED, 'Bustard'],
-    'Prm0088' : [(125, 125, 10), 'Orange Soldier'],
-    'Prm0083': [BLACK, 'Shooting Crab']
+    "Prm0005": [BLACK, "Bat"],
+    "Prm0006": [GREEN, "Spike Wheel"],
+    "Prm0008": [WHITE, "Bat"],
+    "Prm0012": [RED, "Bustard"],
+    "Prm0088": [(125, 125, 10), "Orange Soldier"],
+    "Prm0083": [BLACK, "Shooting Crab"],
 }
+
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, set_enemy: SetEnemy):
@@ -55,7 +56,8 @@ class Enemy(pygame.sprite.Sprite):
     def reset_color(self):
         self.image.fill(self.color)
 
-class Level():
+
+class Level:
     def __init__(self, enemies):
         self.enemy_list = pygame.sprite.Group()
         self.world_shift_x = 0
@@ -94,9 +96,11 @@ class Level():
         self.world_shift_y = 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Load SET
-    set_file = SetFile(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\set\Set11_00.set')
+    set_file = SetFile(
+        r"C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\set\Set11_00.set"
+    )
 
     pygame.init()
     pygame.font.init()
@@ -116,9 +120,11 @@ if __name__ == '__main__':
 
     enemy_idx = 0
 
-    font = pygame.font.SysFont('Verdana', 20)
+    font = pygame.font.SysFont("Verdana", 20)
     text_level_name = font.render(set_file.stage_name, False, WHITE)
-    text_enemy_info = font.render('Use [ and ] keys to step through the enemy list.', False, WHITE)
+    text_enemy_info = font.render(
+        "Use [ and ] keys to step through the enemy list.", False, WHITE
+    )
 
     # -------- Main Program Loop -----------
     while True:
@@ -136,10 +142,17 @@ if __name__ == '__main__':
                     change_y = -6
 
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT \
-                        or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                if (
+                    event.key == pygame.K_LEFT
+                    or event.key == pygame.K_RIGHT
+                    or event.key == pygame.K_UP
+                    or event.key == pygame.K_DOWN
+                ):
                     change_x = change_y = 0
-                if event.key == pygame.K_RIGHTBRACKET or event.key == pygame.K_LEFTBRACKET:
+                if (
+                    event.key == pygame.K_RIGHTBRACKET
+                    or event.key == pygame.K_LEFTBRACKET
+                ):
                     # Unselect previous sprite
                     prev_sprite_enemy = current_level.get_sprite_enemy(enemy_idx)
                     prev_sprite_enemy.reset_color()
@@ -154,18 +167,20 @@ if __name__ == '__main__':
                     current_level.shift_reset()
 
                     # Get enemy sprite and set info
-                    enemy_idx = max(min(len(current_level.enemy_list) - 1, enemy_idx), 0)
+                    enemy_idx = max(
+                        min(len(current_level.enemy_list) - 1, enemy_idx), 0
+                    )
                     enemy_sprite: Enemy = current_level.get_sprite_enemy(enemy_idx)
                     enemy_set = enemy_sprite.set_enemy
 
                     # Select by coloring and centering on screen
                     enemy_sprite.image.fill(PURPLE)
-                    x = -int(enemy_set.x * SCALE) + SCREEN_WIDTH/2
-                    y = -int(enemy_set.y * SCALE)+SCREEN_HEIGHT/2
+                    x = -int(enemy_set.x * SCALE) + SCREEN_WIDTH / 2
+                    y = -int(enemy_set.y * SCALE) + SCREEN_HEIGHT / 2
                     current_level.shift_world(x, y)
 
                     # UI text
-                    st = f'Enemy: {enemy_sprite.name}, #{enemy_idx}/{len(current_level.enemy_list) - 1}'
+                    st = f"Enemy: {enemy_sprite.name}, #{enemy_idx}/{len(current_level.enemy_list) - 1}"
                     text_enemy_info = font.render(st, True, WHITE)
 
         # Updates

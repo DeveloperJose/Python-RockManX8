@@ -24,12 +24,12 @@ class WPGFile:
         self.header = []
         self.textures = []
         self.flags = []
-        self.unparsed_bytes = b''
+        self.unparsed_bytes = b""
         if path:
             self.__load_from_file__(path)
 
     def __load_from_file__(self, path: Path):
-        with open(path, 'rb') as file:
+        with open(path, "rb") as file:
             reader = FileStream(file)
             self.__load_header__(reader)
             self.__load_textures__(reader)
@@ -71,14 +71,17 @@ class WPGFile:
         # print("READ  ", [im.mode for idx, im in enumerate(self.textures)])
         if not reader.finished_reading():
             self.unparsed_bytes = reader.read_remaining_bytes()
-            print("Could not parse all the bytes of the WPG. Unparsed byte count: ", len(self.unparsed_bytes))
+            print(
+                "Could not parse all the bytes of the WPG. Unparsed byte count: ",
+                len(self.unparsed_bytes),
+            )
 
     def save(self, spath: Path = None):
         # print("SAVE  ", [im.mode for idx, im in enumerate(self.textures)])
         if spath is None:
             spath = self.path
 
-        with open(spath, 'wb') as file:
+        with open(spath, "wb") as file:
             writer = FileStream(file)
             writer.write_byte_array(self.header)
 
@@ -102,7 +105,7 @@ class WPGFile:
         if not folder_path.exists():
             folder_path.mkdir(parents=True)
         for idx, texture in enumerate(self.textures):
-            texture_filename = f'{idx:04}.tga'
+            texture_filename = f"{idx:04}.tga"
             texture.save(folder_path / texture_filename)
 
     def import_from_folder(self, folder_path: Path):
@@ -160,7 +163,7 @@ class Font(WPGFile):
         # Prepare blank image to fit all the characters in it
         cols = COL_WIDTH * max_sentence_len
         rows = ROW_WIDTH * len(sentences)
-        im = Image.new('L', (cols, rows))
+        im = Image.new("L", (cols, rows))
 
         for row_idx, sentence in enumerate(sentences):
             row_offset = row_idx * ROW_WIDTH
@@ -174,7 +177,9 @@ class Font(WPGFile):
     @staticmethod
     def __split_bytes_to_sentences__(raw_bytes):
         split_indices = [0]
-        split_indices.extend([idx + 1 for idx, char_byte in enumerate(raw_bytes) if char_byte == 65533])
+        split_indices.extend(
+            [idx + 1 for idx, char_byte in enumerate(raw_bytes) if char_byte == 65533]
+        )
         split_indices.append(len(raw_bytes) + 1)
         sentences = []
         max_sentence_len = 0
@@ -188,10 +193,10 @@ class Font(WPGFile):
         return sentences, max_sentence_len
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import filecmp
     import shutil
-    #%% Check all of the WPGs to see if exporting and re-importing produces the same WPG files
+    # %% Check all of the WPGs to see if exporting and re-importing produces the same WPG files
     # wpg_dir = Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk')
     # temp_path = Path('temp')
     # shutil.rmtree(temp_path, ignore_errors=True)
@@ -218,7 +223,7 @@ if __name__ == '__main__':
     # for filename in diff_files:
     #     print(filename)
 
-    #%% Check an individual file to see if exporting and re-importing produces the same WPG file
+    # %% Check an individual file to see if exporting and re-importing produces the same WPG file
     # w = WPGFile(Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\opk\pl\wpg\PL_E_ID_PL_027.wpg'))
     # testing_path = Path(r'C:\Users\xeroj\Desktop\Programs\noesisv4428\x8_testing')
     # w.export_to_folder(testing_path / 'testing')

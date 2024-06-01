@@ -1,6 +1,8 @@
 from core.set import SetFile, SetEnemy
 
-s1 = SetFile(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\backup\set\Set02_00.set')
+s1 = SetFile(
+    r"C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\backup\set\Set02_00.set"
+)
 names = set()
 enemies = []
 
@@ -24,4 +26,6 @@ print("There are", len(names), "unique enemies in", s1.stage_name)
 print(enemies)
 
 s1.enemies = enemies
-s1.save(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\set\Set02_00.set')
+s1.save(
+    r"C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\set\Set02_00.set"
+)

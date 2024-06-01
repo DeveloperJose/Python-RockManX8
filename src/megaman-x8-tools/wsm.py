@@ -2,7 +2,7 @@ from pathlib import Path
 from core.io_util import FileStream
 
 
-class WSMFile():
+class WSMFile:
     path: Path
 
     def __init__(self, path: Path = None):
@@ -14,7 +14,7 @@ class WSMFile():
             self.__load_from_file__(path)
 
     def __load_from_file__(self, path: Path):
-        with open(path, 'rb') as file:
+        with open(path, "rb") as file:
             reader = FileStream(file)
 
             self.header = reader.read(0x820)
@@ -24,15 +24,20 @@ class WSMFile():
         if spath is None:
             spath = self.path
 
-        with open(spath, 'wb') as file:
+        with open(spath, "wb") as file:
             file.write(self.header)
             file.write(self.mpeg1_video)
 
     def save_video(self, vpath):
-        with open(vpath, 'wb') as file:
+        with open(vpath, "wb") as file:
             file.write(self.mpeg1_video)
 
-p = Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\movie\caplogo - Copy.wsm')
-output = Path(r'C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\movie\caplogo.mpg')
+
+p = Path(
+    r"C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\movie\caplogo - Copy.wsm"
+)
+output = Path(
+    r"C:\Users\xeroj\Desktop\Local_Programming\Python-RockManX8\game\movie\caplogo.mpg"
+)
 wsm = WSMFile(p)
 wsm.save_video(output)
