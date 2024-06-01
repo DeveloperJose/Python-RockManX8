@@ -1,0 +1,26 @@
+Booster Forest
+Enemy #129 has pad2 differently
+
+IsValidPrm
+02828290
+
+ESP = 445AFB08
+param_2 = 4
+param_1_00 =  0364D130
+			= 0363FA20
+			= 0364D130
+			= 0364D130
+			
+
+For Prm0227
+	EAX = 0x21D
+	ESI = 0x364D130
+	
+	EDX gets 0x31
+	
+	Did not JNC after CMP DI, DX
+	
+	
+0x0292988E -> Jumps and doesn't update SetEnemies
+
+cmp al,01

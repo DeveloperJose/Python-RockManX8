@@ -1,24 +1,33 @@
 # ************************************************************ main gitignore
 __blender_autocomplete__/
-textures/
-Debug/
-Release/
-src/textures/*
-src/figures/*
-figures/*
-src/figures2/*
-src/figures3/*
+**/textures/
+**/Debug/
+**/Release/
+**/textures/
+**/figures/
+**/figures2/
+**/figures3/
 *.1E3EE6FB
+*.sandbox
+*.npy
+
+src/d3d10-mmxlc/
+
+# venv
+.venv/
 
 # Noesis
 noesis/
 !noesis/plugins/fmt_mmx8_wpg.py
+!noesis/plugins/fmt_mmx8_wsx.py
+
 
 # Ghidra
 *.gbf
 *.grf
 *.ps
 *.lock
+ghidra/
 
 # MCB/ARC/Settings
 *.mcb

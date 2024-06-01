@@ -200,7 +200,7 @@ Enemy_EntityLoadMem:
 [4731890]   294EE84, 22, 5, 7, FFFFFF, 4422FDF0, 0
 [468D9B0]   27EDEC2, 23, 6, 6, 0, 4422FD70, 0
 
-Prm0506 / Prm0227 / - Metool
+Prm31 / Prm0227 / - Metool
 Prm0541 - Enemy Ride Armor
 Prm0017 - Floating Cannon
 Prm0139 - Flamethrower Dude
@@ -294,3 +294,8 @@ Sigma Palace
 OOP1
 	Zero portrait at 046FC718
 	Sigma Palace 047018E0
+	
+Failed [WindowsPath('textures/CMNEFF.1E3EE6FB'), WindowsPath('textures/el09_02.1E3EE6FB'), WindowsPath('textures/EM05_01.1E3EE6FB'), WindowsPath('textures/EM05_02.1E3EE6FB'), WindowsPath('textures/EM05_03.1E3EE6FB'), WindowsPath('textures/EM08_01.1E3EE6FB'), WindowsPath('textures/em09_02.1E3EE6FB'), WindowsPath('textures/EM11_01.1E3EE6FB'), WindowsPath('textures/EM11_03.1E3EE6FB'), WindowsPath('textures/PL_000_DUMMY.1E3EE6FB'), WindowsPath('textures/PL_BIKE_X.1E3EE6FB'), WindowsPath('textures/PL_CMN.1E3EE6FB'), WindowsPath('textures/PL_COS_X.1E3EE6FB'), WindowsPath('textures/PL_E.1E3EE6FB'), WindowsPath('textures/PL_X.1E3EE6FB'), WindowsPath('textures/PL_X_WEP.1E3EE6FB'), WindowsPath('textures/SC_10A.1E3EE6FB'), WindowsPath('textures/SL07_01.1E3EE6FB'), WindowsPath('textures/ST07_02.1E3EE6FB'), WindowsPath('textures/ST11_03.1E3EE6FB'), WindowsPath('textures/stsel.1E3EE6FB')]
+
+[0, 8, 44, 61, 85, 86, 87, 88, 89, 90, 91, 92, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 160, 163, 164, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 215, 217, 218, 219, 220, 221, 222, 223, 234, 235, 236, 237, 238, 239, 246, 250, 251, 252, 253, 254, 255]
+[0, 13, 85, 86, 89, 91, 92, 94, 95, 101, 102, 104, 105, 106, 107, 108, 109, 110, 111, 113, 114, 116, 117, 119, 121, 122, 123, 124, 125, 126, 127, 130, 131, 132, 133, 136, 137, 138, 139, 140, 141, 143, 144, 146, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 166, 167, 169, 170, 171, 172, 173, 174, 175, 178, 179, 180, 181, 183, 184, 185, 186, 187, 188, 189, 190, 191, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 210, 211, 212, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 226, 227, 228, 229, 231, 233, 234, 235, 236, 237, 238, 239, 240, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255]
